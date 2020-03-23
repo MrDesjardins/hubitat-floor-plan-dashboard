@@ -1,5 +1,6 @@
 {
-  "name": "my-app",
+  "name": "hubitat-floor-plan-dashboard",
+  "author": "Patrick Desjardins",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
