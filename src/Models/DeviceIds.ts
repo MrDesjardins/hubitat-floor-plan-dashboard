@@ -1,6 +1,7 @@
 import { Dimmer } from "../DeviceComponents/Dimmer";
 import { DeviceType } from "./DeviceData";
 import { LightSwitch } from "../DeviceComponents/LightSwitch";
+import { Contact } from "../DeviceComponents/Contact";
 
 export const APP_ID = 98;
 export const API_TOKEN = "8b8daecf-02ee-4f3d-8d80-ba4eec2d3ff5";
@@ -104,5 +105,12 @@ export const allDevices: Device[] = [
         component: Dimmer,
         note: "Master Walkin Closet",
         position: [310, 375]
+    },
+    {
+        deviceId: "31",
+        deviceType: "CONTACT",
+        component: Contact,
+        note: "Front Door",
+        position: [375, 522]
     }
 ];

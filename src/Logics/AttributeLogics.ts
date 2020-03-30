@@ -3,7 +3,8 @@ import {
     DimmingLightDevice,
     DeviceType,
     DeviceDataKind,
-    LightSwitchDevice
+    LightSwitchDevice,
+    ContactDevice
 } from "../Models/DeviceData";
 import { allDevices } from "../Models/DeviceIds";
 
@@ -44,7 +45,9 @@ export const setDimmerLightLevel = (
     }
 };
 
-export const getDimmerOnOff = (device: DimmingLightDevice | LightSwitchDevice): boolean => {
+export const getDimmerOnOff = (
+    device: DimmingLightDevice | LightSwitchDevice
+): boolean => {
     const attr = device.attributes.find(p => p.name === "switch");
     if (attr === undefined) {
         return false;
@@ -59,6 +62,24 @@ export const setLightOnOff = (
     const levelAttr = device.attributes.find(p => p.name === "switch");
     if (levelAttr !== undefined) {
         levelAttr.currentValue = isOn ? "on" : "off";
+    }
+};
+
+export const getContactOnOff = (device: ContactDevice): boolean => {
+    const attr = device.attributes.find(p => p.name === "contact");
+    if (attr === undefined) {
+        return false;
+    }
+    return attr?.currentValue === "open";
+};
+
+export const setContactOnOff = (
+    device: ContactDevice,
+    isOpen: boolean
+): void => {
+    const levelAttr = device.attributes.find(p => p.name === "contact");
+    if (levelAttr !== undefined) {
+        levelAttr.currentValue = isOpen ? "open" : "closed";
     }
 };
 

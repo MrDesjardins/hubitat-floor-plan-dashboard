@@ -1,6 +1,6 @@
 import React from "react";
 import { Image } from "react-konva";
-import floorPlanImg from "./images/FloorPlan.jpg";
+import floorPlanImg from "./images/FloorPlan2.jpg";
 import useImage from "use-image";
 import Konva from "konva";
 

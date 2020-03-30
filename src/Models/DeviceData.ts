@@ -1,26 +1,29 @@
-export type DeviceType = "UNKNOWN" | "DIMMER" | "SWITCH";
+export type DeviceType = "UNKNOWN" | "DIMMER" | "SWITCH" | "CONTACT";
 
 export type DeviceDataKind =
     | UnknownDevice
     | DimmingLightDevice
-    | LightSwitchDevice;
+    | LightSwitchDevice
+    | ContactDevice;
 export interface DeviceData {
     kind: DeviceType;
     id: string;
     name: string;
     label: string;
+    attributes: DeviceAttributes[];
 }
 export interface UnknownDevice extends DeviceData {
     kind: "UNKNOWN";
-    attributes: DeviceAttributes[];
 }
 export interface DimmingLightDevice extends DeviceData {
     kind: "DIMMER";
-    attributes: DeviceAttributes[];
 }
 export interface LightSwitchDevice extends DeviceData {
     kind: "SWITCH";
-    attributes: DeviceAttributes[];
+}
+
+export interface ContactDevice extends DeviceData {
+    kind: "CONTACT";
 }
 
 export interface DeviceAttributes {
