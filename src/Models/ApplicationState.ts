@@ -1,6 +1,6 @@
-import { DimmingLightData } from "./DimmingLight";
+import {  DeviceDataKind } from "./DeviceData";
 
 export interface ApplicationState {
-    dimmers: { [id: number]: DimmingLightData };
+    devices: { [id: string]: DeviceDataKind };
     dimmingDialogOpen: boolean;
 }

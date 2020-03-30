@@ -7,25 +7,19 @@ import {
     Grid
 } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
-import Slider from "@material-ui/core/Slider";
-import { DimmingLightDevice } from "../Models/DeviceData";
-import { getDimmerOnOff, getDimmerLightLevel } from "../Logics/AttributeLogics";
-export interface DimmerLightOptionsProps {
+import { LightSwitchDevice } from "../Models/DeviceData";
+import { getDimmerOnOff } from "../Logics/AttributeLogics";
+
+export interface LightSwitchOptionsProps {
     isDialogOpen: boolean;
     dimmerName: string;
-    deviceData: DimmingLightDevice;
-    openClose: (
-        isOpen: boolean,
-        isLightOn?: boolean,
-        dimmingValue?: number
-    ) => void;
+    deviceData: LightSwitchDevice;
+    openClose: (isOpen: boolean, isLightOn?: boolean) => void;
 }
-export const DimmerLightOptions = (props: DimmerLightOptionsProps) => {
+export const LightSwitchOptions = (props: LightSwitchOptionsProps) => {
     const [isLightOn, setIsLightOn] = useState(false);
-    const [dimmingValue, setDimmingValue] = useState(0);
     useEffect(() => {
         setIsLightOn(getDimmerOnOff(props.deviceData));
-        setDimmingValue(getDimmerLightLevel(props.deviceData));
     }, [props.deviceData]);
     return (
         <Dialog
@@ -46,15 +40,6 @@ export const DimmerLightOptions = (props: DimmerLightOptionsProps) => {
                     }}
                     name="lightOnComponent"
                     inputProps={{ "aria-label": "primary checkbox" }}
-                />
-                <Typography gutterBottom>Dimmer</Typography>
-                <Slider
-                    valueLabelDisplay="auto"
-                    aria-label="pretto slider"
-                    value={dimmingValue}
-                    onChange={(event, newValue) => {
-                        setDimmingValue(newValue as number);
-                    }}
                 />
                 <Grid
                     container={true}
@@ -78,7 +63,7 @@ export const DimmerLightOptions = (props: DimmerLightOptionsProps) => {
                             variant="contained"
                             color="secondary"
                             onClick={e => {
-                                props.openClose(false, isLightOn, dimmingValue);
+                                props.openClose(false, isLightOn);
                             }}
                             style={{ marginLeft: 10 }}
                         >

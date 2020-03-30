@@ -1,32 +1,31 @@
 import React, { useState } from "react";
-import { FloorPlan } from "../FloorPlan";
 import { ImageLightBulb } from "../ImageLightBulb";
 import Konva from "konva";
 import { Text } from "react-konva";
 import { CommonProps } from "./Common";
 import { DimmerLightOptions } from "../Components/DimmerLightOptions";
-import { DimmingLightData } from "../Models/DimmingLight";
+import { DimmingLightDevice } from "../Models/DeviceData";
+import Portal from "../infrastructure/Portal";
 import {
     getDimmerOnOff,
     getDimmerLightLevel,
     setDimmerLightLevel,
-    setDimmerOnOff
+    setLightOnOff
 } from "../Logics/AttributeLogics";
-import Portal from "../infrastructure/Portal";
 
 export interface DimmerOptions extends CommonProps {
-    deviceData: DimmingLightData;
+    deviceData: DimmingLightDevice;
     position: [number, number];
-    onSave: (deviceData: DimmingLightData) => void;
+    onSave: (deviceData: DimmingLightDevice) => void;
 }
 export const Dimmer = (props: DimmerOptions) => {
     const [isDialogOpen, setDialogOpen] = useState(false);
     const [, updateState] = React.useState();
+    const isOn = getDimmerOnOff(props.deviceData);
     return (
         <>
-            <FloorPlan />
             <ImageLightBulb
-                on={getDimmerOnOff(props.deviceData)}
+                on={isOn}
                 xPosition={props.position[0]}
                 yPosition={props.position[1]}
                 onClick={(e: Konva.KonvaEventObject<MouseEvent>) => {
@@ -34,7 +33,9 @@ export const Dimmer = (props: DimmerOptions) => {
                 }}
             />
             <Text
-                text={`${getDimmerLightLevel(props.deviceData)} %`}
+                text={`${isOn ? "On" : "Off"} ${getDimmerLightLevel(
+                    props.deviceData
+                )} %`}
                 x={props.position[0]}
                 y={props.position[1] + 40}
             />
@@ -61,7 +62,7 @@ export const Dimmer = (props: DimmerOptions) => {
                             setDialogOpen(false);
                             const newDeviceData = { ...props.deviceData };
                             setDimmerLightLevel(newDeviceData, dimmingLevel);
-                            setDimmerOnOff(newDeviceData, isLightOn);
+                            setLightOnOff(newDeviceData, isLightOn);
                             props.onSave(newDeviceData);
                             updateState({});
                         }

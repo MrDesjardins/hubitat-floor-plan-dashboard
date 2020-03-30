@@ -2,12 +2,13 @@ import { ApplicationState } from "../Models/ApplicationState";
 import {
     AcceptedActions,
     ACTION_OPENCLOSE_DIMMING_DIALOG,
-    ACTION_SAVE_DIMMING,
+    ACTION_SAVE_DEVICE,
     ACTION_INIT_DEVICE
 } from "../actions/appActions";
+import { getDeviceType } from "../Logics/AttributeLogics";
 
 export const initialState: ApplicationState = {
-    dimmers: {},
+    devices: {},
     dimmingDialogOpen: false
 };
 export function appReducer(
@@ -17,25 +18,26 @@ export function appReducer(
     switch (action.type) {
         case ACTION_INIT_DEVICE: {
             const newState = { ...state };
-            newState.dimmers = { ...state.dimmers };
-            newState.dimmers[action.payload.id] = action.payload.jsonPayload;
+            newState.devices = { ...state.devices };
+            newState.devices[action.payload.id] = action.payload.data;
             return newState;
         }
-        case ACTION_SAVE_DIMMING: {
+        case ACTION_SAVE_DEVICE: {
             const newState = { ...state };
-            newState.dimmers = { ...state.dimmers };
-            if (newState.dimmers[action.payload.deviceId] !== undefined) {
-                newState.dimmers[action.payload.deviceId] = {
-                    ...newState.dimmers[action.payload.deviceId]
+            newState.devices = { ...state.devices };
+            if (newState.devices[action.payload.deviceId] !== undefined) {
+                newState.devices[action.payload.deviceId] = {
+                    ...newState.devices[action.payload.deviceId],
+                    kind: getDeviceType(action.payload.deviceId)
                 };
-                newState.dimmers[
+                newState.devices[
                     action.payload.deviceId
-                ].attributes = state.dimmers[
+                ].attributes = state.devices[
                     action.payload.deviceId
                 ].attributes.slice();
             } else {
-                newState.dimmers[action.payload.deviceId] = {
-                    kind: "DimmingLightData",
+                newState.devices[action.payload.deviceId] = {
+                    kind: "UNKNOWN",
                     id: action.payload.deviceId + "",
                     name: "",
                     attributes: [],
@@ -43,14 +45,14 @@ export function appReducer(
                 };
             }
 
-            const att1 = newState.dimmers[
+            const att1 = newState.devices[
                 action.payload.deviceId
             ].attributes.find(p => p.name === "level");
             if (att1) {
                 att1.currentValue = action.payload.level;
             }
 
-            const att2 = newState.dimmers[
+            const att2 = newState.devices[
                 action.payload.deviceId
             ].attributes.find(p => p.name === "switch");
             if (att2) {

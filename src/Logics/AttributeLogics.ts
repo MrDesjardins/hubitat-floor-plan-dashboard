@@ -1,24 +1,31 @@
 import { ApplicationState } from "../Models/ApplicationState";
-import { DimmingLightData } from "../Models/DimmingLight";
+import {
+    DimmingLightDevice,
+    DeviceType,
+    DeviceDataKind,
+    LightSwitchDevice
+} from "../Models/DeviceData";
+import { allDevices } from "../Models/DeviceIds";
 
 export const getDevice = (
     state: ApplicationState,
-    deviceId: number
-): DimmingLightData => {
-    let level = state.dimmers[deviceId];
-    if (level === undefined) {
-        level = {
-            kind:"DimmingLightData",
+    deviceId: string,
+    deviceType: DeviceType
+): DeviceDataKind => {
+    let specificdevice = state.devices[deviceId];
+    if (specificdevice === undefined) {
+        specificdevice = {
+            kind: "UNKNOWN",
             id: "",
             name: "",
             label: "",
             attributes: []
         };
     }
-    return level;
+    return specificdevice;
 };
 
-export const getDimmerLightLevel = (device: DimmingLightData): number => {
+export const getDimmerLightLevel = (device: DimmingLightDevice): number => {
     const levelAttribute = device.attributes.find(p => p.name === "level");
     if (levelAttribute === undefined) {
         return 0;
@@ -28,7 +35,7 @@ export const getDimmerLightLevel = (device: DimmingLightData): number => {
 };
 
 export const setDimmerLightLevel = (
-    device: DimmingLightData,
+    device: DimmingLightDevice,
     level: number
 ): void => {
     const levelAttr = device.attributes.find(p => p.name === "level");
@@ -37,7 +44,7 @@ export const setDimmerLightLevel = (
     }
 };
 
-export const getDimmerOnOff = (device: DimmingLightData): boolean => {
+export const getDimmerOnOff = (device: DimmingLightDevice | LightSwitchDevice): boolean => {
     const attr = device.attributes.find(p => p.name === "switch");
     if (attr === undefined) {
         return false;
@@ -45,8 +52,8 @@ export const getDimmerOnOff = (device: DimmingLightData): boolean => {
     return attr?.currentValue === "on";
 };
 
-export const setDimmerOnOff = (
-    device: DimmingLightData,
+export const setLightOnOff = (
+    device: DimmingLightDevice | LightSwitchDevice,
     isOn: boolean
 ): void => {
     const levelAttr = device.attributes.find(p => p.name === "switch");
@@ -55,10 +62,11 @@ export const setDimmerOnOff = (
     }
 };
 
-export const getDeviceType = (deviceName: string) => {
-    if (deviceName.indexOf("Zooz Central Scene Dimmer") === 0) {
-        return "DIMMER";
+export const getDeviceType = (deviceId: string): DeviceType => {
+    const c = allDevices.find(d => d.deviceId === deviceId);
+    if (c === undefined) {
+        return "UNKNOWN";
+    } else {
+        return c.deviceType;
     }
-
-    throw Error("device name cannot extract a type");
 };

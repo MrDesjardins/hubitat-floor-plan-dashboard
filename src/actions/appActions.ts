@@ -2,28 +2,28 @@ import {
     createActionPayload,
     ActionsUnion
 } from "../infrastructure/ReducerActions";
-import { DimmingLightData } from "../Models/DimmingLight";
+import { DeviceDataKind } from "../Models/DeviceData";
 
 export const ACTION_INIT_DEVICE = "ACTION_INIT_DEVICE";
-export const ACTION_SAVE_DIMMING = "ACTION_SAVE_DIMMING";
+export const ACTION_SAVE_DEVICE = "ACTION_SAVE_DEVICE";
 export const ACTION_OPENCLOSE_DIMMING_DIALOG =
     "ACTION_OPENCLOSE_DIMMING_DIALOG";
+export interface InitData {
+    id: string;
+    data: DeviceDataKind;
+}
 export const AppActions = {
-    initDevice: createActionPayload<
-        typeof ACTION_INIT_DEVICE,
-        {
-            id: number;
-            jsonPayload: DimmingLightData;
-        }
-    >(ACTION_INIT_DEVICE),
-    setDimmingValues: createActionPayload<
-        typeof ACTION_SAVE_DIMMING,
+    initDevice: createActionPayload<typeof ACTION_INIT_DEVICE, InitData>(
+        ACTION_INIT_DEVICE
+    ),
+    saveDevice: createActionPayload<
+        typeof ACTION_SAVE_DEVICE,
         {
             level: number;
             isLightOn: boolean;
-            deviceId: number;
+            deviceId: string;
         }
-    >(ACTION_SAVE_DIMMING),
+    >(ACTION_SAVE_DEVICE),
     openCloseDimmingDialog: createActionPayload<
         typeof ACTION_OPENCLOSE_DIMMING_DIALOG,
         {
