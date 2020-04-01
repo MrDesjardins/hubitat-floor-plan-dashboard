@@ -134,17 +134,50 @@ export const allDevices: DeviceDataKind[] = [
     //     label: "",
     //     name: ""
     // },
-    // {
-    //     id: "31",
-    //     kind: "CONTACT",
-    //     component: Contact,
-    //     note: "Front Door",
-    //     position: [375, 522],
-    //     direction: ContactDirection.South,
-    //     attributes: [],
-    //     label: "",
-    //     name: ""
-    // },
+    {
+        id: "67",
+        kind: "CONTACT",
+        component: Contact,
+        note: "Outside Garage Door",
+        position: [64, 500],
+        direction: ContactDirection.East,
+        attributes: [],
+        label: "",
+        name: ""
+    },
+    {
+        id: "197",
+        kind: "CONTACT",
+        component: Contact,
+        note: "Indoor Garage Door",
+        position: [367, 475],
+        direction: ContactDirection.East,
+        attributes: [],
+        label: "",
+        name: ""
+    },
+    {
+        id: "18",
+        kind: "CONTACT",
+        component: Contact,
+        note: "Kitchen Door",
+        position: [665, 100],
+        direction: ContactDirection.West,
+        attributes: [],
+        label: "",
+        name: ""
+    },
+    {
+        id: "31",
+        kind: "CONTACT",
+        component: Contact,
+        note: "Front Door",
+        position: [375, 522],
+        direction: ContactDirection.South,
+        attributes: [],
+        label: "",
+        name: ""
+    },
     {
         id: "27",
         kind: "CONTACT",

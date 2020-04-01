@@ -9,16 +9,26 @@ export enum ContactDirection {
     North,
     South,
     East,
-    West
+    West,
+    SlideDown,
+    SlideUp
 }
+interface PositionAngle {
+    positionX: number;
+    positionY: number;
 
+    positionXOpen: number;
+    positionYOpen: number;
+    angleOpen: number;
+    angleClose: number;
+}
 export interface ContactOptions extends CommonProps {
     deviceData: ContactDevice;
     position: [number, number];
     onSave: (deviceData: ContactDevice) => void;
 }
 export const Contact = (props: ContactOptions) => {
-    const isOn = getContactOnOff(props.deviceData);
+    const isContactOpen = getContactOnOff(props.deviceData);
 
     let positionsAngles = getDoorStartPositionEndPosition(
         props.deviceData.direction,
@@ -27,7 +37,7 @@ export const Contact = (props: ContactOptions) => {
     return (
         <>
             <Text
-                text={`${isOn ? "Open" : "Close"}`}
+                text={`${isContactOpen ? "Open" : "Close"}`}
                 x={positionsAngles.positionX}
                 y={positionsAngles.positionY}
             />
@@ -49,7 +59,7 @@ export const Contact = (props: ContactOptions) => {
                 native={true}
                 from={{ rotation: 0 }}
                 to={{
-                    rotation: isOn
+                    rotation: isContactOpen
                         ? positionsAngles.angleOpen
                         : positionsAngles.angleClose
                 }}
@@ -58,14 +68,14 @@ export const Contact = (props: ContactOptions) => {
                     <animated.Line
                         {...props2}
                         strokeWidth={4}
-                        stroke="black"
+                        stroke="red"
                         x={props.position[0]}
                         y={props.position[1]}
                         points={[
                             0,
                             0,
                             positionsAngles.positionXOpen,
-                            positionsAngles.positionYClose
+                            positionsAngles.positionYOpen
                         ]}
                     />
                 )}
@@ -74,15 +84,6 @@ export const Contact = (props: ContactOptions) => {
     );
 };
 
-interface PositionAngle {
-    positionX: number;
-    positionY: number;
-
-    positionXOpen: number;
-    positionYClose: number;
-    angleOpen: number;
-    angleClose: number;
-}
 export function getDoorStartPositionEndPosition(
     direction: ContactDirection,
     positions: [number, number]
@@ -93,25 +94,25 @@ export function getDoorStartPositionEndPosition(
                 positionX: positions[0],
                 positionY: positions[1],
                 positionXOpen: 30,
-                positionYClose: 30,
+                positionYOpen: 30,
                 angleOpen: 0,
-                angleClose: 45
+                angleClose: -45
             };
         case ContactDirection.North:
             return {
                 positionX: positions[0],
                 positionY: positions[1],
                 positionXOpen: 30,
-                positionYClose: 30,
+                positionYOpen: 30,
                 angleOpen: 0,
-                angleClose: 45
+                angleClose: -45
             };
         case ContactDirection.East:
             return {
                 positionX: positions[0],
                 positionY: positions[1],
                 positionXOpen: -30,
-                positionYClose: 30,
+                positionYOpen: 30,
                 angleOpen: 0,
                 angleClose: -45
             };
@@ -120,10 +121,27 @@ export function getDoorStartPositionEndPosition(
                 positionX: positions[0],
                 positionY: positions[1],
                 positionXOpen: 30,
-                positionYClose: 30,
+                positionYOpen: 30,
                 angleOpen: 0,
                 angleClose: 45
             };
+        case ContactDirection.SlideDown:
+            return {
+                positionX: positions[0],
+                positionY: positions[1] + 30,
+                positionXOpen: 0,
+                positionYOpen: -50,
+                angleOpen: 0,
+                angleClose: 0
+            };
+        case ContactDirection.SlideUp:
+            return {
+                positionX: positions[0],
+                positionY: positions[1],
+                positionXOpen: 30,
+                positionYOpen: 30,
+                angleOpen: 0,
+                angleClose: 0
+            };
     }
 }
-const doorWidth = 40;
