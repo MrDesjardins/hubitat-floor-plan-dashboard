@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer } from "react";
 import "typeface-roboto";
 import "./App.css";
 import { Stage, Layer } from "react-konva";
@@ -11,23 +11,24 @@ import {
     getDimmerOnOff,
     getDeviceType
 } from "./Logics/AttributeLogics";
-import { allDevices, APP_ID, API_TOKEN } from "./Models/DeviceIds";
-import { DeviceDataKind } from "./Models/DeviceData";
+import { allDevices } from "./Models/AllDevices";
+import { useInterval } from "./hooks/useInterval";
+import { API_TOKEN, APP_ID } from "./Models/HubitatConstants";
+import { DeviceDataKind } from "./Models/Devices";
 
 function App() {
     const [state, dispatch] = useReducer(appReducer, initialState);
-
-    useEffect(() => {
+    useInterval(() => {
         console.log("Load from Hubitat");
 
         const all = Promise.all(
             allDevices.map(device => {
                 return fetch(
-                    `http://10.0.0.191/apps/api/${APP_ID}/devices/${device.deviceId}?access_token=${API_TOKEN}`
+                    `http://10.0.0.191/apps/api/${APP_ID}/devices/${device.id}?access_token=${API_TOKEN}`
                 ).then((data: any) => {
                     return Promise.resolve(data.json()).then(d => {
                         return {
-                            id: device.deviceId,
+                            device: device,
                             data: d
                         };
                     });
@@ -37,10 +38,10 @@ function App() {
 
         all.then(listPromise => {
             listPromise.forEach(p => {
-                dispatch(AppActions.initDevice({ id: p.id, data: p.data }));
+                dispatch(AppActions.initDevice({ device:p.device, data: p.data }));
             });
         });
-    }, []);
+    }, 5000);
 
     return (
         <div className="App">
@@ -49,13 +50,9 @@ function App() {
                     <FloorPlan />
                     {allDevices.map(dev =>
                         React.createElement(dev.component, {
-                            key: dev.deviceId,
-                            componentId: dev.deviceId,
-                            deviceData: getDevice(
-                                state,
-                                dev.deviceId,
-                                dev.deviceType
-                            ),
+                            key: dev.id,
+                            componentId: dev.id,
+                            deviceData: getDevice(state, dev),
                             position: dev.position,
                             onSave: (deviceData: DeviceDataKind) => {
                                 save(deviceData);

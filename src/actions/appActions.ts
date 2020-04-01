@@ -2,14 +2,14 @@ import {
     createActionPayload,
     ActionsUnion
 } from "../infrastructure/ReducerActions";
-import { DeviceDataKind } from "../Models/DeviceData";
+import { DeviceDataKind } from "../Models/Devices";
 
 export const ACTION_INIT_DEVICE = "ACTION_INIT_DEVICE";
 export const ACTION_SAVE_DEVICE = "ACTION_SAVE_DEVICE";
 export const ACTION_OPENCLOSE_DIMMING_DIALOG =
     "ACTION_OPENCLOSE_DIMMING_DIALOG";
 export interface InitData {
-    id: string;
+    device: DeviceDataKind;
     data: DeviceDataKind;
 }
 export const AppActions = {

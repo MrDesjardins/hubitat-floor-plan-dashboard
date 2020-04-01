@@ -3,7 +3,7 @@ import { ImageLightBulb } from "../ImageLightBulb";
 import Konva from "konva";
 import { Text } from "react-konva";
 import { CommonProps } from "./Common";
-import { LightSwitchDevice } from "../Models/DeviceData";
+import { LightSwitchDevice } from "../Models/Devices";
 import { getDimmerOnOff, setLightOnOff } from "../Logics/AttributeLogics";
 import Portal from "../infrastructure/Portal";
 import React from "react";

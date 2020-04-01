@@ -5,23 +5,42 @@ import {
     DeviceDataKind,
     LightSwitchDevice,
     ContactDevice
-} from "../Models/DeviceData";
-import { allDevices } from "../Models/DeviceIds";
+} from "../Models/Devices";
+import { allDevices } from "../Models/AllDevices";
+import { ContactDirection } from "../DeviceComponents/Contact";
 
 export const getDevice = (
     state: ApplicationState,
-    deviceId: string,
-    deviceType: DeviceType
+    device: DeviceDataKind
 ): DeviceDataKind => {
-    let specificdevice = state.devices[deviceId];
+    let specificdevice = state.devices[device.id];
     if (specificdevice === undefined) {
-        specificdevice = {
-            kind: "UNKNOWN",
-            id: "",
-            name: "",
-            label: "",
-            attributes: []
-        };
+        if (device.kind === "CONTACT") {
+            const unk: ContactDevice = {
+                kind: device.kind,
+                id: device.id,
+                name: device.name,
+                label: device.label,
+                attributes: [],
+                component: device.component,
+                note: device.note,
+                position: device.position,
+                direction: ContactDirection.East
+            };
+            return unk;
+        } else {
+            const unk: DeviceDataKind = {
+                kind: device.kind,
+                id: device.id,
+                name: device.name,
+                label: device.label,
+                attributes: [],
+                component: device.component,
+                note: device.note,
+                position: device.position
+            };
+            return unk;
+        }
     }
     return specificdevice;
 };
@@ -84,10 +103,10 @@ export const setContactOnOff = (
 };
 
 export const getDeviceType = (deviceId: string): DeviceType => {
-    const c = allDevices.find(d => d.deviceId === deviceId);
+    const c = allDevices.find(d => d.id === deviceId);
     if (c === undefined) {
         return "UNKNOWN";
     } else {
-        return c.deviceType;
+        return c.kind;
     }
 };

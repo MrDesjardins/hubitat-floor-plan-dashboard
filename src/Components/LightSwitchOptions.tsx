@@ -7,7 +7,7 @@ import {
     Grid
 } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
-import { LightSwitchDevice } from "../Models/DeviceData";
+import { LightSwitchDevice } from "../Models/Devices";
 import { getDimmerOnOff } from "../Logics/AttributeLogics";
 
 export interface LightSwitchOptionsProps {

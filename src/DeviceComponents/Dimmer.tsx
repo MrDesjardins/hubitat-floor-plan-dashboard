@@ -4,7 +4,7 @@ import Konva from "konva";
 import { Text } from "react-konva";
 import { CommonProps } from "./Common";
 import { DimmerLightOptions } from "../Components/DimmerLightOptions";
-import { DimmingLightDevice } from "../Models/DeviceData";
+import { DimmingLightDevice } from "../Models/Devices";
 import Portal from "../infrastructure/Portal";
 import {
     getDimmerOnOff,

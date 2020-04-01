@@ -1,3 +1,5 @@
+import { ContactDirection } from "../DeviceComponents/Contact";
+
 export type DeviceType = "UNKNOWN" | "DIMMER" | "SWITCH" | "CONTACT";
 
 export type DeviceDataKind =
@@ -11,6 +13,10 @@ export interface DeviceData {
     name: string;
     label: string;
     attributes: DeviceAttributes[];
+
+    note: string; // For me
+    position: [number, number];
+    component: (props: any) => JSX.Element;
 }
 export interface UnknownDevice extends DeviceData {
     kind: "UNKNOWN";
@@ -24,6 +30,7 @@ export interface LightSwitchDevice extends DeviceData {
 
 export interface ContactDevice extends DeviceData {
     kind: "CONTACT";
+    direction: ContactDirection;
 }
 
 export interface DeviceAttributes {

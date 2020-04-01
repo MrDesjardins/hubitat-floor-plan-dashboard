@@ -8,8 +8,8 @@ import {
 } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import Slider from "@material-ui/core/Slider";
-import { DimmingLightDevice } from "../Models/DeviceData";
 import { getDimmerOnOff, getDimmerLightLevel } from "../Logics/AttributeLogics";
+import { DimmingLightDevice } from "../Models/Devices";
 export interface DimmerLightOptionsProps {
     isDialogOpen: boolean;
     dimmerName: string;
