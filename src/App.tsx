@@ -48,7 +48,7 @@ function App() {
             <Stage width={window.innerWidth} height={window.innerHeight}>
                 <Layer>
                     <FloorPlan />
-                    {allDevices.map(dev =>
+                    {Object.values(state.devices).map(dev =>
                         React.createElement(dev.component, {
                             key: dev.id,
                             componentId: dev.id,

@@ -20,6 +20,7 @@ export const ImageLightBulb = (props: ImageLightBulbProps) => {
             x={props.xPosition}
             y={props.yPosition}
             onClick={props.onClick}
+            fill={props.on ? "yellow" : "rgba(0,0,0,0)"}
         />
     );
 };
