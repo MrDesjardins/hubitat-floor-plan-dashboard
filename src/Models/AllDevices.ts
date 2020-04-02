@@ -139,7 +139,7 @@ export const allDevices: DeviceDataKind[] = [
         kind: "CONTACT",
         component: Contact,
         note: "Outside Garage Door",
-        position: [64, 500],
+        position: [65, 500],
         direction: ContactDirection.East,
         attributes: [],
         label: "",
@@ -212,12 +212,45 @@ export const allDevices: DeviceDataKind[] = [
         name: ""
     },
     {
+        id: "227",
+        kind: "CONTACT",
+        component: Contact,
+        note: "Living Room Left Window",
+        position: [468, 562],
+        direction: ContactDirection.SlideRight,
+        attributes: [],
+        label: "",
+        name: ""
+    },
+    {
+        id: "226",
+        kind: "CONTACT",
+        component: Contact,
+        note: "Living Room Right Window",
+        position: [572, 562],
+        direction: ContactDirection.SlideLeft,
+        attributes: [],
+        label: "",
+        name: ""
+    },
+    {
         id: "18",
         kind: "CONTACT",
         component: Contact,
         note: "Kitchen Door",
         position: [665, 100],
         direction: ContactDirection.SlideDown,
+        attributes: [],
+        label: "",
+        name: ""
+    },
+    {
+        id: "68",
+        kind: "CONTACT",
+        component: Contact,
+        note: "Master Bedroom Left Window",
+        position: [65, 399],
+        direction: ContactDirection.SlideUp,
         attributes: [],
         label: "",
         name: ""

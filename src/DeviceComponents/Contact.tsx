@@ -29,14 +29,169 @@ export interface ContactOptions extends CommonProps {
     position: [number, number];
     onSave: (deviceData: ContactDevice) => void;
 }
+
+function getComponentDoor(
+    direction: ContactDirection,
+    isContactOpen: boolean,
+    positionsAngles: PositionAngle
+): JSX.Element | undefined {
+    if (
+        direction === ContactDirection.East ||
+        direction === ContactDirection.West ||
+        direction === ContactDirection.North ||
+        direction === ContactDirection.South
+    ) {
+        return (
+            <Spring
+                native={true}
+                from={{ rotation: 0 }}
+                to={{
+                    rotation: isContactOpen
+                        ? positionsAngles.angleOpen
+                        : positionsAngles.angleClose
+                }}
+            >
+                {props2 => (
+                    <animated.Line
+                        {...props2}
+                        strokeWidth={4}
+                        stroke="red"
+                        x={positionsAngles.positionX}
+                        y={positionsAngles.positionY}
+                        points={[
+                            0,
+                            0,
+                            positionsAngles.positionXOpen,
+                            positionsAngles.positionYOpen
+                        ]}
+                    />
+                )}
+            </Spring>
+        );
+    } else if (direction === ContactDirection.SlideLeft) {
+        return (
+            <Spring
+                native={true}
+                from={{ x: positionsAngles.positionX }}
+                to={{
+                    x: isContactOpen
+                        ? positionsAngles.positionX + 40
+                        : positionsAngles.positionX 
+                }}
+            >
+                {props2 => (
+                    <animated.Line
+                        {...props2}
+                        strokeWidth={4}
+                        stroke="red"
+                        y={positionsAngles.positionY}
+                        points={[
+                            0,
+                            0,
+                            positionsAngles.positionXOpen,
+                            positionsAngles.positionYOpen
+                        ]}
+                    />
+                )}
+            </Spring>
+        );
+    } else if (direction === ContactDirection.SlideRight) {
+        return (
+            <Spring
+                native={true}
+                from={{ x: positionsAngles.positionX }}
+                to={{
+                    x: isContactOpen
+                        ? positionsAngles.positionX - 40
+                        : positionsAngles.positionX 
+                }}
+            >
+                {props2 => (
+                    <animated.Line
+                        {...props2}
+                        strokeWidth={4}
+                        stroke="red"
+                        y={positionsAngles.positionY}
+                        points={[
+                            0,
+                            0,
+                            positionsAngles.positionXOpen,
+                            positionsAngles.positionYOpen
+                        ]}
+                    />
+                )}
+            </Spring>
+        );
+    } else if (direction === ContactDirection.SlideDown) {
+        return (
+            <Spring
+                native={true}
+                from={{ y: positionsAngles.positionY }}
+                to={{
+                    y: isContactOpen
+                        ? positionsAngles.positionY + 40
+                        : positionsAngles.positionY 
+                }}
+            >
+                {props2 => (
+                    <animated.Line
+                        {...props2}
+                        strokeWidth={4}
+                        stroke="red"
+                        x={positionsAngles.positionX}
+                        points={[
+                            0,
+                            0,
+                            positionsAngles.positionXOpen,
+                            positionsAngles.positionYOpen
+                        ]}
+                    />
+                )}
+            </Spring>
+        );
+    } else if (direction === ContactDirection.SlideUp) {
+        return (
+            <Spring
+                native={true}
+                from={{ y: positionsAngles.positionY }}
+                to={{
+                    y: isContactOpen
+                        ? positionsAngles.positionY - 40
+                        : positionsAngles.positionY 
+                }}
+            >
+                {props2 => (
+                    <animated.Line
+                        {...props2}
+                        strokeWidth={4}
+                        stroke="red"
+                        x={positionsAngles.positionX}
+                        points={[
+                            0,
+                            0,
+                            positionsAngles.positionXOpen,
+                            positionsAngles.positionYOpen
+                        ]}
+                    />
+                )}
+            </Spring>
+        );
+    }
+    return undefined;
+}
 export const Contact = (props: ContactOptions) => {
-    const isContactOpen = !getContactOnOff(props.deviceData);
+    const isContactOpen = getContactOnOff(props.deviceData);
 
     let positionsAngles = getDoorStartPositionEndPosition(
         props.deviceData.direction,
         props.position
     );
-    console.log(props.deviceData.direction + " " + isContactOpen);
+
+    let contactComponentDoor = getComponentDoor(
+        props.deviceData.direction,
+        isContactOpen,
+        positionsAngles
+    );
     return (
         <>
             <Text
@@ -52,59 +207,10 @@ export const Contact = (props: ContactOptions) => {
                 y={positionsAngles.positionY}
                 points={[0, 0, 40, 0]}
             /> */}
-            {props.deviceData.direction <= 3 ? (
-                <Spring
-                    native={true}
-                    from={{ rotation: 0 }}
-                    to={{
-                        rotation: isContactOpen
-                            ? positionsAngles.angleOpen
-                            : positionsAngles.angleClose
-                    }}
-                >
-                    {props2 => (
-                        <animated.Line
-                            {...props2}
-                            strokeWidth={4}
-                            stroke="red"
-                            x={positionsAngles.positionX}
-                            y={positionsAngles.positionY}
-                            points={[
-                                0,
-                                0,
-                                positionsAngles.positionXOpen,
-                                positionsAngles.positionYOpen
-                            ]}
-                        />
-                    )}
-                </Spring>
-            ) : (
-                <Spring
-                    native={true}
-                    from={{ x: positionsAngles.positionX }}
-                    to={{
-                        x:
-                            props.deviceData.direction ===
-                            ContactDirection.SlideLeft
-                                ? positionsAngles.positionX - 40
-                                : positionsAngles.positionX + 40
-                    }}
-                >
-                    {props2 => (
-                        <animated.Line
-                            {...props2}
-                            strokeWidth={4}
-                            stroke="red"
-                            y={positionsAngles.positionY}
-                            points={[
-                                0,
-                                0,
-                                positionsAngles.positionXOpen,
-                                positionsAngles.positionYOpen
-                            ]}
-                        />
-                    )}
-                </Spring>
+            {getComponentDoor(
+                props.deviceData.direction,
+                isContactOpen,
+                positionsAngles
             )}
         </>
     );
@@ -154,9 +260,9 @@ export function getDoorStartPositionEndPosition(
         case ContactDirection.SlideDown:
             return {
                 positionX: positions[0],
-                positionY: positions[1] + 30,
+                positionY: positions[1],
                 positionXOpen: 0,
-                positionYOpen: -50,
+                positionYOpen: 40,
                 angleOpen: 0,
                 angleClose: 0
             };
@@ -164,8 +270,8 @@ export function getDoorStartPositionEndPosition(
             return {
                 positionX: positions[0],
                 positionY: positions[1],
-                positionXOpen: 30,
-                positionYOpen: 30,
+                positionXOpen: 0,
+                positionYOpen: 40,
                 angleOpen: 0,
                 angleClose: 0
             };
