@@ -4,7 +4,8 @@ import {
     DeviceType,
     DeviceDataKind,
     LightSwitchDevice,
-    ContactDevice
+    ContactDevice,
+    MotionDevice
 } from "../Models/Devices";
 import { allDevices } from "../Models/AllDevices";
 import { ContactDirection } from "../DeviceComponents/Contact";
@@ -26,6 +27,19 @@ export const getDevice = (
                 note: device.note,
                 position: device.position,
                 direction: ContactDirection.East
+            };
+            return unk;
+        } else if (device.kind === "MOTION") {
+            const unk: MotionDevice = {
+                kind: device.kind,
+                id: device.id,
+                name: device.name,
+                label: device.label,
+                attributes: [],
+                component: device.component,
+                note: device.note,
+                position: device.position,
+                path: []
             };
             return unk;
         } else {
@@ -109,4 +123,12 @@ export const getDeviceType = (deviceId: string): DeviceType => {
     } else {
         return c.kind;
     }
+};
+
+export const getMotionOnOff = (device: MotionDevice): boolean => {
+    const attr = device.attributes.find(p => p.name === "motion");
+    if (attr === undefined) {
+        return false;
+    }
+    return attr?.currentValue === "active";
 };

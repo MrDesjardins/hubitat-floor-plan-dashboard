@@ -9,38 +9,46 @@ import {
     getDevice,
     getDimmerLightLevel,
     getDimmerOnOff,
-    getDeviceType
+    getDeviceType,
 } from "./Logics/AttributeLogics";
 import { allDevices } from "./Models/AllDevices";
 import { useInterval } from "./hooks/useInterval";
 import { API_TOKEN, APP_ID } from "./Models/HubitatConstants";
 import { DeviceDataKind } from "./Models/Devices";
-
+let off = false;
 function App() {
     const [state, dispatch] = useReducer(appReducer, initialState);
     useInterval(() => {
-        console.log("Load from Hubitat");
+        if (!off) {
+            console.log("Load from Hubitat");
 
-        const all = Promise.all(
-            allDevices.map(device => {
-                return fetch(
-                    `http://10.0.0.191/apps/api/${APP_ID}/devices/${device.id}?access_token=${API_TOKEN}`
-                ).then((data: any) => {
-                    return Promise.resolve(data.json()).then(d => {
-                        return {
-                            device: device,
-                            data: d
-                        };
+            const all = Promise.all(
+                allDevices.map((device) => {
+                    return fetch(
+                        `http://10.0.0.191/apps/api/${APP_ID}/devices/${device.id}?access_token=${API_TOKEN}`
+                    ).then((data: any) => {
+                        return Promise.resolve(data.json()).then((d) => {
+                            return {
+                                device: device,
+                                data: d,
+                            };
+                        });
                     });
-                });
-            })
-        );
+                })
+            );
 
-        all.then(listPromise => {
-            listPromise.forEach(p => {
-                dispatch(AppActions.initDevice({ device:p.device, data: p.data }));
+            all.then((listPromise) => {
+                listPromise.forEach((p) => {
+                    dispatch(
+                        AppActions.initDevice({
+                            device: p.device,
+                            data: p.data,
+                        })
+                    );
+                });
             });
-        });
+            off = true;
+        }
     }, 5000);
 
     return (
@@ -48,7 +56,7 @@ function App() {
             <Stage width={window.innerWidth} height={window.innerHeight}>
                 <Layer>
                     <FloorPlan />
-                    {Object.values(state.devices).map(dev =>
+                    {Object.values(state.devices).map((dev) =>
                         React.createElement(dev.component, {
                             key: dev.id,
                             componentId: dev.id,
@@ -56,7 +64,7 @@ function App() {
                             position: dev.position,
                             onSave: (deviceData: DeviceDataKind) => {
                                 save(deviceData);
-                            }
+                            },
                         })
                     )}
                 </Layer>

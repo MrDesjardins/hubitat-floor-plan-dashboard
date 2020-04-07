@@ -1,12 +1,13 @@
 import { ContactDirection } from "../DeviceComponents/Contact";
 
-export type DeviceType = "UNKNOWN" | "DIMMER" | "SWITCH" | "CONTACT";
+export type DeviceType = "UNKNOWN" | "DIMMER" | "SWITCH" | "CONTACT" | "MOTION";
 
 export type DeviceDataKind =
     | UnknownDevice
     | DimmingLightDevice
     | LightSwitchDevice
-    | ContactDevice;
+    | ContactDevice
+    | MotionDevice;
 export interface DeviceData {
     kind: DeviceType;
     id: string;
@@ -31,6 +32,11 @@ export interface LightSwitchDevice extends DeviceData {
 export interface ContactDevice extends DeviceData {
     kind: "CONTACT";
     direction: ContactDirection;
+}
+
+export interface MotionDevice extends DeviceData {
+    kind: "MOTION";
+    path: number[][];
 }
 
 export interface DeviceAttributes {
