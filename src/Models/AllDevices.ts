@@ -13,7 +13,7 @@ export const allDevices: DeviceDataKind[] = [
     //     position: [520, 320],
     //     attributes: [],
     //     label: "",
-    //     name: ""
+    //     name: "",
     // },
     // {
     //     id: "2",
@@ -23,7 +23,7 @@ export const allDevices: DeviceDataKind[] = [
     //     position: [565, 440],
     //     attributes: [],
     //     label: "",
-    //     name: ""
+    //     name: "",
     // },
     // {
     //     id: "4",
@@ -33,7 +33,7 @@ export const allDevices: DeviceDataKind[] = [
     //     position: [585, 175],
     //     attributes: [],
     //     label: "",
-    //     name: ""
+    //     name: "",
     // },
     // {
     //     id: "73",
@@ -43,7 +43,7 @@ export const allDevices: DeviceDataKind[] = [
     //     position: [220, 210],
     //     attributes: [],
     //     label: "",
-    //     name: ""
+    //     name: "",
     // },
     // {
     //     id: "11",
@@ -53,7 +53,7 @@ export const allDevices: DeviceDataKind[] = [
     //     position: [130, 135],
     //     attributes: [],
     //     label: "",
-    //     name: ""
+    //     name: "",
     // },
     // {
     //     id: "129",
@@ -63,7 +63,7 @@ export const allDevices: DeviceDataKind[] = [
     //     position: [310, 300],
     //     attributes: [],
     //     label: "",
-    //     name: ""
+    //     name: "",
     // },
     // {
     //     id: "7",
@@ -73,7 +73,7 @@ export const allDevices: DeviceDataKind[] = [
     //     position: [220, 600],
     //     attributes: [],
     //     label: "",
-    //     name: ""
+    //     name: "",
     // },
     // {
     //     id: "3",
@@ -83,7 +83,7 @@ export const allDevices: DeviceDataKind[] = [
     //     position: [390, 450],
     //     attributes: [],
     //     label: "",
-    //     name: ""
+    //     name: "",
     // },
     // {
     //     id: "9",
@@ -93,7 +93,7 @@ export const allDevices: DeviceDataKind[] = [
     //     position: [295, 135],
     //     attributes: [],
     //     label: "",
-    //     name: ""
+    //     name: "",
     // },
     // {
     //     id: "8",
@@ -103,7 +103,7 @@ export const allDevices: DeviceDataKind[] = [
     //     position: [450, 135],
     //     attributes: [],
     //     label: "",
-    //     name: ""
+    //     name: "",
     // },
     // {
     //     id: "130",
@@ -113,7 +113,7 @@ export const allDevices: DeviceDataKind[] = [
     //     position: [100, 280],
     //     attributes: [],
     //     label: "",
-    //     name: ""
+    //     name: "",
     // },
     // {
     //     id: "131",
@@ -123,7 +123,7 @@ export const allDevices: DeviceDataKind[] = [
     //     position: [160, 375],
     //     attributes: [],
     //     label: "",
-    //     name: ""
+    //     name: "",
     // },
     // {
     //     id: "13",
@@ -133,7 +133,7 @@ export const allDevices: DeviceDataKind[] = [
     //     position: [310, 375],
     //     attributes: [],
     //     label: "",
-    //     name: ""
+    //     name: "",
     // },
     // {
     //     id: "67",
@@ -144,7 +144,7 @@ export const allDevices: DeviceDataKind[] = [
     //     direction: ContactDirection.East,
     //     attributes: [],
     //     label: "",
-    //     name: ""
+    //     name: "",
     // },
     // {
     //     id: "197",
@@ -155,7 +155,7 @@ export const allDevices: DeviceDataKind[] = [
     //     direction: ContactDirection.East,
     //     attributes: [],
     //     label: "",
-    //     name: ""
+    //     name: "",
     // },
     // {
     //     id: "31",
@@ -166,7 +166,7 @@ export const allDevices: DeviceDataKind[] = [
     //     direction: ContactDirection.South,
     //     attributes: [],
     //     label: "",
-    //     name: ""
+    //     name: "",
     // },
     // {
     //     id: "27",
@@ -177,7 +177,7 @@ export const allDevices: DeviceDataKind[] = [
     //     direction: ContactDirection.East,
     //     attributes: [],
     //     label: "",
-    //     name: ""
+    //     name: "",
     // },
     // {
     //     id: "38",
@@ -188,7 +188,7 @@ export const allDevices: DeviceDataKind[] = [
     //     direction: ContactDirection.SlideRight,
     //     attributes: [],
     //     label: "",
-    //     name: ""
+    //     name: "",
     // },
     // {
     //     id: "227",
@@ -199,7 +199,7 @@ export const allDevices: DeviceDataKind[] = [
     //     direction: ContactDirection.SlideRight,
     //     attributes: [],
     //     label: "",
-    //     name: ""
+    //     name: "",
     // },
     // {
     //     id: "226",
@@ -210,7 +210,7 @@ export const allDevices: DeviceDataKind[] = [
     //     direction: ContactDirection.SlideLeft,
     //     attributes: [],
     //     label: "",
-    //     name: ""
+    //     name: "",
     // },
     // {
     //     id: "227",
@@ -221,7 +221,7 @@ export const allDevices: DeviceDataKind[] = [
     //     direction: ContactDirection.SlideRight,
     //     attributes: [],
     //     label: "",
-    //     name: ""
+    //     name: "",
     // },
     // {
     //     id: "226",
@@ -232,7 +232,7 @@ export const allDevices: DeviceDataKind[] = [
     //     direction: ContactDirection.SlideLeft,
     //     attributes: [],
     //     label: "",
-    //     name: ""
+    //     name: "",
     // },
     // {
     //     id: "18",
@@ -243,7 +243,7 @@ export const allDevices: DeviceDataKind[] = [
     //     direction: ContactDirection.SlideDown,
     //     attributes: [],
     //     label: "",
-    //     name: ""
+    //     name: "",
     // },
     // {
     //     id: "68",
@@ -254,7 +254,7 @@ export const allDevices: DeviceDataKind[] = [
     //     direction: ContactDirection.SlideUp,
     //     attributes: [],
     //     label: "",
-    //     name: ""
+    //     name: "",
     // },
     {
         id: "30",
@@ -267,6 +267,23 @@ export const allDevices: DeviceDataKind[] = [
             [302, 292],
             [318, 328],
             [344, 297],
+        ],
+        attributes: [],
+        label: "",
+        name: "",
+    },
+    {
+        id: "24",
+        kind: "MOTION",
+        component: Motion,
+        note: "Dinner Motion",
+        position: [475, 235],
+        path: [
+            [612, 322],
+            [533, 370],
+            [513, 318],
+            [437, 366],
+            [389, 326],
         ],
         attributes: [],
         label: "",

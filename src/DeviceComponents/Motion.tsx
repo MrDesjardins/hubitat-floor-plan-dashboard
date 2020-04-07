@@ -31,7 +31,6 @@ export const Motion = (props: MotionOptions) => {
         }
         setRadius(radius + pulseDirection);
     }, 120);
-    console.log(radius, pulseDirection);
     const isInMotion = getMotionOnOff(props.deviceData);
 
     return (
@@ -41,27 +40,29 @@ export const Motion = (props: MotionOptions) => {
                 x={props.deviceData.position[0]}
                 y={props.deviceData.position[1]}
             />
-            <Spring
-                native={true}
-                from={{
-                    x: props.deviceData.path[0][0],
-                    y: props.deviceData.path[pathIndex][1],
-                }}
-                to={{
-                    x: props.deviceData.path[pathIndex][0],
-                    y: props.deviceData.path[pathIndex][1],
-                }}
-            >
-                {(props: { x: number; y: number }) => (
-                    <animated.Circle
-                        x={props.x}
-                        y={props.y}
-                        radius={radius}
-                        fill="rgba(255,0,0,0.2)"
-                        strokeEnabled={false}
-                    />
-                )}
-            </Spring>
+            {isInMotion ? (
+                <Spring
+                    native={true}
+                    from={{
+                        x: props.deviceData.path[0][0],
+                        y: props.deviceData.path[pathIndex][1],
+                    }}
+                    to={{
+                        x: props.deviceData.path[pathIndex][0],
+                        y: props.deviceData.path[pathIndex][1],
+                    }}
+                >
+                    {(props: { x: number; y: number }) => (
+                        <animated.Circle
+                            x={props.x}
+                            y={props.y}
+                            radius={radius}
+                            fill="rgba(255,0,0,0.2)"
+                            strokeEnabled={false}
+                        />
+                    )}
+                </Spring>
+            ) : undefined}
         </>
     );
 };
