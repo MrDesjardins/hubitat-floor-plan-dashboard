@@ -4,6 +4,7 @@ import { LightSwitch } from "../DeviceComponents/LightSwitch";
 import { Contact, ContactDirection } from "../DeviceComponents/Contact";
 import { Motion } from "../DeviceComponents/Motion";
 import { TvDirection, Tv } from "../DeviceComponents/Tv";
+import { WashingMachine } from "../DeviceComponents/WashingMachine";
 
 export const allDevices: DeviceDataKind[] = [
     // {
@@ -344,26 +345,37 @@ export const allDevices: DeviceDataKind[] = [
     //     label: "",
     //     name: "",
     // },
+    // {
+    //     id: "46",
+    //     kind: "TV",
+    //     component: Tv,
+    //     note: "Living Room TV",
+    //     position: [660, 455],
+    //     direction: TvDirection.West,
+    //     radius: [25, 40],
+    //     attributes: [],
+    //     label: "",
+    //     name: "",
+    // },
+    // {
+    //     id: "44",
+    //     kind: "TV",
+    //     component: Tv,
+    //     note: "Computer Monitor",
+    //     position: [465, 525],
+    //     direction: TvDirection.West,
+    //     radius: [15, 20],
+    //     attributes: [],
+    //     label: "",
+    //     name: "",
+    // },
     {
-        id: "46",
-        kind: "TV",
-        component: Tv,
-        note: "Living Room TV",
-        position: [660, 455],
-        direction: TvDirection.West,
-        radius: [25, 40],
-        attributes: [],
-        label: "",
-        name: "",
-    },
-    {
-        id: "44",
-        kind: "TV",
-        component: Tv,
-        note: "Computer Monitor",
-        position: [465, 525],
-        direction: TvDirection.West,
-        radius: [15, 20],
+        id: "25",
+        kind: "WASHINGMACHINE",
+        component: WashingMachine,
+        note: "WashingMachine",
+        position: [175, 490],
+        width: 30,
         attributes: [],
         label: "",
         name: "",

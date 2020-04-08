@@ -7,7 +7,8 @@ export type DeviceType =
     | "SWITCH"
     | "CONTACT"
     | "MOTION"
-    | "TV";
+    | "TV"
+    | "WASHINGMACHINE";
 
 export type DeviceDataKind =
     | UnknownDevice
@@ -15,7 +16,8 @@ export type DeviceDataKind =
     | LightSwitchDevice
     | ContactDevice
     | MotionDevice
-    | TvDevice;
+    | TvDevice
+    | WashingMachineDevice;
 export interface DeviceData {
     kind: DeviceType;
     id: string;
@@ -45,6 +47,10 @@ export interface ContactDevice extends DeviceData {
 export interface MotionDevice extends DeviceData {
     kind: "MOTION";
     path: number[][];
+}
+export interface WashingMachineDevice extends DeviceData {
+    kind: "WASHINGMACHINE";
+    width: number;
 }
 
 export interface TvDevice extends DeviceData {

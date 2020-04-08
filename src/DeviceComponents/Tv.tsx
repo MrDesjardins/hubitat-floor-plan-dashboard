@@ -19,13 +19,6 @@ export interface TvOptions extends CommonProps {
 export const Tv = (props: TvOptions) => {
     const [pulseDirection, setPulseDirection] = useState(1);
     const [radius, setRadius] = useState(props.deviceData.radius[0]);
-    // useInterval(() => {
-    //     if (pathIndex >= props.deviceData.path.length - 1) {
-    //         setPathIndex(0);
-    //     } else {
-    //         setPathIndex(pathIndex + 1);
-    //     }
-    // }, 2000);
 
     useInterval(() => {
         if (radius <= props.deviceData.radius[0]) {

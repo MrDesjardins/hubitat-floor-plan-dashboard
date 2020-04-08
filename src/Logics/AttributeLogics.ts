@@ -7,6 +7,7 @@ import {
     ContactDevice,
     MotionDevice,
     TvDevice,
+    WashingMachineDevice,
 } from "../Models/Devices";
 import { allDevices } from "../Models/AllDevices";
 import { ContactDirection } from "../DeviceComponents/Contact";
@@ -55,6 +56,20 @@ export const getDevice = (
                 position: device.position,
                 direction: device.direction,
                 radius: device.radius,
+            };
+            return unk;
+        } else if (device.kind === "WASHINGMACHINE") {
+            const unk: WashingMachineDevice = {
+                kind: device.kind,
+                id: device.id,
+                name: device.name,
+                label: device.label,
+                attributes: [],
+                component: device.component,
+                note: device.note,
+                position: device.position,
+
+                width: device.width,
             };
             return unk;
         } else {
@@ -149,7 +164,7 @@ export const getMotionOnOff = (device: MotionDevice): boolean => {
 };
 
 export const getPowerOn = (
-    device: TvDevice,
+    device: TvDevice | WashingMachineDevice,
     minimumPowerEnergyThreshold: number
 ): boolean => {
     const attr = device.attributes.find((p) => p.name === "power");
@@ -157,4 +172,12 @@ export const getPowerOn = (
         return false;
     }
     return Number(attr?.currentValue) >= minimumPowerEnergyThreshold;
+};
+
+export const getPower = (device: TvDevice | WashingMachineDevice): number => {
+    const attr = device.attributes.find((p) => p.name === "power");
+    if (attr === undefined) {
+        return 0;
+    }
+    return Number(attr?.currentValue);
 };
