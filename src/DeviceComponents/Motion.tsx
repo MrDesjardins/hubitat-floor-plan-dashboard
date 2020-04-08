@@ -31,7 +31,7 @@ export const Motion = (props: MotionOptions) => {
         }
         setRadius(radius + pulseDirection);
     }, 120);
-    const isInMotion = getMotionOnOff(props.deviceData);
+    const isInMotion = !getMotionOnOff(props.deviceData);
 
     return (
         <>
