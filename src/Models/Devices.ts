@@ -1,13 +1,21 @@
 import { ContactDirection } from "../DeviceComponents/Contact";
+import { TvDirection } from "../DeviceComponents/Tv";
 
-export type DeviceType = "UNKNOWN" | "DIMMER" | "SWITCH" | "CONTACT" | "MOTION";
+export type DeviceType =
+    | "UNKNOWN"
+    | "DIMMER"
+    | "SWITCH"
+    | "CONTACT"
+    | "MOTION"
+    | "TV";
 
 export type DeviceDataKind =
     | UnknownDevice
     | DimmingLightDevice
     | LightSwitchDevice
     | ContactDevice
-    | MotionDevice;
+    | MotionDevice
+    | TvDevice;
 export interface DeviceData {
     kind: DeviceType;
     id: string;
@@ -37,6 +45,12 @@ export interface ContactDevice extends DeviceData {
 export interface MotionDevice extends DeviceData {
     kind: "MOTION";
     path: number[][];
+}
+
+export interface TvDevice extends DeviceData {
+    kind: "TV";
+    direction: TvDirection;
+    radius: [number, number];
 }
 
 export interface DeviceAttributes {
