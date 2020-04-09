@@ -28,12 +28,15 @@ export const Tv = (props: TvOptions) => {
         }
         setRadius(radius + pulseDirection);
     }, 120);
-    const isTvOn = getPowerOn(props.deviceData, 50);
+    const isTvOn = getPowerOn(
+        props.deviceData,
+        props.deviceData.wattThreashold
+    );
     const angle = getAngleFromDirection(props.deviceData.direction);
     return (
         <>
             <Text
-                text={`${isTvOn ? "Tv On" : "Tv Off"}`}
+                text={`${isTvOn ? "On" : "Off"}`}
                 x={props.deviceData.position[0]}
                 y={props.deviceData.position[1]}
             />

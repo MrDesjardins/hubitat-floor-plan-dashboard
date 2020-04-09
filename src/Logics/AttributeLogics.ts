@@ -56,6 +56,7 @@ export const getDevice = (
                 position: device.position,
                 direction: device.direction,
                 radius: device.radius,
+                wattThreashold: device.wattThreashold,
             };
             return unk;
         } else if (device.kind === "WASHINGMACHINE") {

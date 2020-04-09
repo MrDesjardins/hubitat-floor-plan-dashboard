@@ -57,6 +57,7 @@ export interface TvDevice extends DeviceData {
     kind: "TV";
     direction: TvDirection;
     radius: [number, number];
+    wattThreashold: number;
 }
 
 export interface DeviceAttributes {
