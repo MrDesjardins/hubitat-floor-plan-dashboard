@@ -3,13 +3,13 @@ import {
     AcceptedActions,
     ACTION_OPENCLOSE_DIMMING_DIALOG,
     ACTION_SAVE_DEVICE,
-    ACTION_INIT_DEVICE
+    ACTION_INIT_DEVICE,
 } from "../actions/appActions";
 import { getDeviceType } from "../Logics/AttributeLogics";
 
 export const initialState: ApplicationState = {
     devices: {},
-    dimmingDialogOpen: false
+    dimmingDialogOpen: false,
 };
 export function appReducer(
     state: ApplicationState,
@@ -20,7 +20,6 @@ export function appReducer(
             const newState = { ...state };
             newState.devices = { ...state.devices };
             newState.devices[action.payload.device.id] = action.payload.device;
-            newState.devices[action.payload.device.id].attributes = action.payload.data.attributes;
             return newState;
         }
         case ACTION_SAVE_DEVICE: {
@@ -28,32 +27,22 @@ export function appReducer(
             newState.devices = { ...state.devices };
             if (newState.devices[action.payload.deviceId] !== undefined) {
                 newState.devices[action.payload.deviceId] = {
-                    ...newState.devices[action.payload.deviceId]
+                    ...newState.devices[action.payload.deviceId],
                 };
                 newState.devices[action.payload.deviceId].kind = getDeviceType(
                     action.payload.deviceId
                 );
-                newState.devices[
-                    action.payload.deviceId
-                ].attributes = state.devices[
-                    action.payload.deviceId
-                ].attributes.slice();
+                newState.devices[action.payload.deviceId].attributes = {
+                    ...state.devices[action.payload.deviceId].attributes,
+                };
 
-                const att1 = newState.devices[
-                    action.payload.deviceId
-                ].attributes.find(p => p.name === "level");
-                if (att1) {
-                    att1.currentValue = action.payload.level;
-                }
+                newState.devices[action.payload.deviceId].attributes["level"] =
+                    action.payload.level + "";
 
-                const att2 = newState.devices[
-                    action.payload.deviceId
-                ].attributes.find(p => p.name === "switch");
-                if (att2) {
-                    att2.currentValue = action.payload.isLightOn
-                        ? "on"
-                        : "false";
-                }
+                newState.devices[action.payload.deviceId].attributes[
+                    "switch"
+                ] = action.payload.isLightOn ? "on" : "false";
+
                 return { ...newState };
             }
             return state;

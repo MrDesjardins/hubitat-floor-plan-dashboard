@@ -24,7 +24,7 @@ export const Motion = (props: MotionOptions) => {
     }, 2000);
 
     useInterval(() => {
-        if (radius == 10) {
+        if (radius === 10) {
             setPulseDirection(-1);
         } else if (radius === 6) {
             setPulseDirection(+1);

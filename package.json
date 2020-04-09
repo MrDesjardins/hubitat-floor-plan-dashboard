@@ -1,51 +1,58 @@
 {
-  "name": "hubitat-floor-plan-dashboard",
-  "author": "Patrick Desjardins",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@material-ui/core": "^4.9.7",
-    "@material-ui/icons": "^4.9.1",
-    "@react-spring/konva": "^9.0.0-beta.33",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "@types/jest": "^24.9.1",
-    "@types/node": "^12.12.30",
-    "@types/react": "^16.9.25",
-    "@types/react-dom": "^16.9.5",
-    "konva": "^4.2.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-konva": "^16.12.0-0",
-    "react-scripts": "3.4.1",
-    "react-spring": "^8.0.27",
-    "typeface-roboto": "0.0.75",
-    "typescript": "^3.7.5",
-    "use-image": "^1.0.5"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "delay": "^4.3.0"
-  }
+    "name": "hubitat-floor-plan-dashboard",
+    "author": "Patrick Desjardins",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@material-ui/core": "^4.9.7",
+        "@material-ui/icons": "^4.9.1",
+        "@react-spring/konva": "^9.0.0-beta.33",
+        "@testing-library/jest-dom": "^4.2.4",
+        "@testing-library/react": "^9.5.0",
+        "@testing-library/user-event": "^7.2.1",
+        "@types/express": "^4.17.5",
+        "@types/jest": "^24.9.1",
+        "@types/node": "^12.12.30",
+        "@types/react": "^16.9.25",
+        "@types/react-dom": "^16.9.5",
+        "body-parser": "^1.19.0",
+        "express": "^4.17.1",
+        "konva": "^4.2.0",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
+        "react-konva": "^16.12.0-0",
+        "react-scripts": "3.4.1",
+        "react-spring": "^8.0.27",
+        "ts-node-dev": "^1.0.0-pre.44",
+        "typeface-roboto": "0.0.75",
+        "typescript": "^3.7.5",
+        "use-image": "^1.0.5"
+    },
+    "scripts": {
+        "start:server": "cd server && ts-node-dev ./server.ts",
+        "start:app": "react-scripts start",
+        "start": "concurrently \"npm run start:app\" \"npm run start:server\"",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "concurrently": "^5.1.0",
+        "delay": "^4.3.0"
+    }
 }

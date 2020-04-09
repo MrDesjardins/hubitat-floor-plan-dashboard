@@ -23,7 +23,7 @@ export interface DeviceData {
     id: string;
     name: string;
     label: string;
-    attributes: DeviceAttributes[];
+    attributes: { [key: string]: string };
 
     note: string; // For me
     position: [number, number];

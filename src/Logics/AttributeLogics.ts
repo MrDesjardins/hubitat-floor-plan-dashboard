@@ -24,7 +24,7 @@ export const getDevice = (
                 id: device.id,
                 name: device.name,
                 label: device.label,
-                attributes: [],
+                attributes: {},
                 component: device.component,
                 note: device.note,
                 position: device.position,
@@ -37,7 +37,7 @@ export const getDevice = (
                 id: device.id,
                 name: device.name,
                 label: device.label,
-                attributes: [],
+                attributes: {},
                 component: device.component,
                 note: device.note,
                 position: device.position,
@@ -50,7 +50,7 @@ export const getDevice = (
                 id: device.id,
                 name: device.name,
                 label: device.label,
-                attributes: [],
+                attributes: {},
                 component: device.component,
                 note: device.note,
                 position: device.position,
@@ -65,7 +65,7 @@ export const getDevice = (
                 id: device.id,
                 name: device.name,
                 label: device.label,
-                attributes: [],
+                attributes: {},
                 component: device.component,
                 note: device.note,
                 position: device.position,
@@ -79,7 +79,7 @@ export const getDevice = (
                 id: device.id,
                 name: device.name,
                 label: device.label,
-                attributes: [],
+                attributes: {},
                 component: device.component,
                 note: device.note,
                 position: device.position,
@@ -91,60 +91,42 @@ export const getDevice = (
 };
 
 export const getDimmerLightLevel = (device: DimmingLightDevice): number => {
-    const levelAttribute = device.attributes.find((p) => p.name === "level");
+    const levelAttribute = device.attributes["level"];
     if (levelAttribute === undefined) {
         return 0;
     }
-    const level = Number(levelAttribute?.currentValue);
-    return level;
+    return Number(device.attributes["level"]);
 };
 
 export const setDimmerLightLevel = (
     device: DimmingLightDevice,
     level: number
 ): void => {
-    const levelAttr = device.attributes.find((p) => p.name === "level");
-    if (levelAttr !== undefined) {
-        levelAttr.currentValue = level;
-    }
+    device.attributes["level"] = level + "";
 };
 
 export const getDimmerOnOff = (
     device: DimmingLightDevice | LightSwitchDevice
 ): boolean => {
-    const attr = device.attributes.find((p) => p.name === "switch");
-    if (attr === undefined) {
-        return false;
-    }
-    return attr?.currentValue === "on";
+    return device.attributes["switch"] === "on";
 };
 
 export const setLightOnOff = (
     device: DimmingLightDevice | LightSwitchDevice,
     isOn: boolean
 ): void => {
-    const levelAttr = device.attributes.find((p) => p.name === "switch");
-    if (levelAttr !== undefined) {
-        levelAttr.currentValue = isOn ? "on" : "off";
-    }
+    device.attributes["switch"] = isOn ? "on" : "off";
 };
 
 export const getContactOnOff = (device: ContactDevice): boolean => {
-    const attr = device.attributes.find((p) => p.name === "contact");
-    if (attr === undefined) {
-        return false;
-    }
-    return attr?.currentValue === "open";
+    return device.attributes["contact"] === "open";
 };
 
 export const setContactOnOff = (
     device: ContactDevice,
     isOpen: boolean
 ): void => {
-    const levelAttr = device.attributes.find((p) => p.name === "contact");
-    if (levelAttr !== undefined) {
-        levelAttr.currentValue = isOpen ? "open" : "closed";
-    }
+    device.attributes["contact"] = isOpen ? "open" : "closed";
 };
 
 export const getDeviceType = (deviceId: string): DeviceType => {
@@ -157,28 +139,24 @@ export const getDeviceType = (deviceId: string): DeviceType => {
 };
 
 export const getMotionOnOff = (device: MotionDevice): boolean => {
-    const attr = device.attributes.find((p) => p.name === "motion");
-    if (attr === undefined) {
-        return false;
-    }
-    return attr?.currentValue === "active";
+    return device.attributes["motion"] === "active";
 };
 
 export const getPowerOn = (
     device: TvDevice | WashingMachineDevice,
     minimumPowerEnergyThreshold: number
 ): boolean => {
-    const attr = device.attributes.find((p) => p.name === "power");
+    const attr = device.attributes["power"];
     if (attr === undefined) {
         return false;
     }
-    return Number(attr?.currentValue) >= minimumPowerEnergyThreshold;
+    return Number(attr) >= minimumPowerEnergyThreshold;
 };
 
 export const getPower = (device: TvDevice | WashingMachineDevice): number => {
-    const attr = device.attributes.find((p) => p.name === "power");
+    const attr = device.attributes["power"];
     if (attr === undefined) {
         return 0;
     }
-    return Number(attr?.currentValue);
+    return Number(attr);
 };

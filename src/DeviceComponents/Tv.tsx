@@ -49,6 +49,7 @@ export const Tv = (props: TvOptions) => {
                 fill="rgba(250,235,100,0.4)"
                 strokeEnabled={false}
                 rotation={angle}
+                visible={isTvOn}
             />
         </>
     );

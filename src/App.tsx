@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useEffect } from "react";
 import "typeface-roboto";
 import "./App.css";
 import { Stage, Layer } from "react-konva";
@@ -14,42 +14,63 @@ import {
 import { allDevices } from "./Models/AllDevices";
 import { useInterval } from "./hooks/useInterval";
 import { API_TOKEN, APP_ID } from "./Models/HubitatConstants";
-import { DeviceDataKind } from "./Models/Devices";
+import { DeviceDataKind, DeviceData } from "./Models/Devices";
+import { response } from "express";
 let off = false;
+
+// function connect() {
+//     var url = "ws://192.168.1.10/eventsocket";
+//     var ws = new WebSocket(url);
+//     console.log("attempt connection to ", url);
+//     ws.onopen = function (e: Event) {
+//         console.log(`connection to  ${url} established`);
+//     };
+
+//     ws.onmessage = (e: MessageEvent) => {
+//         try {
+//             console.log("OnMessage Data", e.data);
+//         } catch (e) {
+//             console.log("Invalid JSON data received from websocket", e.data);
+//             return;
+//         }
+//     };
+
+//     ws.onclose = (e: CloseEvent) => {
+//         console.log("onclose", e);
+//         setTimeout(function () {
+//             connect();
+//         }, 1000);
+//     };
+
+//     ws.onerror = (event: Event) => {
+//         console.log("onError", event);
+//         ws.close();
+//     };
+// }
+// connect();
 function App() {
     const [state, dispatch] = useReducer(appReducer, initialState);
-    useInterval(() => {
-        if (!off) {
-            console.log("Load from Hubitat");
 
-            const all = Promise.all(
-                allDevices.map((device) => {
-                    return fetch(
-                        `http://10.0.0.191/apps/api/${APP_ID}/devices/${device.id}?access_token=${API_TOKEN}`
-                    ).then((data: any) => {
-                        return Promise.resolve(data.json()).then((d) => {
-                            return {
-                                device: device,
-                                data: d,
-                            };
-                        });
-                    });
-                })
-            );
-
-            all.then((listPromise) => {
-                listPromise.forEach((p) => {
-                    dispatch(
-                        AppActions.initDevice({
-                            device: p.device,
-                            data: p.data,
-                        })
-                    );
+    useEffect(() => {
+        console.log("Load from Hubitat");
+        fetch(
+            `http://10.0.0.191/apps/api/${APP_ID}/devices/all?access_token=${API_TOKEN}`
+        ).then((value: Response) => {
+            value.json().then((data: DeviceDataKind[]) => {
+                data.forEach((p) => {
+                    const configData = allDevices.find((d) => d.id === p.id);
+                    if (configData !== undefined) {
+                        const mergedData = { ...configData, ...p };
+                        dispatch(
+                            AppActions.initDevice({
+                                device: mergedData,
+                            })
+                        );
+                    }
                 });
             });
-            // off = true;
-        }
-    }, 5000);
+        });
+    }, []);
 
     return (
         <div className="App">
