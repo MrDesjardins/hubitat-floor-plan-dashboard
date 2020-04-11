@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, Line } from "react-konva";
+import { Text } from "react-konva";
 import { CommonProps } from "./Common";
 import { ContactDevice } from "../Models/Devices";
 import { getContactOnOff } from "../Logics/AttributeLogics";
@@ -13,7 +13,7 @@ export enum ContactDirection {
     SlideDown,
     SlideUp,
     SlideRight,
-    SlideLeft
+    SlideLeft,
 }
 interface PositionAngle {
     positionX: number;
@@ -48,10 +48,10 @@ function getComponentDoor(
                 to={{
                     rotation: isContactOpen
                         ? positionsAngles.angleOpen
-                        : positionsAngles.angleClose
+                        : positionsAngles.angleClose,
                 }}
             >
-                {props2 => (
+                {(props2) => (
                     <animated.Line
                         {...props2}
                         strokeWidth={4}
@@ -62,7 +62,7 @@ function getComponentDoor(
                             0,
                             0,
                             positionsAngles.positionXOpen,
-                            positionsAngles.positionYOpen
+                            positionsAngles.positionYOpen,
                         ]}
                     />
                 )}
@@ -76,10 +76,10 @@ function getComponentDoor(
                 to={{
                     x: isContactOpen
                         ? positionsAngles.positionX + 40
-                        : positionsAngles.positionX 
+                        : positionsAngles.positionX,
                 }}
             >
-                {props2 => (
+                {(props2) => (
                     <animated.Line
                         {...props2}
                         strokeWidth={4}
@@ -89,7 +89,7 @@ function getComponentDoor(
                             0,
                             0,
                             positionsAngles.positionXOpen,
-                            positionsAngles.positionYOpen
+                            positionsAngles.positionYOpen,
                         ]}
                     />
                 )}
@@ -103,10 +103,10 @@ function getComponentDoor(
                 to={{
                     x: isContactOpen
                         ? positionsAngles.positionX - 40
-                        : positionsAngles.positionX 
+                        : positionsAngles.positionX,
                 }}
             >
-                {props2 => (
+                {(props2) => (
                     <animated.Line
                         {...props2}
                         strokeWidth={4}
@@ -116,7 +116,7 @@ function getComponentDoor(
                             0,
                             0,
                             positionsAngles.positionXOpen,
-                            positionsAngles.positionYOpen
+                            positionsAngles.positionYOpen,
                         ]}
                     />
                 )}
@@ -130,10 +130,10 @@ function getComponentDoor(
                 to={{
                     y: isContactOpen
                         ? positionsAngles.positionY + 40
-                        : positionsAngles.positionY 
+                        : positionsAngles.positionY,
                 }}
             >
-                {props2 => (
+                {(props2) => (
                     <animated.Line
                         {...props2}
                         strokeWidth={4}
@@ -143,7 +143,7 @@ function getComponentDoor(
                             0,
                             0,
                             positionsAngles.positionXOpen,
-                            positionsAngles.positionYOpen
+                            positionsAngles.positionYOpen,
                         ]}
                     />
                 )}
@@ -157,10 +157,10 @@ function getComponentDoor(
                 to={{
                     y: isContactOpen
                         ? positionsAngles.positionY - 40
-                        : positionsAngles.positionY 
+                        : positionsAngles.positionY,
                 }}
             >
-                {props2 => (
+                {(props2) => (
                     <animated.Line
                         {...props2}
                         strokeWidth={4}
@@ -170,7 +170,7 @@ function getComponentDoor(
                             0,
                             0,
                             positionsAngles.positionXOpen,
-                            positionsAngles.positionYOpen
+                            positionsAngles.positionYOpen,
                         ]}
                     />
                 )}
@@ -187,11 +187,6 @@ export const Contact = (props: ContactOptions) => {
         props.position
     );
 
-    let contactComponentDoor = getComponentDoor(
-        props.deviceData.direction,
-        isContactOpen,
-        positionsAngles
-    );
     return (
         <>
             <Text
@@ -228,7 +223,7 @@ export function getDoorStartPositionEndPosition(
                 positionXOpen: 30,
                 positionYOpen: 30,
                 angleOpen: 0,
-                angleClose: -45
+                angleClose: -45,
             };
         case ContactDirection.North:
             return {
@@ -237,7 +232,7 @@ export function getDoorStartPositionEndPosition(
                 positionXOpen: 30,
                 positionYOpen: 30,
                 angleOpen: 0,
-                angleClose: -45
+                angleClose: -45,
             };
         case ContactDirection.East:
             return {
@@ -246,7 +241,7 @@ export function getDoorStartPositionEndPosition(
                 positionXOpen: -30,
                 positionYOpen: 30,
                 angleOpen: 0,
-                angleClose: -45
+                angleClose: -45,
             };
         case ContactDirection.West:
             return {
@@ -255,7 +250,7 @@ export function getDoorStartPositionEndPosition(
                 positionXOpen: 30,
                 positionYOpen: 30,
                 angleOpen: 0,
-                angleClose: 45
+                angleClose: 45,
             };
         case ContactDirection.SlideDown:
             return {
@@ -264,7 +259,7 @@ export function getDoorStartPositionEndPosition(
                 positionXOpen: 0,
                 positionYOpen: 40,
                 angleOpen: 0,
-                angleClose: 0
+                angleClose: 0,
             };
         case ContactDirection.SlideUp:
             return {
@@ -273,7 +268,7 @@ export function getDoorStartPositionEndPosition(
                 positionXOpen: 0,
                 positionYOpen: 40,
                 angleOpen: 0,
-                angleClose: 0
+                angleClose: 0,
             };
         case ContactDirection.SlideLeft:
             return {
@@ -282,7 +277,7 @@ export function getDoorStartPositionEndPosition(
                 positionXOpen: 40,
                 positionYOpen: 0,
                 angleOpen: 0,
-                angleClose: 0
+                angleClose: 0,
             };
         case ContactDirection.SlideRight:
             return {
@@ -291,7 +286,7 @@ export function getDoorStartPositionEndPosition(
                 positionXOpen: 40,
                 positionYOpen: 0,
                 angleOpen: 0,
-                angleClose: 0
+                angleClose: 0,
             };
     }
 }

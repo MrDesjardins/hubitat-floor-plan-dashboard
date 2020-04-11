@@ -2,7 +2,6 @@ import { CommonProps } from "./Common";
 import React, { useState } from "react";
 import { useInterval } from "../hooks/useInterval";
 import { getPowerOn } from "../Logics/AttributeLogics";
-import { Spring } from "react-spring/renderprops-konva";
 import { TvDevice } from "../Models/Devices";
 import { Text, Arc } from "react-konva";
 export enum TvDirection {

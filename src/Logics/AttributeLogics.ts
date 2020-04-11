@@ -130,7 +130,7 @@ export const setContactOnOff = (
 };
 
 export const getDeviceType = (deviceId: string): DeviceType => {
-    const c = allDevices.find((d) => d.id === deviceId);
+    const c = allDevices[deviceId];
     if (c === undefined) {
         return "UNKNOWN";
     } else {

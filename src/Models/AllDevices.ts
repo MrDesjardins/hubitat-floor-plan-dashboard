@@ -6,8 +6,8 @@ import { Motion } from "../DeviceComponents/Motion";
 import { TvDirection, Tv } from "../DeviceComponents/Tv";
 import { WashingMachine } from "../DeviceComponents/WashingMachine";
 
-export const allDevices: DeviceDataKind[] = [
-    {
+export const allDevices: { [deviceId: string]: DeviceDataKind } = {
+    "1": {
         id: "1",
         kind: "DIMMER",
         component: Dimmer,
@@ -17,7 +17,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "2": {
         id: "2",
         kind: "DIMMER",
         component: Dimmer,
@@ -27,7 +27,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "4": {
         id: "4",
         kind: "DIMMER",
         component: Dimmer,
@@ -37,7 +37,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "73": {
         id: "73",
         kind: "DIMMER",
         component: Dimmer,
@@ -47,7 +47,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "11": {
         id: "11",
         kind: "SWITCH",
         component: LightSwitch,
@@ -57,7 +57,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "129": {
         id: "129",
         kind: "DIMMER",
         component: Dimmer,
@@ -67,7 +67,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "7": {
         id: "7",
         kind: "SWITCH",
         component: LightSwitch,
@@ -77,7 +77,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "3": {
         id: "3",
         kind: "SWITCH",
         component: LightSwitch,
@@ -87,7 +87,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "9": {
         id: "9",
         kind: "SWITCH",
         component: LightSwitch,
@@ -97,7 +97,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "8": {
         id: "8",
         kind: "SWITCH",
         component: LightSwitch,
@@ -107,7 +107,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "130": {
         id: "130",
         kind: "DIMMER",
         component: Dimmer,
@@ -117,7 +117,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "131": {
         id: "131",
         kind: "DIMMER",
         component: Dimmer,
@@ -127,7 +127,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "13": {
         id: "13",
         kind: "DIMMER",
         component: Dimmer,
@@ -137,7 +137,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "67": {
         id: "67",
         kind: "CONTACT",
         component: Contact,
@@ -148,8 +148,8 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
-        id: "197",
+    "32": {
+        id: "32",
         kind: "CONTACT",
         component: Contact,
         note: "Indoor Garage Door",
@@ -159,7 +159,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "31": {
         id: "31",
         kind: "CONTACT",
         component: Contact,
@@ -170,7 +170,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "27": {
         id: "27",
         kind: "CONTACT",
         component: Contact,
@@ -181,7 +181,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "38": {
         id: "38",
         kind: "CONTACT",
         component: Contact,
@@ -192,7 +192,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "227": {
         id: "227",
         kind: "CONTACT",
         component: Contact,
@@ -203,7 +203,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "226": {
         id: "226",
         kind: "CONTACT",
         component: Contact,
@@ -214,29 +214,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
-        id: "227",
-        kind: "CONTACT",
-        component: Contact,
-        note: "Living Room Left Window",
-        position: [468, 562],
-        direction: ContactDirection.SlideRight,
-        attributes: {},
-        label: "",
-        name: "",
-    },
-    {
-        id: "226",
-        kind: "CONTACT",
-        component: Contact,
-        note: "Living Room Right Window",
-        position: [572, 562],
-        direction: ContactDirection.SlideLeft,
-        attributes: {},
-        label: "",
-        name: "",
-    },
-    {
+    "18": {
         id: "18",
         kind: "CONTACT",
         component: Contact,
@@ -247,7 +225,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "68": {
         id: "68",
         kind: "CONTACT",
         component: Contact,
@@ -258,7 +236,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "28": {
         id: "28",
         kind: "MOTION",
         component: Motion,
@@ -272,7 +250,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "16": {
         id: "16",
         kind: "MOTION",
         component: Motion,
@@ -293,7 +271,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "29": {
         id: "29",
         kind: "MOTION",
         component: Motion,
@@ -312,7 +290,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "30": {
         id: "30",
         kind: "MOTION",
         component: Motion,
@@ -328,7 +306,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "24": {
         id: "24",
         kind: "MOTION",
         component: Motion,
@@ -345,7 +323,7 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-    {
+    "46": {
         id: "46",
         kind: "TV",
         component: Tv,
@@ -358,7 +336,7 @@ export const allDevices: DeviceDataKind[] = [
         name: "",
         wattThreashold: 10,
     },
-    {
+    "44": {
         id: "44",
         kind: "TV",
         component: Tv,
@@ -371,7 +349,7 @@ export const allDevices: DeviceDataKind[] = [
         name: "",
         wattThreashold: 50,
     },
-    {
+    "25": {
         id: "25",
         kind: "WASHINGMACHINE",
         component: WashingMachine,
@@ -382,4 +360,4 @@ export const allDevices: DeviceDataKind[] = [
         label: "",
         name: "",
     },
-];
+};

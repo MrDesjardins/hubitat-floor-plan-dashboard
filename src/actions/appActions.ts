@@ -2,7 +2,7 @@ import {
     createActionPayload,
     ActionsUnion,
 } from "../infrastructure/ReducerActions";
-import { DeviceDataKind, DeviceData } from "../Models/Devices";
+import { DeviceDataKind } from "../Models/Devices";
 
 export const ACTION_INIT_DEVICE = "ACTION_INIT_DEVICE";
 export const ACTION_SAVE_DEVICE = "ACTION_SAVE_DEVICE";

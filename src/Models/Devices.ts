@@ -65,3 +65,13 @@ export interface DeviceAttributes {
     currentValue: number | string;
     dataType: string;
 }
+
+export interface DeviceWebsocket {
+    name: string;
+    value: string;
+    displayName: string;
+    deviceId: string;
+    descriptionText: string;
+    unit: string;
+    data: {};
+}

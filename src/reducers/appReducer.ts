@@ -18,8 +18,9 @@ export function appReducer(
     switch (action.type) {
         case ACTION_INIT_DEVICE: {
             const newState = { ...state };
-            newState.devices = { ...state.devices };
-            newState.devices[action.payload.device.id] = action.payload.device;
+            newState.devices = { ...newState.devices };
+            newState.devices[action.payload.device.id + ""] =
+                action.payload.device;
             return newState;
         }
         case ACTION_SAVE_DEVICE: {

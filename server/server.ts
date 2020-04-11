@@ -1,25 +1,40 @@
 import bodyParser from "body-parser";
 import express from "express";
+import WebSocket from "ws";
 
-const app = express();
-const port = process.env.PORT || 5000;
+const webApp = express();
+const webPort = process.env.PORT || 5000;
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+webApp.use(bodyParser.json());
+webApp.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/api/users/:id", (req: any, res: any) => {
-    const id = req.params.id;
-    res.send({ express: `Requested data for user ID: ${id}` });
+// webApp.get("/api/users/:id", (req: any, res: any) => {
+//     const id = req.params.id;
+//     res.send({ express: `Requested data for user ID: ${id}` });
+// });
+
+webApp.post("/refresh", (req: any, res: any) => {
+    const data = JSON.stringify(req.body.content);
+    console.log(data);
+
+    wsApp.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(data);
+        }
+    });
 });
 
-app.post("/refresh", (req: any, res: any) => {
-    console.log(req.body);
-    res.send({ express: `Requested data for user ID` });
+webApp.listen(webPort, () => console.log(`Listening on port ${webPort}`));
+
+const wsApp = new WebSocket.Server({ port: 5001 });
+
+wsApp.on("connection", function connection(ws) {
+    console.log(`Connection established: `);
+    ws.on("message", function incoming(message) {
+        console.log("received: %s", message);
+    });
 });
 
-app.get("/refresh2", (req: any, res: any) => {
-    console.log(res.body);
-    res.send({ express: `Requested data for user ID` });
-});
-
-app.listen(port, () => console.log(`Listening on port ${port}`));
+// wsApp.on("message", function incoming(data) {
+//     console.log(data);
+// });

@@ -26,9 +26,11 @@
         "ts-node-dev": "^1.0.0-pre.44",
         "typeface-roboto": "0.0.75",
         "typescript": "^3.7.5",
-        "use-image": "^1.0.5"
+        "use-image": "^1.0.5",
+        "ws": "^7.2.3"
     },
     "scripts": {
+        "debug": "ts-node-dev --project ./server/tsconfig.json --inspect --respawn ./server/server.ts ",
         "start:server": "cd server && ts-node-dev ./server.ts",
         "start:app": "react-scripts start",
         "start": "concurrently \"npm run start:app\" \"npm run start:server\"",
@@ -52,7 +54,9 @@
         ]
     },
     "devDependencies": {
+        "@types/ws": "^7.2.3",
         "concurrently": "^5.1.0",
-        "delay": "^4.3.0"
+        "delay": "^4.3.0",
+        "nodemon": "^2.0.3"
     }
 }
