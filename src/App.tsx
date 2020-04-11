@@ -133,8 +133,11 @@ function App() {
                             componentId: dev.id,
                             deviceData: dev,
                             position: dev.position,
-                            onSave: (deviceData: DeviceDataKind) => {
-                                save(deviceData);
+                            onSave: (newDeviceData: DeviceDataKind) => {
+                                save(
+                                    state.devices[newDeviceData.id],
+                                    newDeviceData
+                                );
                             },
                         })
                     )}
@@ -144,23 +147,33 @@ function App() {
     );
 }
 
-function save(deviceData: DeviceDataKind): void {
-    if (deviceData.kind === "DIMMER") {
-        const levelRoom = getDimmerLightLevel(deviceData);
-        const livingRoomOn = getDimmerOnOff(deviceData);
-        const extractedDeviceType = getDeviceType(deviceData.id);
-        fetch(
-            `http://${ip}:5000/api/save/${deviceData.id}/setLevel/${levelRoom}`
-        );
-
-        fetch(
-            `http://${ip}:5000/api/save/${deviceData.id}/${
-                livingRoomOn ? "on" : "off"
-            }`
-        );
-        console.log(
-            `Saving Device id ${deviceData.id} of type ${extractedDeviceType} to Hubitat with values: ${levelRoom} - ${livingRoomOn}`
-        );
+function save(
+    existingDeviceData: DeviceDataKind,
+    newDeviceData: DeviceDataKind
+): void {
+    if (
+        existingDeviceData.kind === "DIMMER" &&
+        newDeviceData.kind === "DIMMER"
+    ) {
+        if (
+            getDimmerLightLevel(existingDeviceData) !==
+            getDimmerLightLevel(newDeviceData)
+        ) {
+            console.log("Saving Dimmer Light Level");
+            // fetch(
+            //     `http://${ip}:5000/api/save/${existingDeviceData.id}/setLevel/${levelRoom}`
+            // );
+        }
+        if (
+            getDimmerOnOff(existingDeviceData) !== getDimmerOnOff(newDeviceData)
+        ) {
+            console.log("Saving Dimmer Power");
+            // fetch(
+            //     `http://${ip}:5000/api/save/${existingDeviceData.id}/${
+            //         livingRoomOn ? "on" : "off"
+            //     }`
+            // );
+        }
     }
 }
 

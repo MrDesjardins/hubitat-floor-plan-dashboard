@@ -4,21 +4,24 @@ import {
     Typography,
     Switch,
     Button,
-    Grid
+    Grid,
 } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import Slider from "@material-ui/core/Slider";
-import { getDimmerOnOff, getDimmerLightLevel } from "../Logics/AttributeLogics";
+import {
+    getDimmerOnOff,
+    getDimmerLightLevel,
+    setDimmerLightLevel,
+    setLightOnOff,
+} from "../Logics/AttributeLogics";
 import { DimmingLightDevice } from "../Models/Devices";
 export interface DimmerLightOptionsProps {
     isDialogOpen: boolean;
     dimmerName: string;
     deviceData: DimmingLightDevice;
-    openClose: (
-        isOpen: boolean,
-        isLightOn?: boolean,
-        dimmingValue?: number
-    ) => void;
+    openClose: (isOpen: boolean) => void;
+
+    onSave: (deviceData: DimmingLightDevice) => void;
 }
 export const DimmerLightOptions = (props: DimmerLightOptionsProps) => {
     const [isLightOn, setIsLightOn] = useState(false);
@@ -27,6 +30,7 @@ export const DimmerLightOptions = (props: DimmerLightOptionsProps) => {
         setIsLightOn(getDimmerOnOff(props.deviceData));
         setDimmingValue(getDimmerLightLevel(props.deviceData));
     }, [props.deviceData]);
+
     return (
         <Dialog
             onClose={() => props.openClose(false)}
@@ -41,8 +45,13 @@ export const DimmerLightOptions = (props: DimmerLightOptionsProps) => {
                 <Switch
                     color={"primary"}
                     checked={isLightOn}
-                    onChange={e => {
-                        setIsLightOn(e.target.checked);
+                    onChange={(e) => {
+                        const newValue = e.target.checked;
+                        setIsLightOn(newValue);
+                        const copy = { ...props.deviceData };
+                        copy.attributes = { ...copy.attributes };
+                        setLightOnOff(copy, newValue);
+                        props.onSave(copy);
                     }}
                     name="lightOnComponent"
                     inputProps={{ "aria-label": "primary checkbox" }}
@@ -53,7 +62,16 @@ export const DimmerLightOptions = (props: DimmerLightOptionsProps) => {
                     aria-label="pretto slider"
                     value={dimmingValue}
                     onChange={(event, newValue) => {
-                        setDimmingValue(newValue as number);
+                        const newValueCasted = newValue as number;
+                        setDimmingValue(newValueCasted);
+                    }}
+                    onChangeCommitted={(event, newValue) => {
+                        const newValueCasted = newValue as number;
+                        setDimmingValue(newValueCasted);
+                        const copy = { ...props.deviceData };
+                        copy.attributes = { ...copy.attributes };
+                        setDimmerLightLevel(copy, newValueCasted);
+                        props.onSave(copy);
                     }}
                 />
                 <Grid
@@ -67,22 +85,12 @@ export const DimmerLightOptions = (props: DimmerLightOptionsProps) => {
                         <Button
                             variant="contained"
                             color="primary"
-                            onClick={e => {
+                            onClick={(e) => {
                                 props.openClose(false);
                             }}
                             style={{ marginLeft: 10 }}
                         >
                             Close
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            onClick={e => {
-                                props.openClose(false, isLightOn, dimmingValue);
-                            }}
-                            style={{ marginLeft: 10 }}
-                        >
-                            Save
                         </Button>
                     </Grid>
                 </Grid>

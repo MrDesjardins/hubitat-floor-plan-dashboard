@@ -6,12 +6,7 @@ import { CommonProps } from "./Common";
 import { DimmerLightOptions } from "../Components/DimmerLightOptions";
 import { DimmingLightDevice } from "../Models/Devices";
 import Portal from "../infrastructure/Portal";
-import {
-    getDimmerOnOff,
-    getDimmerLightLevel,
-    setDimmerLightLevel,
-    setLightOnOff
-} from "../Logics/AttributeLogics";
+import { getDimmerOnOff, getDimmerLightLevel } from "../Logics/AttributeLogics";
 
 export interface DimmerOptions extends CommonProps {
     deviceData: DimmingLightDevice;
@@ -44,29 +39,11 @@ export const Dimmer = (props: DimmerOptions) => {
                     dimmerName={props.deviceData.name}
                     isDialogOpen={isDialogOpen}
                     deviceData={{ ...props.deviceData }}
-                    openClose={(
-                        isOpen: boolean,
-                        isLightOn?: boolean,
-                        dimmingLevel?: number
-                    ) => {
-                        if (
-                            isOpen === false &&
-                            isLightOn === undefined &&
-                            dimmingLevel === undefined
-                        ) {
-                            setDialogOpen(false);
-                        } else if (
-                            isLightOn !== undefined &&
-                            dimmingLevel !== undefined
-                        ) {
-                            setDialogOpen(false);
-                            const newDeviceData = { ...props.deviceData };
-                            setDimmerLightLevel(newDeviceData, dimmingLevel);
-                            setLightOnOff(newDeviceData, isLightOn);
-                            props.onSave(newDeviceData);
-                            updateState({});
-                        }
+                    openClose={(isOpen: boolean) => {
+                        setDialogOpen(isOpen);
+                        updateState({});
                     }}
+                    onSave={(newDeviceData) => props.onSave(newDeviceData)}
                 />
             </Portal>
         </>
