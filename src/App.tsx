@@ -11,10 +11,9 @@ import {
     getDeviceType,
 } from "./Logics/AttributeLogics";
 import { allDevices } from "./Models/AllDevices";
-import { API_TOKEN, APP_ID } from "./Models/HubitatConstants";
 import { DeviceDataKind, DeviceWebsocket } from "./Models/Devices";
-
-const url = "ws://127.0.0.1:5001";
+const ip = "10.0.0.177";
+const url = `ws://${ip}:5001`;
 
 // function connect() {
 //     const ws = new WebSocket(url);
@@ -105,9 +104,7 @@ function App() {
 
     useEffect(() => {
         console.log("Load from Hubitat");
-        fetch(
-            `http://10.0.0.191/apps/api/${APP_ID}/devices/all?access_token=${API_TOKEN}`
-        ).then((value: Response) => {
+        fetch(`http://${ip}:5000/api/getall`).then((value: Response) => {
             value.json().then((data: DeviceDataKind[]) => {
                 data.forEach((p) => {
                     const configData = allDevices[p.id];
@@ -153,13 +150,13 @@ function save(deviceData: DeviceDataKind): void {
         const livingRoomOn = getDimmerOnOff(deviceData);
         const extractedDeviceType = getDeviceType(deviceData.id);
         fetch(
-            `http://10.0.0.191/apps/api/${APP_ID}/devices/${deviceData.id}/setLevel/${levelRoom}?${API_TOKEN}`
+            `http://${ip}:5000/api/save/${deviceData.id}/setLevel/${levelRoom}`
         );
 
         fetch(
-            `http://10.0.0.191/apps/api/${APP_ID}/devices/${deviceData.id}/${
+            `http://${ip}:5000/api/save/${deviceData.id}/${
                 livingRoomOn ? "on" : "off"
-            }?access_token=${API_TOKEN}`
+            }`
         );
         console.log(
             `Saving Device id ${deviceData.id} of type ${extractedDeviceType} to Hubitat with values: ${levelRoom} - ${livingRoomOn}`
