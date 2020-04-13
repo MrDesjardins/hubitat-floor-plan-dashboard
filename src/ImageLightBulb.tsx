@@ -4,6 +4,7 @@ import lightOn from "./images/iconmonstr-light-bulb-18.svg";
 import { Image } from "react-konva";
 import React from "react";
 import Konva from "konva";
+import { LIGHT_ON, LIGHT_OFF } from "./constants";
 export interface ImageLightBulbProps {
     on: boolean;
     xPosition: number;
@@ -20,7 +21,7 @@ export const ImageLightBulb = (props: ImageLightBulbProps) => {
             x={props.xPosition}
             y={props.yPosition}
             onClick={props.onClick}
-            fill={props.on ? "yellow" : "rgba(0,0,0,0)"}
+            fill={props.on ? LIGHT_ON : LIGHT_OFF}
         />
     );
 };

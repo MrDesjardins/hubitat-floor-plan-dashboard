@@ -7,6 +7,7 @@ import { DimmerLightOptions } from "../Components/DimmerLightOptions";
 import { DimmingLightDevice } from "../Models/Devices";
 import Portal from "../infrastructure/Portal";
 import { getDimmerOnOff, getDimmerLightLevel } from "../Logics/AttributeLogics";
+import { TEXT_COLOR } from "../constants";
 
 export interface DimmerOptions extends CommonProps {
     deviceData: DimmingLightDevice;
@@ -33,6 +34,7 @@ export const Dimmer = (props: DimmerOptions) => {
                 )} %`}
                 x={props.position[0]}
                 y={props.position[1] + 40}
+                fill={TEXT_COLOR}
             />
             <Portal>
                 <DimmerLightOptions

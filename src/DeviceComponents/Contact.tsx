@@ -4,6 +4,7 @@ import { CommonProps } from "./Common";
 import { ContactDevice } from "../Models/Devices";
 import { getContactOnOff } from "../Logics/AttributeLogics";
 import { Spring, animated } from "react-spring/renderprops-konva";
+import { TEXT_COLOR, LINE_COLOR } from "../constants";
 
 export enum ContactDirection {
     North,
@@ -55,7 +56,7 @@ function getComponentDoor(
                     <animated.Line
                         {...props2}
                         strokeWidth={4}
-                        stroke="red"
+                        stroke={LINE_COLOR}
                         x={positionsAngles.positionX}
                         y={positionsAngles.positionY}
                         points={[
@@ -83,7 +84,7 @@ function getComponentDoor(
                     <animated.Line
                         {...props2}
                         strokeWidth={4}
-                        stroke="red"
+                        stroke={LINE_COLOR}
                         y={positionsAngles.positionY}
                         points={[
                             0,
@@ -110,7 +111,7 @@ function getComponentDoor(
                     <animated.Line
                         {...props2}
                         strokeWidth={4}
-                        stroke="red"
+                        stroke={LINE_COLOR}
                         y={positionsAngles.positionY}
                         points={[
                             0,
@@ -137,7 +138,7 @@ function getComponentDoor(
                     <animated.Line
                         {...props2}
                         strokeWidth={4}
-                        stroke="red"
+                        stroke={LINE_COLOR}
                         x={positionsAngles.positionX}
                         points={[
                             0,
@@ -164,7 +165,7 @@ function getComponentDoor(
                     <animated.Line
                         {...props2}
                         strokeWidth={4}
-                        stroke="red"
+                        stroke={LINE_COLOR}
                         x={positionsAngles.positionX}
                         points={[
                             0,
@@ -193,11 +194,12 @@ export const Contact = (props: ContactOptions) => {
                 text={`${isContactOpen ? "Open" : "Close"}`}
                 x={positionsAngles.positionX}
                 y={positionsAngles.positionY}
+                fill={TEXT_COLOR}
             />
 
             {/* <Line
                 strokeWidth={4}
-                stroke="red"
+                stroke={LINE_COLOR}
                 x={positionsAngles.positionX}
                 y={positionsAngles.positionY}
                 points={[0, 0, 40, 0]}

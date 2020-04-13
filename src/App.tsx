@@ -12,9 +12,17 @@ import {
 } from "./Logics/AttributeLogics";
 import { allDevices } from "./Models/AllDevices";
 import { DeviceDataKind, DeviceWebsocket } from "./Models/Devices";
-const ip = "10.0.0.177";
-const url = `ws://${ip}:5001`;
+const SERVER_IP = process.env.REACT_APP_SERVER_IP;
+const SERVER_PORT = process.env.REACT_APP_SERVER_PORT;
+const WEBSOCKET_IP = process.env.REACT_APP_WEBSOCKET_IP;
+const WEBSOCKET_PORT = process.env.REACT_APP_WEBSOCKET_PORT;
 
+console.log(`Server  ${SERVER_IP}:${SERVER_PORT}, `);
+console.log(`WS  ${SERVER_IP}:${WEBSOCKET_PORT}, `);
+
+const webSocketUrl = `ws://${WEBSOCKET_IP}:${WEBSOCKET_PORT}`;
+const height = 1024;
+const width = 600;
 // function connect() {
 //     const ws = new WebSocket(url);
 //     console.log("attempt connection to ", url);
@@ -47,13 +55,13 @@ const url = `ws://${ip}:5001`;
 function App() {
     const [state, dispatch] = useReducer(appReducer, initialState);
     const [readyWs, setReadyWs] = useState(false);
-    const websocketRef = useRef(new WebSocket(url));
+    const websocketRef = useRef(new WebSocket(webSocketUrl));
     const [reconnectWebsocket, setReconnectWebsocket] = useState({});
     useEffect(() => {
-        websocketRef.current = new WebSocket(url);
-        console.log("attempt connection to ", url);
+        websocketRef.current = new WebSocket(webSocketUrl);
+        console.log("attempt connection to ", webSocketUrl);
         websocketRef.current.onopen = function (e: Event) {
-            console.log(`connection to  ${url} established`);
+            console.log(`connection to  ${webSocketUrl} established`);
         };
 
         websocketRef.current.onmessage = (e: MessageEvent) => {
@@ -104,27 +112,29 @@ function App() {
 
     useEffect(() => {
         console.log("Load from Hubitat");
-        fetch(`http://${ip}:5000/api/getall`).then((value: Response) => {
-            value.json().then((data: DeviceDataKind[]) => {
-                data.forEach((p) => {
-                    const configData = allDevices[p.id];
-                    if (configData !== undefined) {
-                        const mergedData = { ...configData, ...p };
-                        dispatch(
-                            AppActions.initDevice({
-                                device: mergedData,
-                            })
-                        );
-                    }
+        fetch(`http://${SERVER_IP}:${SERVER_PORT}/api/getall`).then(
+            (value: Response) => {
+                value.json().then((data: DeviceDataKind[]) => {
+                    data.forEach((p) => {
+                        const configData = allDevices[p.id];
+                        if (configData !== undefined) {
+                            const mergedData = { ...configData, ...p };
+                            dispatch(
+                                AppActions.initDevice({
+                                    device: mergedData,
+                                })
+                            );
+                        }
+                    });
+                    setReadyWs(true);
                 });
-                setReadyWs(true);
-            });
-        });
+            }
+        );
     }, []);
 
     return (
-        <div className="App">
-            <Stage width={window.innerWidth} height={window.innerHeight}>
+        <div className="App" style={{ width: width, height: height }}>
+            <Stage width={width} height={height}>
                 <Layer>
                     <FloorPlan />
                     {Object.values(state.devices).map((dev) =>
@@ -160,19 +170,21 @@ function save(
             getDimmerLightLevel(newDeviceData)
         ) {
             console.log("Saving Dimmer Light Level");
-            // fetch(
-            //     `http://${ip}:5000/api/save/${existingDeviceData.id}/setLevel/${levelRoom}`
-            // );
+            fetch(
+                `http://${SERVER_IP}:${SERVER_PORT}/api/save/${
+                    existingDeviceData.id
+                }/setLevel/${getDimmerLightLevel(newDeviceData)}`
+            );
         }
         if (
             getDimmerOnOff(existingDeviceData) !== getDimmerOnOff(newDeviceData)
         ) {
             console.log("Saving Dimmer Power");
-            // fetch(
-            //     `http://${ip}:5000/api/save/${existingDeviceData.id}/${
-            //         livingRoomOn ? "on" : "off"
-            //     }`
-            // );
+            fetch(
+                `http://${SERVER_IP}:${SERVER_PORT}/api/save/${
+                    existingDeviceData.id
+                }/${getDimmerOnOff(newDeviceData) ? "on" : "off"}`
+            );
         }
     }
 }

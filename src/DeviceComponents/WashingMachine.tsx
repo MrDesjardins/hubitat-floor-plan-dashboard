@@ -4,6 +4,7 @@ import { CommonProps } from "./Common";
 import { WashingMachineDevice } from "../Models/Devices";
 import { getPower } from "../Logics/AttributeLogics";
 import { useInterval } from "../hooks/useInterval";
+import { TEXT_COLOR, LINE_COLOR } from "../constants";
 // import { useInterval } from "../hooks/useInterval";
 export interface WashingMachineOptions extends CommonProps {
     deviceData: WashingMachineDevice;
@@ -38,6 +39,7 @@ export const WashingMachine = (props: WashingMachineOptions) => {
                 text={`${isInPower ? "On" : "Off"}`}
                 x={x - props.deviceData.width / 4}
                 y={y + (3 * props.deviceData.width) / 4}
+                fill={TEXT_COLOR}
             />
             <Rect
                 x={x - props.deviceData.width / 2}
@@ -45,20 +47,20 @@ export const WashingMachine = (props: WashingMachineOptions) => {
                 width={props.deviceData.width}
                 height={props.deviceData.width}
                 strokeEnabled={true}
-                stroke={"black"}
+                stroke={LINE_COLOR}
                 strokeWidth={3}
             />
             <Circle
                 x={x}
                 y={y}
                 radius={props.deviceData.width / 3}
-                stroke={"black"}
+                stroke={LINE_COLOR}
             />
             <Line
                 x={x}
                 y={y}
                 points={[0, 0, endXPos, endYPos]}
-                stroke="black"
+                stroke={LINE_COLOR}
                 strokeWidth={3}
             />
         </>

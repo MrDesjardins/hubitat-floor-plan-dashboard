@@ -5,6 +5,7 @@ import { ContactDevice, MotionDevice } from "../Models/Devices";
 import { getMotionOnOff } from "../Logics/AttributeLogics";
 import { animated, Spring } from "react-spring/renderprops-konva";
 import { useInterval } from "../hooks/useInterval";
+import { TEXT_COLOR } from "../constants";
 export interface MotionOptions extends CommonProps {
     deviceData: MotionDevice;
 
@@ -39,6 +40,7 @@ export const Motion = (props: MotionOptions) => {
                 text={`${isInMotion ? "Motion" : "No Motion"}`}
                 x={props.deviceData.position[0]}
                 y={props.deviceData.position[1]}
+                fill={TEXT_COLOR}
             />
             {isInMotion ? (
                 <Spring

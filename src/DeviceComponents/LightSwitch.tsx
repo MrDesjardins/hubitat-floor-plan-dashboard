@@ -8,6 +8,7 @@ import { getDimmerOnOff, setLightOnOff } from "../Logics/AttributeLogics";
 import Portal from "../infrastructure/Portal";
 import React from "react";
 import { LightSwitchOptions } from "../Components/LightSwitchOptions";
+import { TEXT_COLOR } from "../constants";
 export interface LightSwitchOptions extends CommonProps {
     deviceData: LightSwitchDevice;
     position: [number, number];
@@ -30,6 +31,7 @@ export const LightSwitch = (props: LightSwitchOptions) => {
                 text={`${getDimmerOnOff(props.deviceData) ? "On" : "Off"}`}
                 x={props.position[0]}
                 y={props.position[1] + 40}
+                fill={TEXT_COLOR}
             />
             <Portal>
                 <LightSwitchOptions

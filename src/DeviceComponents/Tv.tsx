@@ -4,6 +4,7 @@ import { useInterval } from "../hooks/useInterval";
 import { getPowerOn } from "../Logics/AttributeLogics";
 import { TvDevice } from "../Models/Devices";
 import { Text, Arc } from "react-konva";
+import { TEXT_COLOR } from "../constants";
 export enum TvDirection {
     North,
     South,
@@ -38,6 +39,7 @@ export const Tv = (props: TvOptions) => {
                 text={`${isTvOn ? "On" : "Off"}`}
                 x={props.deviceData.position[0]}
                 y={props.deviceData.position[1]}
+                fill={TEXT_COLOR}
             />
             <Arc
                 x={props.deviceData.position[0]}

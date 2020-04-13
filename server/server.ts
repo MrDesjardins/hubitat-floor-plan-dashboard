@@ -4,48 +4,69 @@ import cors from "cors";
 import WebSocket from "ws";
 import fetch from "node-fetch";
 import timeout from "connect-timeout";
+import dotenv from "dotenv";
+dotenv.config();
 
-const webApp = express();
+const HUBITAT_IP = process.env.REACT_APP_HUBITAT_IP;
+
+const WEB_IP = process.env.REACT_APP_WEB_IP;
+const WEB_PORT = process.env.REACT_APP_WEB_PORT;
+
+const SERVER_IP = process.env.REACT_APP_SERVER_IP;
+const SERVER_PORT = Number(process.env.REACT_APP_SERVER_PORT);
+
+const WEBSOCKET_PORT = Number(process.env.REACT_APP_WEBSOCKET_PORT);
+export const APP_ID = process.env.REACT_APP_HUBITAT_APP_ID;
+export const API_TOKEN = process.env.REACT_APP_HUBITAT_API_TOKEN;
+
+console.log(`Hubitat server on IP ${HUBITAT_IP}, `);
+console.log(`Server  ${SERVER_IP}:${SERVER_PORT}, `);
+console.log(`WS  ${SERVER_IP}:${WEBSOCKET_PORT}, `);
+console.log(`Website  ${WEB_IP}:${WEB_PORT}, `);
+
+const serverApp = express();
 const corsOptions: cors.CorsOptions = {
-    origin: "http://10.0.0.177:3000",
+    origin: [`//localhost:${WEB_PORT}`, `//${WEB_IP}:${WEB_PORT}`],
     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
-webApp.use(cors(corsOptions));
-// webApp.use(timeout("15s"));
-const webPort = process.env.PORT || 5000;
-const hubitatIP = "10.0.0.191";
-export const APP_ID = 98;
-export const API_TOKEN = "8b8daecf-02ee-4f3d-8d80-ba4eec2d3ff5";
+serverApp.use(cors());
+// webApp.use(timeout("1s"));
 
-webApp.use(bodyParser.json());
-webApp.use(bodyParser.urlencoded({ extended: true }));
+serverApp.use(bodyParser.json());
+serverApp.use(bodyParser.urlencoded({ extended: true }));
 
-webApp.get("/api/getall", async (req: any, res: any) => {
+serverApp.get("/api/getall", async (req: any, res: any) => {
     const data = await fetch(
-        `http://${hubitatIP}/apps/api/${APP_ID}/devices/all?access_token=${API_TOKEN}`
+        `http://${HUBITAT_IP}/apps/api/${APP_ID}/devices/all?access_token=${API_TOKEN}`
     );
     const jsonData = await data.json();
 
     res.send(jsonData);
 });
 
-webApp.get("/api/save/:deviceid/:key/:value", async (req: any, res: any) => {
+serverApp.get("/api/save/:deviceid/:key/:value", async (req: any, res: any) => {
     const id = req.params.deviceid;
     const key = req.params.key;
     const value = req.params.value;
-    const data = await fetch(
-        `http://${hubitatIP}/apps/api/${APP_ID}/devices/${id}/${key}/${value}?access_token=${API_TOKEN}`
-    );
-    const jsonData = await data.json();
-    res.send(jsonData);
+    console.log("Save /api/save/:deviceid/:key/:value");
+    try {
+        const data = await fetch(
+            `http://${HUBITAT_IP}/apps/api/${APP_ID}/devices/${id}/${key}/${value}?access_token=${API_TOKEN}`
+        );
+        const jsonData = await data.json();
+        res.send(jsonData);
+        console.log(jsonData);
+    } catch (e) {
+        console.error(e);
+    }
 });
 
-webApp.get("/api/save/:deviceid/:key", async (req: any, res: any) => {
+serverApp.get("/api/save/:deviceid/:key", async (req: any, res: any) => {
     const id = req.params.deviceid;
     const key = req.params.key;
-
+    console.log("Save /api/save/:deviceid/:key");
     const data = await fetch(
-        `http://${hubitatIP}/apps/api/${APP_ID}/devices/${id}/${key}?access_token=${API_TOKEN}`
+        `http://${HUBITAT_IP}/apps/api/${APP_ID}/devices/${id}/${key}?access_token=${API_TOKEN}`
     );
     const jsonData = await data.json();
     res.send(jsonData);
@@ -54,7 +75,7 @@ webApp.get("/api/save/:deviceid/:key", async (req: any, res: any) => {
 /**
  *
  */
-webApp.post("/refresh", (req: any, res: any) => {
+serverApp.post("/refresh", (req: any, res: any) => {
     const data = JSON.stringify(req.body.content);
     console.log(data);
 
@@ -65,9 +86,11 @@ webApp.post("/refresh", (req: any, res: any) => {
     });
 });
 
-webApp.listen(webPort, () => console.log(`Listening on port ${webPort}`));
+serverApp.listen(SERVER_PORT, () =>
+    console.log(`Web Listening on IP ${SERVER_IP} and PORT ${SERVER_PORT}`)
+);
 
-const wsApp = new WebSocket.Server({ port: 5001 });
+const wsApp = new WebSocket.Server({ port: WEBSOCKET_PORT });
 
 wsApp.on("connection", function connection(ws) {
     console.log(`Connection established: `);
