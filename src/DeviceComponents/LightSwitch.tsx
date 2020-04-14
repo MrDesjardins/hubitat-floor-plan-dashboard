@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { ImageLightBulb } from "../ImageLightBulb";
-import Konva from "konva";
 import { Text } from "react-konva";
 import { CommonProps } from "./Common";
 import { LightSwitchDevice } from "../Models/Devices";
@@ -9,6 +8,7 @@ import Portal from "../infrastructure/Portal";
 import React from "react";
 import { LightSwitchOptions } from "../Components/LightSwitchOptions";
 import { TEXT_COLOR } from "../constants";
+import "konva/lib/shapes/Path";
 export interface LightSwitchOptions extends CommonProps {
     deviceData: LightSwitchDevice;
     position: [number, number];
@@ -17,13 +17,21 @@ export interface LightSwitchOptions extends CommonProps {
 export const LightSwitch = (props: LightSwitchOptions) => {
     const [isDialogOpen, setDialogOpen] = useState(false);
     const [, updateState] = React.useState();
+    // const infoLight = ImageLightBulb({
+    //     on: getDimmerOnOff(props.deviceData),
+    //     xPosition: props.position[0],
+    //     yPosition: props.position[1],
+    //     onClick: () => {
+    //         setDialogOpen(true);
+    //     },
+    // });
     return (
         <>
             <ImageLightBulb
                 on={getDimmerOnOff(props.deviceData)}
                 xPosition={props.position[0]}
                 yPosition={props.position[1]}
-                onClick={(e: Konva.KonvaEventObject<MouseEvent>) => {
+                onClick={() => {
                     setDialogOpen(true);
                 }}
             />

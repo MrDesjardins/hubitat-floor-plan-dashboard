@@ -24,7 +24,7 @@ export const Dimmer = (props: DimmerOptions) => {
                 on={isOn}
                 xPosition={props.position[0]}
                 yPosition={props.position[1]}
-                onClick={(e: Konva.KonvaEventObject<MouseEvent>) => {
+                onClick={() => {
                     setDialogOpen(true);
                 }}
             />
