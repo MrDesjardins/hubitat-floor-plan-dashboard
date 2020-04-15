@@ -12,6 +12,8 @@ import {
 } from "./Logics/AttributeLogics";
 import { allDevices } from "./Models/AllDevices";
 import { DeviceDataKind, DeviceWebsocket } from "./Models/Devices";
+import { TopMenu } from "./Components/TopMenu";
+import { FLOOR_COLOR } from "./constants";
 const SERVER_IP = process.env.REACT_APP_SERVER_IP;
 const SERVER_PORT = process.env.REACT_APP_SERVER_PORT;
 const WEBSOCKET_IP = process.env.REACT_APP_WEBSOCKET_IP;
@@ -133,7 +135,15 @@ function App() {
     }, []);
 
     return (
-        <div className="App" style={{ width: width, height: height }}>
+        <div
+            className="App"
+            style={{
+                width: width,
+                height: height,
+                backgroundColor: FLOOR_COLOR,
+            }}
+        >
+            <TopMenu />
             <Stage width={width} height={height}>
                 <Layer>
                     <FloorPlan />
