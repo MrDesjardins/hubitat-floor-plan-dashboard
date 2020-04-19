@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Text } from "react-konva";
 import { CommonProps } from "./Common";
 import { ContactDevice, MotionDevice } from "../Models/Devices";
-import { getMotionOnOff } from "../Logics/AttributeLogics";
+import { getMotionOnOffAttribute } from "../Logics/AttributeLogics";
 import { animated, Spring } from "react-spring/renderprops-konva";
 import { useInterval } from "../hooks/useInterval";
 import { TEXT_COLOR } from "../constants";
@@ -32,7 +32,7 @@ export const Motion = (props: MotionOptions) => {
         }
         setRadius(radius + pulseDirection);
     }, 120);
-    const isInMotion = getMotionOnOff(props.deviceData);
+    const isInMotion = getMotionOnOffAttribute(props.deviceData);
 
     return (
         <>

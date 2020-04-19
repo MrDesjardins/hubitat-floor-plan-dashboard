@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Text, Circle, Rect, Line } from "react-konva";
 import { CommonProps } from "./Common";
 import { WashingMachineDevice } from "../Models/Devices";
-import { getPower } from "../Logics/AttributeLogics";
+import { getPowerAttribute } from "../Logics/AttributeLogics";
 import { useInterval } from "../hooks/useInterval";
 import { TEXT_COLOR, LINE_COLOR } from "../constants";
 // import { useInterval } from "../hooks/useInterval";
@@ -12,7 +12,7 @@ export interface WashingMachineOptions extends CommonProps {
 
 export const WashingMachine = (props: WashingMachineOptions) => {
     const [angle, setAngle] = useState(0);
-    const powerNumber = getPower(props.deviceData);
+    const powerNumber = getPowerAttribute(props.deviceData);
     const isInPower = powerNumber > 5;
 
     const speed = getSpeedWashingMachineFromPower(powerNumber);

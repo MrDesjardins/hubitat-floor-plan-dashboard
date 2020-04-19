@@ -1,7 +1,7 @@
 import { CommonProps } from "./Common";
 import React, { useState } from "react";
 import { useInterval } from "../hooks/useInterval";
-import { getPowerOn } from "../Logics/AttributeLogics";
+import { getPowerOnAttribute } from "../Logics/AttributeLogics";
 import { TvDevice } from "../Models/Devices";
 import { Text, Arc } from "react-konva";
 import { TEXT_COLOR } from "../constants";
@@ -28,7 +28,7 @@ export const Tv = (props: TvOptions) => {
         }
         setRadius(radius + pulseDirection);
     }, 120);
-    const isTvOn = getPowerOn(
+    const isTvOn = getPowerOnAttribute(
         props.deviceData,
         props.deviceData.wattThreashold
     );

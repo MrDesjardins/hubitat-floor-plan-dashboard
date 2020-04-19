@@ -9,17 +9,17 @@ import {
 import React, { useState, useEffect } from "react";
 import Slider from "@material-ui/core/Slider";
 import {
-    getDimmerOnOff,
-    getDimmerLightLevel,
-    setDimmerLightLevel,
-    setLightOnOff,
+    getLightOnOffAttribute,
+    getDimmerLightLevelAttribute,
+    setDimmerLightLevelAttribute,
+    setLightOnOffAttribute,
 } from "../Logics/AttributeLogics";
 import { DimmingLightDevice } from "../Models/Devices";
 export interface DimmerLightOptionsProps {
     isDialogOpen: boolean;
     dimmerName: string;
     deviceData: DimmingLightDevice;
-    openClose: (isOpen: boolean) => void;
+    onClose: () => void;
 
     onSave: (deviceData: DimmingLightDevice) => void;
 }
@@ -27,19 +27,15 @@ export const DimmerLightOptions = (props: DimmerLightOptionsProps) => {
     const [isLightOn, setIsLightOn] = useState(false);
     const [dimmingValue, setDimmingValue] = useState(0);
     useEffect(() => {
-        setIsLightOn(getDimmerOnOff(props.deviceData));
-        setDimmingValue(getDimmerLightLevel(props.deviceData));
-    }, [props.deviceData]);
+        setIsLightOn(getLightOnOffAttribute(props.deviceData));
+        setDimmingValue(getDimmerLightLevelAttribute(props.deviceData));
+    }, []);
 
     return (
-        <Dialog
-            onClose={() => props.openClose(false)}
-            aria-labelledby="simple-dialog-title"
-            open={props.isDialogOpen}
-        >
-            <DialogTitle id="simple-dialog-title" style={{ maxWidth: 300 }}>
+        <div>
+            <h1 id="simple-dialog-title">
                 Set {props.dimmerName} Dimmer Values
-            </DialogTitle>
+            </h1>
             <div style={{ margin: 25 }}>
                 <Typography gutterBottom>Off/On</Typography>
                 <Switch
@@ -47,10 +43,9 @@ export const DimmerLightOptions = (props: DimmerLightOptionsProps) => {
                     checked={isLightOn}
                     onChange={(e) => {
                         const newValue = e.target.checked;
-                        setIsLightOn(newValue);
                         const copy = { ...props.deviceData };
                         copy.attributes = { ...copy.attributes };
-                        setLightOnOff(copy, newValue);
+                        setLightOnOffAttribute(copy, newValue);
                         props.onSave(copy);
                     }}
                     name="lightOnComponent"
@@ -63,38 +58,19 @@ export const DimmerLightOptions = (props: DimmerLightOptionsProps) => {
                     value={dimmingValue}
                     onChange={(event, newValue) => {
                         const newValueCasted = newValue as number;
-                        setDimmingValue(newValueCasted);
+                        const copy = { ...props.deviceData };
+                        copy.attributes = { ...copy.attributes };
+                        setDimmerLightLevelAttribute(copy, newValueCasted);
                     }}
                     onChangeCommitted={(event, newValue) => {
                         const newValueCasted = newValue as number;
-                        setDimmingValue(newValueCasted);
                         const copy = { ...props.deviceData };
                         copy.attributes = { ...copy.attributes };
-                        setDimmerLightLevel(copy, newValueCasted);
+                        setDimmerLightLevelAttribute(copy, newValueCasted);
                         props.onSave(copy);
                     }}
                 />
-                <Grid
-                    container={true}
-                    spacing={3}
-                    alignContent={"flex-end"}
-                    alignItems={"flex-end"}
-                    direction={"column-reverse"}
-                >
-                    <Grid item={true} xs={12}>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={(e) => {
-                                props.openClose(false);
-                            }}
-                            style={{ marginLeft: 10 }}
-                        >
-                            Close
-                        </Button>
-                    </Grid>
-                </Grid>
             </div>
-        </Dialog>
+        </div>
     );
 };

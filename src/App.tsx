@@ -6,14 +6,24 @@ import { FloorPlan } from "./FloorPlan";
 import { appReducer, initialState } from "./reducers/appReducer";
 import { AppActions } from "./actions/appActions";
 import {
-    getDimmerLightLevel,
-    getDimmerOnOff,
+    getDimmerLightLevelAttribute,
+    getLightOnOffAttribute,
     getDeviceType,
+    setLightOnOffAttribute,
 } from "./Logics/AttributeLogics";
 import { allDevices } from "./Models/AllDevices";
-import { DeviceDataKind, DeviceWebsocket } from "./Models/Devices";
+import {
+    DeviceDataKind,
+    DeviceWebsocket,
+    DeviceData,
+    LightSwitchDevice,
+    DimmingLightDevice,
+} from "./Models/Devices";
 import { TopMenu } from "./Components/TopMenu";
 import { FLOOR_COLOR } from "./constants";
+import { Drawer, Divider, Button, Grid } from "@material-ui/core";
+import { LightSwitchOptions } from "./Components/LightSwitchOptions";
+import { DimmerLightOptions } from "./Components/DimmerLightOptions";
 const SERVER_IP = process.env.REACT_APP_SERVER_IP;
 const SERVER_PORT = process.env.REACT_APP_SERVER_PORT;
 const WEBSOCKET_IP = process.env.REACT_APP_WEBSOCKET_IP;
@@ -59,6 +69,24 @@ function App() {
     const [readyWs, setReadyWs] = useState(false);
     const websocketRef = useRef(new WebSocket(webSocketUrl));
     const [reconnectWebsocket, setReconnectWebsocket] = useState({});
+    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [configuringDevice, setConfiguringDevice] = useState<
+        DeviceData | undefined
+    >(undefined);
+    const [refresh, forceRefresh] = useState({});
+    const toggleDrawer = (open: boolean) => (
+        event: React.KeyboardEvent | React.MouseEvent
+    ) => {
+        if (
+            event.type === "keydown" &&
+            ((event as React.KeyboardEvent).key === "Tab" ||
+                (event as React.KeyboardEvent).key === "Shift")
+        ) {
+            return;
+        }
+
+        setDrawerOpen(open);
+    };
     useEffect(() => {
         websocketRef.current = new WebSocket(webSocketUrl);
         console.log("attempt connection to ", webSocketUrl);
@@ -134,6 +162,44 @@ function App() {
         );
     }, []);
 
+    let optionComponent: JSX.Element | undefined = undefined;
+    if (configuringDevice !== undefined) {
+        if (configuringDevice.kind === "SWITCH") {
+            optionComponent = (
+                <LightSwitchOptions
+                    dimmerName={configuringDevice.name}
+                    isDialogOpen={drawerOpen}
+                    deviceData={{
+                        ...(configuringDevice as LightSwitchDevice),
+                    }}
+                    onClose={() => {
+                        toggleDrawer(false);
+                    }}
+                    onSave={(deviceToSave: LightSwitchDevice) => {
+                        dispatch(AppActions.saveDevice({ ...deviceToSave }));
+                    }}
+                />
+            );
+        } else if (configuringDevice.kind === "DIMMER") {
+            optionComponent = (
+                <DimmerLightOptions
+                    dimmerName={configuringDevice.name}
+                    isDialogOpen={drawerOpen}
+                    deviceData={{
+                        ...(configuringDevice as DimmingLightDevice),
+                    }}
+                    onClose={() => {
+                        toggleDrawer(false);
+                    }}
+                    onSave={(deviceToSave: DimmingLightDevice) => {
+                        dispatch(AppActions.saveDevice(deviceToSave));
+                        save(state.devices[deviceToSave.id], deviceToSave);
+                    }}
+                />
+            );
+        }
+    }
+
     return (
         <div
             className="App"
@@ -153,16 +219,42 @@ function App() {
                             componentId: dev.id,
                             deviceData: dev,
                             position: dev.position,
-                            onSave: (newDeviceData: DeviceDataKind) => {
-                                save(
-                                    state.devices[newDeviceData.id],
-                                    newDeviceData
-                                );
+                            openConfiguration: () => {
+                                setConfiguringDevice(dev);
+                                setDrawerOpen(true);
                             },
                         })
                     )}
                 </Layer>
             </Stage>
+            <Drawer
+                anchor={"bottom"}
+                open={drawerOpen}
+                onClose={toggleDrawer(false)}
+            >
+                {optionComponent}
+                <Divider />
+                <Grid
+                    container={true}
+                    spacing={3}
+                    alignContent={"flex-end"}
+                    alignItems={"flex-end"}
+                    direction={"column-reverse"}
+                >
+                    <Grid item={true} xs={12}>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={(e) => {
+                                toggleDrawer(false);
+                            }}
+                            style={{ marginLeft: 10 }}
+                        >
+                            Close
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Drawer>
         </div>
     );
 }
@@ -176,24 +268,25 @@ function save(
         newDeviceData.kind === "DIMMER"
     ) {
         if (
-            getDimmerLightLevel(existingDeviceData) !==
-            getDimmerLightLevel(newDeviceData)
+            getDimmerLightLevelAttribute(existingDeviceData) !==
+            getDimmerLightLevelAttribute(newDeviceData)
         ) {
             console.log("Saving Dimmer Light Level");
             fetch(
                 `http://${SERVER_IP}:${SERVER_PORT}/api/save/${
                     existingDeviceData.id
-                }/setLevel/${getDimmerLightLevel(newDeviceData)}`
+                }/setLevel/${getDimmerLightLevelAttribute(newDeviceData)}`
             );
         }
         if (
-            getDimmerOnOff(existingDeviceData) !== getDimmerOnOff(newDeviceData)
+            getLightOnOffAttribute(existingDeviceData) !==
+            getLightOnOffAttribute(newDeviceData)
         ) {
             console.log("Saving Dimmer Power");
             fetch(
                 `http://${SERVER_IP}:${SERVER_PORT}/api/save/${
                     existingDeviceData.id
-                }/${getDimmerOnOff(newDeviceData) ? "on" : "off"}`
+                }/${getLightOnOffAttribute(newDeviceData) ? "on" : "off"}`
             );
         }
     }

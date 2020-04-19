@@ -2,7 +2,7 @@ import React from "react";
 import { Text } from "react-konva";
 import { CommonProps } from "./Common";
 import { ContactDevice } from "../Models/Devices";
-import { getContactOnOff } from "../Logics/AttributeLogics";
+import { getContactOnOffAttribute } from "../Logics/AttributeLogics";
 import { Spring, animated } from "react-spring/renderprops-konva";
 import { TEXT_COLOR, LINE_COLOR } from "../constants";
 
@@ -181,7 +181,7 @@ function getComponentDoor(
     return undefined;
 }
 export const Contact = (props: ContactOptions) => {
-    const isContactOpen = getContactOnOff(props.deviceData);
+    const isContactOpen = getContactOnOffAttribute(props.deviceData);
 
     let positionsAngles = getDoorStartPositionEndPosition(
         props.deviceData.direction,

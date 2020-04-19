@@ -90,7 +90,9 @@ export const getDevice = (
     return specificdevice;
 };
 
-export const getDimmerLightLevel = (device: DimmingLightDevice): number => {
+export const getDimmerLightLevelAttribute = (
+    device: DimmingLightDevice
+): number => {
     const levelAttribute = device.attributes["level"];
     if (levelAttribute === undefined) {
         return 0;
@@ -98,31 +100,31 @@ export const getDimmerLightLevel = (device: DimmingLightDevice): number => {
     return Number(device.attributes["level"]);
 };
 
-export const setDimmerLightLevel = (
+export const setDimmerLightLevelAttribute = (
     device: DimmingLightDevice,
     level: number
 ): void => {
     device.attributes["level"] = level + "";
 };
 
-export const getDimmerOnOff = (
+export const getLightOnOffAttribute = (
     device: DimmingLightDevice | LightSwitchDevice
 ): boolean => {
     return device.attributes["switch"] === "on";
 };
 
-export const setLightOnOff = (
+export const setLightOnOffAttribute = (
     device: DimmingLightDevice | LightSwitchDevice,
     isOn: boolean
 ): void => {
     device.attributes["switch"] = isOn ? "on" : "off";
 };
 
-export const getContactOnOff = (device: ContactDevice): boolean => {
+export const getContactOnOffAttribute = (device: ContactDevice): boolean => {
     return device.attributes["contact"] === "open";
 };
 
-export const setContactOnOff = (
+export const setContactOnOffAttribute = (
     device: ContactDevice,
     isOpen: boolean
 ): void => {
@@ -138,11 +140,11 @@ export const getDeviceType = (deviceId: string): DeviceType => {
     }
 };
 
-export const getMotionOnOff = (device: MotionDevice): boolean => {
+export const getMotionOnOffAttribute = (device: MotionDevice): boolean => {
     return device.attributes["motion"] === "active";
 };
 
-export const getPowerOn = (
+export const getPowerOnAttribute = (
     device: TvDevice | WashingMachineDevice,
     minimumPowerEnergyThreshold: number
 ): boolean => {
@@ -153,7 +155,9 @@ export const getPowerOn = (
     return Number(attr) >= minimumPowerEnergyThreshold;
 };
 
-export const getPower = (device: TvDevice | WashingMachineDevice): number => {
+export const getPowerAttribute = (
+    device: TvDevice | WashingMachineDevice
+): number => {
     const attr = device.attributes["power"];
     if (attr === undefined) {
         return 0;

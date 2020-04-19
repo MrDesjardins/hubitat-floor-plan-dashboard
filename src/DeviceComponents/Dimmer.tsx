@@ -6,18 +6,19 @@ import { CommonProps } from "./Common";
 import { DimmerLightOptions } from "../Components/DimmerLightOptions";
 import { DimmingLightDevice } from "../Models/Devices";
 import Portal from "../infrastructure/Portal";
-import { getDimmerOnOff, getDimmerLightLevel } from "../Logics/AttributeLogics";
+import {
+    getLightOnOffAttribute,
+    getDimmerLightLevelAttribute,
+} from "../Logics/AttributeLogics";
 import { TEXT_COLOR } from "../constants";
 
 export interface DimmerOptions extends CommonProps {
     deviceData: DimmingLightDevice;
     position: [number, number];
-    onSave: (deviceData: DimmingLightDevice) => void;
+    openConfiguration: () => void;
 }
 export const Dimmer = (props: DimmerOptions) => {
-    const [isDialogOpen, setDialogOpen] = useState(false);
-    const [, updateState] = React.useState();
-    const isOn = getDimmerOnOff(props.deviceData);
+    const isOn = getLightOnOffAttribute(props.deviceData);
     return (
         <>
             <ImageLightBulb
@@ -25,29 +26,17 @@ export const Dimmer = (props: DimmerOptions) => {
                 xPosition={props.position[0]}
                 yPosition={props.position[1]}
                 onClick={() => {
-                    setDialogOpen(true);
+                    props.openConfiguration();
                 }}
             />
             <Text
-                text={`${isOn ? "On" : "Off"} ${getDimmerLightLevel(
+                text={`${isOn ? "On" : "Off"} ${getDimmerLightLevelAttribute(
                     props.deviceData
                 )} %`}
                 x={props.position[0]}
                 y={props.position[1] + 40}
                 fill={TEXT_COLOR}
             />
-            <Portal>
-                <DimmerLightOptions
-                    dimmerName={props.deviceData.name}
-                    isDialogOpen={isDialogOpen}
-                    deviceData={{ ...props.deviceData }}
-                    openClose={(isOpen: boolean) => {
-                        setDialogOpen(isOpen);
-                        updateState({});
-                    }}
-                    onSave={(newDeviceData) => props.onSave(newDeviceData)}
-                />
-            </Portal>
         </>
     );
 };
