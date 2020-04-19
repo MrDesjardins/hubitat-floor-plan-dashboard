@@ -1,3 +1,4 @@
 export interface CommonProps {
-    componentId: number;
+  componentId: number;
+  textPosition: [number, number];
 }
