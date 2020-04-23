@@ -8,6 +8,7 @@ export type DeviceType =
   | "CONTACT"
   | "MOTION"
   | "TV"
+  | "PROJECTING_LIGHT"
   | "WASHINGMACHINE";
 
 export type DeviceDataKind =
@@ -17,6 +18,7 @@ export type DeviceDataKind =
   | ContactDevice
   | MotionDevice
   | TvDevice
+  | ProjectingLightDevice
   | WashingMachineDevice;
 export interface DeviceData {
   kind: DeviceType;
@@ -51,6 +53,12 @@ export interface MotionDevice extends DeviceData {
 export interface WashingMachineDevice extends DeviceData {
   kind: "WASHINGMACHINE";
   width: number;
+}
+export interface ProjectingLightDevice extends DeviceData {
+  kind: "PROJECTING_LIGHT";
+  box: [number, number, number, number];
+  type: "stars";
+  amount: number;
 }
 
 export interface TvDevice extends DeviceData {

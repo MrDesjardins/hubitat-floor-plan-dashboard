@@ -8,9 +8,9 @@ import {
   MotionDevice,
   TvDevice,
   WashingMachineDevice,
+  ProjectingLightDevice,
 } from "../Models/Devices";
 import { allDevices } from "../Models/AllDevices";
-import { ContactDirection } from "../DeviceComponents/Contact";
 
 export const getDevice = (
   state: ApplicationState,
@@ -20,57 +20,27 @@ export const getDevice = (
   if (specificdevice === undefined) {
     if (device.kind === "CONTACT") {
       const unk: ContactDevice = {
-        kind: device.kind,
-        id: device.id,
-        name: device.name,
-        label: device.label,
-        attributes: {},
-        component: device.component,
-        note: device.note,
-        textPosition: device.textPosition,
-        direction: ContactDirection.East,
+        ...device
       };
       return unk;
     } else if (device.kind === "MOTION") {
       const unk: MotionDevice = {
-        kind: device.kind,
-        id: device.id,
-        name: device.name,
-        label: device.label,
-        attributes: {},
-        component: device.component,
-        note: device.note,
-        textPosition: device.textPosition,
-        path: [],
+        ...device
       };
       return unk;
     } else if (device.kind === "TV") {
       const unk: TvDevice = {
-        kind: device.kind,
-        id: device.id,
-        name: device.name,
-        label: device.label,
-        attributes: {},
-        component: device.component,
-        note: device.note,
-        textPosition: device.textPosition,
-        direction: device.direction,
-        radius: device.radius,
-        wattThreashold: device.wattThreashold,
+        ...device
       };
       return unk;
     } else if (device.kind === "WASHINGMACHINE") {
       const unk: WashingMachineDevice = {
-        kind: device.kind,
-        id: device.id,
-        name: device.name,
-        label: device.label,
-        attributes: {},
-        component: device.component,
-        note: device.note,
-        textPosition: device.textPosition,
-
-        width: device.width,
+        ...device
+      };
+      return unk;
+    } else if (device.kind === "PROJECTING_LIGHT") {
+      const unk: ProjectingLightDevice = {
+        ...device
       };
       return unk;
     } else {
@@ -108,7 +78,7 @@ export const setDimmerLightLevelAttribute = (
 };
 
 export const getLightOnOffAttribute = (
-  device: DimmingLightDevice | LightSwitchDevice
+  device: DimmingLightDevice | LightSwitchDevice | ProjectingLightDevice
 ): boolean => {
   return device.attributes["switch"] === "on";
 };

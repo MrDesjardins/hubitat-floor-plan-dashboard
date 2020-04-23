@@ -5,6 +5,7 @@ import { Contact, ContactDirection } from "../DeviceComponents/Contact";
 import { Motion } from "../DeviceComponents/Motion";
 import { TvDirection, Tv } from "../DeviceComponents/Tv";
 import { WashingMachine } from "../DeviceComponents/WashingMachine";
+import { ProjectingLight } from "../DeviceComponents/ProjectingLight";
 
 const NORTH_WALL = 36;
 export const allDevices: { [deviceId: string]: DeviceDataKind } = {
@@ -355,5 +356,18 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     attributes: {},
     label: "",
     name: "",
+  },
+  "22": {
+    id: "22",
+    kind: "PROJECTING_LIGHT",
+    component: ProjectingLight,
+    note: "Alicia Star Machine",
+    textPosition: [135, NORTH_WALL + 90],
+    attributes: {},
+    label: "",
+    name: "",
+    box: [5, NORTH_WALL + 5, 130, NORTH_WALL + 110],
+    type: "stars",
+    amount: 20
   },
 };
