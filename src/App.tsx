@@ -208,7 +208,7 @@ function App() {
             variant="contained"
             color="primary"
             onClick={(e) => {
-              toggleDrawer(false);
+              setDrawerOpen(false);
             }}
             style={{ marginLeft: 10 }}
           >
@@ -235,6 +235,7 @@ function App() {
             }}
             onSave={(deviceToSave: LightSwitchDevice) => {
               dispatch(AppActions.saveDevice({ ...deviceToSave }));
+              save(state.devices[deviceToSave.id], deviceToSave);
             }}
           />
         );
@@ -282,6 +283,21 @@ function save(
       getLightOnOffAttribute(newDeviceData)
     ) {
       console.log("Saving Dimmer Power");
+      fetch(
+        `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
+          getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+        }`
+      );
+    }
+  } else if (
+    existingDeviceData.kind === "SWITCH" &&
+    newDeviceData.kind === "SWITCH"
+  ) {
+    if (
+      getLightOnOffAttribute(existingDeviceData) !==
+      getLightOnOffAttribute(newDeviceData)
+    ) {
+      console.log("Saving Switch Light Level");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
           getLightOnOffAttribute(newDeviceData) ? "on" : "off"

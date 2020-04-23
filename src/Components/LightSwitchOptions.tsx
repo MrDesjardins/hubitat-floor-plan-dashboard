@@ -15,9 +15,10 @@ export interface LightSwitchOptionsProps {
 }
 export const LightSwitchOptions = (props: LightSwitchOptionsProps) => {
   const [isLightOn, setIsLightOn] = useState(false);
+  const stateLightOnOff = getLightOnOffAttribute(props.deviceData);
   useEffect(() => {
-    setIsLightOn(getLightOnOffAttribute(props.deviceData));
-  }, [props.deviceData]);
+    setIsLightOn(stateLightOnOff);
+  }, [stateLightOnOff]);
   return (
     <div>
       <div style={{ margin: 25 }}>
