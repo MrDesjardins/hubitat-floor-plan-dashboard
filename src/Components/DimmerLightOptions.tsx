@@ -19,10 +19,13 @@ export interface DimmerLightOptionsProps {
 export const DimmerLightOptions = (props: DimmerLightOptionsProps) => {
   const [isLightOn, setIsLightOn] = useState(false);
   const [dimmingValue, setDimmingValue] = useState(0);
+
+  const isOnOff = getLightOnOffAttribute(props.deviceData);
+  const dimVal = getDimmerLightLevelAttribute(props.deviceData);
   useEffect(() => {
-    setIsLightOn(getLightOnOffAttribute(props.deviceData));
-    setDimmingValue(getDimmerLightLevelAttribute(props.deviceData));
-  }, []);
+    setIsLightOn(isOnOff);
+    setDimmingValue(dimVal);
+  }, [isOnOff, dimVal]);
 
   return (
     <div style={{ margin: 25 }}>
@@ -34,6 +37,7 @@ export const DimmerLightOptions = (props: DimmerLightOptionsProps) => {
           const newValue = e.target.checked;
           const copy = { ...props.deviceData };
           copy.attributes = { ...copy.attributes };
+          setIsLightOn(newValue);
           setLightOnOffAttribute(copy, newValue);
           props.onSave(copy);
         }}
@@ -50,6 +54,7 @@ export const DimmerLightOptions = (props: DimmerLightOptionsProps) => {
           const copy = { ...props.deviceData };
           copy.attributes = { ...copy.attributes };
           setDimmerLightLevelAttribute(copy, newValueCasted);
+          setDimmingValue(newValueCasted);
         }}
         onChangeCommitted={(event, newValue) => {
           const newValueCasted = newValue as number;

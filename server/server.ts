@@ -3,7 +3,6 @@ import express from "express";
 import cors from "cors";
 import WebSocket from "ws";
 import fetch from "node-fetch";
-import timeout from "connect-timeout";
 import dotenv from "dotenv";
 dotenv.config();
 
