@@ -9,6 +9,7 @@ export type DeviceType =
   | "MOTION"
   | "TV"
   | "PROJECTING_LIGHT"
+  | "AIRPURIFIER"
   | "WASHINGMACHINE";
 
 export type DeviceDataKind =
@@ -19,6 +20,7 @@ export type DeviceDataKind =
   | MotionDevice
   | TvDevice
   | ProjectingLightDevice
+  | AirPurifierDevice
   | WashingMachineDevice;
 export interface DeviceData {
   kind: DeviceType;
@@ -49,6 +51,9 @@ export interface ContactDevice extends DeviceData {
 export interface MotionDevice extends DeviceData {
   kind: "MOTION";
   path: number[][];
+}
+export interface AirPurifierDevice extends DeviceData {
+  kind: "AIRPURIFIER";
 }
 export interface WashingMachineDevice extends DeviceData {
   kind: "WASHINGMACHINE";

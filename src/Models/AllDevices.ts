@@ -6,6 +6,7 @@ import { Motion } from "../DeviceComponents/Motion";
 import { TvDirection, Tv } from "../DeviceComponents/Tv";
 import { WashingMachine } from "../DeviceComponents/WashingMachine";
 import { ProjectingLight } from "../DeviceComponents/ProjectingLight";
+import { AirPurifier } from "../DeviceComponents/AirPurifier";
 
 const NORTH_WALL = 36;
 export const allDevices: { [deviceId: string]: DeviceDataKind } = {
@@ -189,6 +190,38 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     component: Contact,
     note: "Alicia Bedroom Window",
     textPosition: [52, NORTH_WALL],
+    direction: ContactDirection.SlideRight,
+    attributes: {},
+    label: "",
+    name: "",
+  },
+  "23": {
+    id: "23",
+    kind: "AIRPURIFIER",
+    component: AirPurifier,
+    note: "Alicia Air Purifier",
+    textPosition: [75, NORTH_WALL + 20],
+    attributes: {},
+    label: "",
+    name: "",
+  },
+  "40": {
+    id: "41",
+    kind: "CONTACT",
+    component: Contact,
+    note: "Playroom Bedroom Window",
+    textPosition: [347, NORTH_WALL],
+    direction: ContactDirection.SlideRight,
+    attributes: {},
+    label: "",
+    name: "",
+  },
+  "41": {
+    id: "41",
+    kind: "CONTACT",
+    component: Contact,
+    note: "Jacob Bedroom Window",
+    textPosition: [204, NORTH_WALL],
     direction: ContactDirection.SlideRight,
     attributes: {},
     label: "",

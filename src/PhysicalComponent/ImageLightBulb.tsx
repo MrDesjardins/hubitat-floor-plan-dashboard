@@ -1,7 +1,7 @@
 import { Image } from "react-konva";
 import React from "react";
-import { LIGHT_ON_COLOR, LIGHT_OFF_COLOR } from "./constants";
-import { useSvgImage } from "./hooks/useSvgImage";
+import { LIGHT_ON_COLOR, LIGHT_OFF_COLOR } from "../constants";
+import { useSvgImage } from "../hooks/useSvgImage";
 export interface ImageLightBulbProps {
     on: boolean;
     xPosition: number;
@@ -22,6 +22,7 @@ export const ImageLightBulb = (props: ImageLightBulbProps) => {
             (props.on ? pathOn : pathOff) +
             '"/></svg>',
     });
+
     return (
         <Image
             image={image}

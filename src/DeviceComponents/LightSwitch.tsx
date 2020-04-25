@@ -2,7 +2,7 @@ import "konva/lib/shapes/Path";
 import React from "react";
 import { Text } from "react-konva";
 import { TEXT_COLOR } from "../constants";
-import { ImageLightBulb } from "../ImageLightBulb";
+import { ImageLightBulb } from "../PhysicalComponent/ImageLightBulb";
 import { getLightOnOffAttribute } from "../Logics/AttributeLogics";
 import { LightSwitchDevice } from "../Models/Devices";
 import { CommonProps } from "./Common";

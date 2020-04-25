@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from "react-konva";
 import { TEXT_COLOR } from "../constants";
-import { ImageLightBulb } from "../ImageLightBulb";
+import { ImageLightBulb } from "../PhysicalComponent/ImageLightBulb";
 import {
   getDimmerLightLevelAttribute,
   getLightOnOffAttribute,

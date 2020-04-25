@@ -1,64 +1,15 @@
-import { ApplicationState } from "../Models/ApplicationState";
 import {
   DimmingLightDevice,
   DeviceType,
-  DeviceDataKind,
   LightSwitchDevice,
   ContactDevice,
   MotionDevice,
   TvDevice,
   WashingMachineDevice,
   ProjectingLightDevice,
+  AirPurifierDevice,
 } from "../Models/Devices";
 import { allDevices } from "../Models/AllDevices";
-
-export const getDevice = (
-  state: ApplicationState,
-  device: DeviceDataKind
-): DeviceDataKind => {
-  let specificdevice = state.devices[device.id];
-  if (specificdevice === undefined) {
-    if (device.kind === "CONTACT") {
-      const unk: ContactDevice = {
-        ...device
-      };
-      return unk;
-    } else if (device.kind === "MOTION") {
-      const unk: MotionDevice = {
-        ...device
-      };
-      return unk;
-    } else if (device.kind === "TV") {
-      const unk: TvDevice = {
-        ...device
-      };
-      return unk;
-    } else if (device.kind === "WASHINGMACHINE") {
-      const unk: WashingMachineDevice = {
-        ...device
-      };
-      return unk;
-    } else if (device.kind === "PROJECTING_LIGHT") {
-      const unk: ProjectingLightDevice = {
-        ...device
-      };
-      return unk;
-    } else {
-      const unk: DeviceDataKind = {
-        kind: device.kind,
-        id: device.id,
-        name: device.name,
-        label: device.label,
-        attributes: {},
-        component: device.component,
-        note: device.note,
-        textPosition: device.textPosition,
-      };
-      return unk;
-    }
-  }
-  return specificdevice;
-};
 
 export const getDimmerLightLevelAttribute = (
   device: DimmingLightDevice
@@ -78,7 +29,7 @@ export const setDimmerLightLevelAttribute = (
 };
 
 export const getLightOnOffAttribute = (
-  device: DimmingLightDevice | LightSwitchDevice | ProjectingLightDevice
+  device: DimmingLightDevice | LightSwitchDevice | ProjectingLightDevice | AirPurifierDevice
 ): boolean => {
   return device.attributes["switch"] === "on";
 };
