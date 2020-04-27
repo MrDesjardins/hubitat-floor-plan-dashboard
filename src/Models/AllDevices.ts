@@ -195,12 +195,12 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     label: "",
     name: "",
   },
-  "23": {
-    id: "23",
+  "419": {
+    id: "419",
     kind: "AIRPURIFIER",
     component: AirPurifier,
     note: "Alicia Air Purifier",
-    textPosition: [75, NORTH_WALL + 20],
+    textPosition: [110, NORTH_WALL + 40],
     attributes: {},
     label: "",
     name: "",
@@ -390,8 +390,8 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     label: "",
     name: "",
   },
-  "22": {
-    id: "22",
+  "418": {
+    id: "418",
     kind: "PROJECTING_LIGHT",
     component: ProjectingLight,
     note: "Alicia Star Machine",
@@ -399,7 +399,7 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     attributes: {},
     label: "",
     name: "",
-    box: [5, NORTH_WALL + 5, 130, NORTH_WALL + 110],
+    box: [5, NORTH_WALL + 5, 100, NORTH_WALL + 110],
     type: "stars",
     amount: 20
   },

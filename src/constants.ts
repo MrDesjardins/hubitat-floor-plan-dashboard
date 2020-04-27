@@ -16,3 +16,7 @@ export const TOP_MENU_HEIGHT = 60;
 export const MOTION_COLOR = "rgba(215,230,210,0.5)";
 
 // Nice blue (old menu: rgb(16, 92, 131))
+
+export const COLOR_MACHINE1 = "#00bcd4";
+export const COLOR_MACHINE2 = "#00bcd4";
+export const COLOR_MACHINE3 = "#b2ebf2";

@@ -1,36 +1,77 @@
 import { Image } from "react-konva";
 import React from "react";
-import { LIGHT_ON_COLOR, LIGHT_OFF_COLOR } from "../constants";
+import {
+  LIGHT_ON_COLOR,
+  LIGHT_OFF_COLOR,
+  COLOR_MACHINE1,
+  COLOR_MACHINE2,
+  COLOR_MACHINE3,
+} from "../constants";
 import { useSvgImage } from "../hooks/useSvgImage";
+import { SineWave } from "./SineWave";
 export interface AirPurifierMachineProps {
-    on: boolean;
-    xPosition: number;
-    yPosition: number;
-    onClick: () => void;
+  on: boolean;
+  xPosition: number;
+  yPosition: number;
+  onClick: () => void;
 }
 export const AirPurifierMachine = (props: AirPurifierMachineProps) => {
-    const pathOff =
-        "M19 6.734c0 4.164-3.75 6.98-3.75 10.266h-1.992c.001-2.079.996-3.826 1.968-5.513.913-1.585 1.774-3.083 1.774-4.753 0-3.108-2.518-4.734-5.004-4.734-2.482 0-4.996 1.626-4.996 4.734 0 1.67.861 3.168 1.774 4.753.972 1.687 1.966 3.434 1.967 5.513h-1.991c0-3.286-3.75-6.103-3.75-10.266 0-4.343 3.498-6.734 6.996-6.734 3.502 0 7.004 2.394 7.004 6.734zm-4 11.766c0 .276-.224.5-.5.5h-5c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h5c.276 0 .5.224.5.5zm0 2c0 .276-.224.5-.5.5h-5c-.276 0-.5-.224-.5-.5s.224-.5.5-.5h5c.276 0 .5.224.5.5zm-1.701 3.159c-.19.216-.465.341-.752.341h-1.094c-.287 0-.562-.125-.752-.341l-1.451-1.659h5.5l-1.451 1.659zm-3.629-16.347l-1.188-.153c.259-1.995 1.5-3.473 3.518-3.847l.219 1.177c-1.947.361-2.433 1.924-2.549 2.823z";
-    const pathOn =
-        "M14 19h-4c-.276 0-.5.224-.5.5s.224.5.5.5h4c.276 0 .5-.224.5-.5s-.224-.5-.5-.5zm0 2h-4c-.276 0-.5.224-.5.5s.224.5.5.5h4c.276 0 .5-.224.5-.5s-.224-.5-.5-.5zm.25 2h-4.5l1.188.782c.154.138.38.218.615.218h.895c.234 0 .461-.08.615-.218l1.187-.782zm3.75-13.799c0 3.569-3.214 5.983-3.214 8.799h-1.989c-.003-1.858.87-3.389 1.721-4.867.761-1.325 1.482-2.577 1.482-3.932 0-2.592-2.075-3.772-4.003-3.772-1.925 0-3.997 1.18-3.997 3.772 0 1.355.721 2.607 1.482 3.932.851 1.478 1.725 3.009 1.72 4.867h-1.988c0-2.816-3.214-5.23-3.214-8.799 0-3.723 2.998-5.772 5.997-5.772 3.001 0 6.003 2.051 6.003 5.772zm4-.691v1.372h-2.538c.02-.223.038-.448.038-.681 0-.237-.017-.464-.035-.69h2.535zm-10.648-6.553v-1.957h1.371v1.964c-.242-.022-.484-.035-.726-.035-.215 0-.43.01-.645.028zm-3.743 1.294l-1.04-1.94 1.208-.648 1.037 1.933c-.418.181-.822.401-1.205.655zm10.586 1.735l1.942-1.394.799 1.115-2.054 1.473c-.191-.43-.423-.827-.687-1.194zm-3.01-2.389l1.038-1.934 1.208.648-1.041 1.941c-.382-.254-.786-.473-1.205-.655zm-10.068 3.583l-2.054-1.472.799-1.115 1.942 1.393c-.264.366-.495.763-.687 1.194zm13.707 6.223l2.354.954-.514 1.271-2.425-.982c.21-.397.408-.812.585-1.243zm-13.108 1.155l-2.356 1.06-.562-1.251 2.34-1.052c.173.433.371.845.578 1.243zm-1.178-3.676h-2.538v-1.372h2.535c-.018.226-.035.454-.035.691 0 .233.018.458.038.681z";
-        
-    const [image] = useSvgImage({
-        svg:
-            '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path stroke="' +
-            (props.on ? LIGHT_ON_COLOR : LIGHT_OFF_COLOR) +
-            '" d="' +
-            (props.on ? pathOn : pathOff) +
-            '"/></svg>',
-    });
+  const [image] = useSvgImage({
+    svg: `
+            <svg height="512" viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg">
+                <path fill="${COLOR_MACHINE1}" stroke="${COLOR_MACHINE1}" d="m256 256a40 40 0 1 0 -40-40 40.045 40.045 0 0 0 40 40zm0-64a24 24 0 1 1 -24 24 24.028 24.028 0 0 1 24-24z"/>
+                <path fill="${COLOR_MACHINE1}" stroke="${COLOR_MACHINE1}" d="m196.46 118.055c16.033 6.413 37.178 9.945 59.54 9.945s43.507-3.532 59.54-9.945c18.353-7.341 28.46-18.014 28.46-30.055s-10.107-22.714-28.46-30.055c-16.033-6.413-37.178-9.945-59.54-9.945s-43.507 3.532-59.54 9.945c-18.353 7.341-28.46 18.014-28.46 30.055s10.107 22.714 28.46 30.055zm59.54-54.055c43.952 0 72 14.214 72 24s-28.048 24-72 24-72-14.214-72-24 28.048-24 72-24z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m152 416h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m184 416h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m216 416h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m248 416h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m280 416h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m312 416h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m344 416h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m152 384h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m184 384h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m216 384h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m248 384h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m280 384h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m312 384h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m344 384h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m152 352h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m184 352h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m216 352h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m248 352h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m280 352h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m312 352h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m344 352h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m152 320h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m184 320h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m216 320h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m248 320h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m280 320h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m312 320h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m344 320h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m152 288h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m184 288h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m216 288h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m248 288h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m280 288h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m312 288h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m344 288h16v16h-16z"/>
+                <path fill="${COLOR_MACHINE2}" stroke="${COLOR_MACHINE1}" d="m128 456a40.045 40.045 0 0 0 40 40h176a40.045 40.045 0 0 0 40-40v-8.028a39.789 39.789 0 0 0 8-23.972v-368a40.045 40.045 0 0 0 -40-40h-192a40.045 40.045 0 0 0 -40 40v368a39.789 39.789 0 0 0 8 23.972zm8-304.022a39.788 39.788 0 0 0 24 8.022h192a39.788 39.788 0 0 0 24-8.022v272.022a24.027 24.027 0 0 1 -24 24h-192a24.027 24.027 0 0 1 -24-24zm208 328.022h-176a24.04 24.04 0 0 1 -23.5-19.127 39.8 39.8 0 0 0 15.5 3.127h192a39.8 39.8 0 0 0 15.5-3.127 24.04 24.04 0 0 1 -23.5 19.127zm-208-424a24.027 24.027 0 0 1 24-24h192a24.027 24.027 0 0 1 24 24v64a24.028 24.028 0 0 1 -24 24h-192a24.028 24.028 0 0 1 -24-24z"/>
+                </svg>
+            `,
+  });
 
-    return (
-        <Image
-            image={image}
-            width={30}
-            height={30}
-            x={props.xPosition}
-            y={props.yPosition}
-            onClick={props.onClick}
-        />
-    );
+  return (
+    <>
+      <Image
+        image={image}
+        width={30}
+        height={30}
+        x={props.xPosition}
+        y={props.yPosition}
+        onClick={props.onClick}
+      />
+      <SineWave x={props.xPosition} y={props.xPosition} />
+    </>
+  );
 };
