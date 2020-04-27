@@ -1,8 +1,9 @@
 import { Image } from "react-konva";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { useSvgImage } from "../hooks/useSvgImage";
 import Konva from "konva";
-import { IFrame } from "konva/types/types";
+import { useInterval } from "../hooks/useInterval";
+import { COLOR_MACHINE3 } from "../constants";
 
 interface SiveWaveProps {
   x: number;
@@ -20,50 +21,35 @@ export const SineWave = (props: SiveWaveProps) => {
     },
   ]);
   const [ref, setRef] = useState<Konva.Image | null>(null);
-  const animation = useRef<Konva.Animation>();
   const offset = useRef<number>(0);
-  const x = useRef<number>(0);
 
   const amplitude = 1.1;
   const frequency = 0.25;
-  const increment = 5;
 
-  useEffect(() => {
+  useInterval(() => {
+    offset.current += 12;
     if (ref) {
-      if (animation.current === undefined) {
-        animation.current = new Konva.Animation((frame: IFrame | undefined) => {
-          if (frame !== undefined) {
-            offset.current += increment / frame.frameRate;
-            let data: DataT[] = [
-              {
-                type: "M",
-                values: [0, 150],
-              },
-            ];
-            while (x.current < 300) {
-              let point = {
-                x: x.current,
-                y: 150 - pathFunction(x.current),
-              };
-              data.push({
-                type: "L",
-                values: [point.x, point.y],
-              });
-              x.current += 1;
-            }
-            setDataUsed(data);
-          }
+      let data: DataT[] = [
+        {
+          type: "M",
+          values: [0, 150],
+        },
+      ];
+      let x = 0;
+      while (x < 300) {
+        let point = {
+          x: x,
+          y: 150 - pathFunction(x),
+        };
+        data.push({
+          type: "L",
+          values: [point.x, point.y],
         });
-        animation.current.start();
+        x += 1;
       }
+      setDataUsed(data);
     }
-
-    return () => {
-      if (animation.current) {
-        animation.current.stop();
-      }
-    };
-  }, [ref]);
+  }, 100);
 
   const pathFunction = (x: number) => {
     const result =
@@ -79,7 +65,7 @@ export const SineWave = (props: SiveWaveProps) => {
   const path = dataUsed.map((d) => d.type + " " + d.values.join(" "));
 
   const [image] = useSvgImage({
-    svg: `<svg height="512" viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg"><path stroke="red" d="${path}"/></svg>`,
+    svg: `<svg height="512" viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-width="3" stroke="${COLOR_MACHINE3}" d="${path}"/></svg>`,
   });
   return (
     <Image
@@ -88,7 +74,7 @@ export const SineWave = (props: SiveWaveProps) => {
       }}
       image={image}
       width={30}
-      height={amplitude}
+      height={30}
       x={props.x}
       y={props.y}
     />
