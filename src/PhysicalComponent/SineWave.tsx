@@ -1,5 +1,5 @@
 import { Image } from "react-konva";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useSvgImage } from "../hooks/useSvgImage";
 import Konva from "konva";
 import { useInterval } from "../hooks/useInterval";
@@ -14,18 +14,16 @@ interface DataT {
   values: number[];
 }
 export const SineWave = (props: SiveWaveProps) => {
-  const [dataUsed, setDataUsed] = useState<DataT[]>([
-    {
-      type: "M",
-      values: [0, 150],
-    },
-  ]);
   const [ref, setRef] = useState<Konva.Image | null>(null);
   const offset = useRef<number>(0);
 
+  const img = useRef<HTMLImageElement>(document.createElement("img"));
+
   const amplitude = 1.1;
   const frequency = 0.25;
-
+  useEffect(() => {
+    console.log("Mounted a SineWave");
+  }, []);
   useInterval(() => {
     offset.current += 12;
     if (ref) {
@@ -47,7 +45,13 @@ export const SineWave = (props: SiveWaveProps) => {
         });
         x += 1;
       }
-      setDataUsed(data);
+      const path = data.map((d) => d.type + " " + d.values.join(" "));
+      const encodedData =
+        "data:image/svg+xml;base64," +
+        window.btoa(
+          `<svg height="512" viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-width="30" stroke="${COLOR_MACHINE3}" d="${path}"/></svg>`
+        );
+      img.current.src = encodedData;
     }
   }, 100);
 
@@ -62,17 +66,13 @@ export const SineWave = (props: SiveWaveProps) => {
     return result;
   };
 
-  const path = dataUsed.map((d) => d.type + " " + d.values.join(" "));
-
-  const [image] = useSvgImage({
-    svg: `<svg height="512" viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-width="3" stroke="${COLOR_MACHINE3}" d="${path}"/></svg>`,
-  });
   return (
     <Image
       ref={(x) => {
+        console.log("Set Ref Sine Wave");
         setRef(x);
       }}
-      image={image}
+      image={img.current}
       width={30}
       height={30}
       x={props.x}

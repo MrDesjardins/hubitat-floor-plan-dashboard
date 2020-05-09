@@ -16,7 +16,7 @@ export const ImageLightBulb = (props: ImageLightBulbProps) => {
         
     const [image] = useSvgImage({
         svg:
-            '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path stroke="' +
+            '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" pointer-events="bounding-box"><path stroke="' +
             (props.on ? LIGHT_ON_COLOR : LIGHT_OFF_COLOR) +
             '" d="' +
             (props.on ? pathOn : pathOff) +

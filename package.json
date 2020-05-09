@@ -18,6 +18,7 @@
         "body-parser": "^1.19.0",
         "connect-timeout": "^1.9.0",
         "cors": "^2.8.5",
+        "dataaccessgateway": "0.0.56",
         "dotenv": "^8.2.0",
         "express": "^4.17.1",
         "konva": "^4.2.2",
@@ -35,11 +36,11 @@
         "ws": "^7.2.3"
     },
     "scripts": {
-        "copy:env": "copyfiles .env server && copyfiles .env src ",
         "debug": "npm run copy:env && ts-node-dev --project ./server/tsconfig.json --inspect --respawn ./server/server.ts ",
+        "start": "concurrently \"npm run start:app\" \"npm run start:server\"",
         "start:server": "cd server && ts-node-dev ./server.ts",
         "start:app": "react-scripts start",
-        "start": "concurrently \"npm run start:app\" \"npm run start:server\"",
+        "copy:env": "copyfiles .env server && copyfiles .env src ",
         "build": "npm run copy:env && react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"

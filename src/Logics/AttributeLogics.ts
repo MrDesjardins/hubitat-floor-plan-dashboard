@@ -8,6 +8,7 @@ import {
   WashingMachineDevice,
   ProjectingLightDevice,
   AirPurifierDevice,
+  DeadboltDevice,
 } from "../Models/Devices";
 import { allDevices } from "../Models/AllDevices";
 
@@ -35,7 +36,7 @@ export const getLightOnOffAttribute = (
 };
 
 export const setLightOnOffAttribute = (
-  device: DimmingLightDevice | LightSwitchDevice,
+  device: DimmingLightDevice | LightSwitchDevice | AirPurifierDevice,
   isOn: boolean
 ): void => {
   device.attributes["switch"] = isOn ? "on" : "off";
@@ -84,4 +85,10 @@ export const getPowerAttribute = (
     return 0;
   }
   return Number(attr);
+};
+export const getDeadboltLockStatus = (
+  device: DeadboltDevice
+): boolean => {
+  const attr = device.attributes["lock"];
+  return attr === "locked";
 };

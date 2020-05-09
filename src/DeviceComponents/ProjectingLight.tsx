@@ -98,7 +98,7 @@ export const AnimatedLight = (props: AnimatedLightOptions) => {
       }}
       image={useSvgImage2({
         svg:
-          '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path stroke="#c26b00" fill="#ffe47a" d="' +
+          '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" pointer-events="bounding-box"><path stroke="#c26b00" fill="#ffe47a" d="' +
           starsPath +
           '"/></svg>',
       })}

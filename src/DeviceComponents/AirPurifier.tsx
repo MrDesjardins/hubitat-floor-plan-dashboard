@@ -8,6 +8,7 @@ import { AirPurifierMachine } from "../PhysicalComponent/AirPurifierMachine";
 // import { useInterval } from "../hooks/useInterval";
 export interface AirPurifierOptions extends CommonProps {
   deviceData: AirPurifierDevice;
+  openConfiguration: () => void;
 }
 
 export const AirPurifier = (props: AirPurifierOptions) => {
@@ -29,7 +30,7 @@ export const AirPurifier = (props: AirPurifierOptions) => {
         xPosition={x}
         yPosition={y - 30}
         onClick={() => {
-          console.log("Turn on or off");
+          props.openConfiguration();
         }}
       />
     </>

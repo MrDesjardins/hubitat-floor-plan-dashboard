@@ -7,6 +7,7 @@ import { TvDirection, Tv } from "../DeviceComponents/Tv";
 import { WashingMachine } from "../DeviceComponents/WashingMachine";
 import { ProjectingLight } from "../DeviceComponents/ProjectingLight";
 import { AirPurifier } from "../DeviceComponents/AirPurifier";
+import { Deadbolt } from "../DeviceComponents/Deadbolt";
 
 const NORTH_WALL = 36;
 export const allDevices: { [deviceId: string]: DeviceDataKind } = {
@@ -290,7 +291,7 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     kind: "MOTION",
     component: Motion,
     note: "Garage Motion",
-    textPosition: [281, NORTH_WALL + 490],
+    textPosition: [200, NORTH_WALL + 490],
     path: [
       [280, NORTH_WALL + 490],
       [230, NORTH_WALL + 505],
@@ -342,7 +343,7 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     kind: "MOTION",
     component: Motion,
     note: "Dinner Motion",
-    textPosition: [412, NORTH_WALL + 200],
+    textPosition: [408, NORTH_WALL + 180],
     path: [
       [500, NORTH_WALL + 200],
       [545, NORTH_WALL + 265],
@@ -358,7 +359,7 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     kind: "TV",
     component: Tv,
     note: "Living Room TV",
-    textPosition: [597, NORTH_WALL + 380],
+    textPosition: [597, NORTH_WALL + 385],
     direction: TvDirection.West,
     radius: [25, 40],
     attributes: {},
@@ -399,8 +400,41 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     attributes: {},
     label: "",
     name: "",
-    box: [5, NORTH_WALL + 5, 100, NORTH_WALL + 110],
+    box: [10, NORTH_WALL + 20, 100, NORTH_WALL + 110],
     type: "stars",
     amount: 20
+  },
+  "292": {
+    id: "292",
+    kind: "TV",
+    component: Tv,
+    note: "Garage TV",
+    textPosition: [10, NORTH_WALL + 612],
+    direction: TvDirection.East,
+    radius: [18, 25],
+    attributes: {},
+    label: "",
+    name: "",
+    wattThreashold: 50,
+  },
+  "321": {
+    id: "321",
+    kind: "DEADBOLT",
+    component: Deadbolt,
+    note: "Front Door Deadbolt",
+    textPosition: [325, NORTH_WALL + 510],
+    attributes: {},
+    label: "",
+    name: "",
+  },
+  "322": {
+    id: "322",
+    kind: "DEADBOLT",
+    component: Deadbolt,
+    note: "Garage Indoor Deadbolt",
+    textPosition: [260, NORTH_WALL + 440],
+    attributes: {},
+    label: "",
+    name: "",
   },
 };

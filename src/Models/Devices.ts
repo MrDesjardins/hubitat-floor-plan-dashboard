@@ -10,7 +10,8 @@ export type DeviceType =
   | "TV"
   | "PROJECTING_LIGHT"
   | "AIRPURIFIER"
-  | "WASHINGMACHINE";
+  | "WASHINGMACHINE"
+  | "DEADBOLT";
 
 export type DeviceDataKind =
   | UnknownDevice
@@ -21,7 +22,8 @@ export type DeviceDataKind =
   | TvDevice
   | ProjectingLightDevice
   | AirPurifierDevice
-  | WashingMachineDevice;
+  | WashingMachineDevice
+  | DeadboltDevice;
 export interface DeviceData {
   kind: DeviceType;
   id: string;
@@ -71,6 +73,10 @@ export interface TvDevice extends DeviceData {
   direction: TvDirection;
   radius: [number, number];
   wattThreashold: number;
+}
+
+export interface DeadboltDevice extends DeviceData{
+  kind:"DEADBOLT";
 }
 
 export interface DeviceAttributes {

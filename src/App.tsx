@@ -19,8 +19,11 @@ import {
   DeviceWebsocket,
   DimmingLightDevice,
   LightSwitchDevice,
+  AirPurifierDevice,
 } from "./Models/Devices";
 import { appReducer, initialState } from "./reducers/appReducer";
+import { AirPurifierOptions } from "./Components/AirPurifierOptions";
+import DataAccessGateway from "dataaccessgateway";
 const SERVER_IP = process.env.REACT_APP_SERVER_IP;
 const SERVER_PORT = process.env.REACT_APP_SERVER_PORT;
 const WEBSOCKET_IP = process.env.REACT_APP_WEBSOCKET_IP;
@@ -32,6 +35,7 @@ console.log(`WS  ${SERVER_IP}:${WEBSOCKET_PORT}, `);
 const webSocketUrl = `ws://${WEBSOCKET_IP}:${WEBSOCKET_PORT}`;
 const height = 1024;
 const width = 600;
+
 // function connect() {
 //     const ws = new WebSocket(url);
 //     console.log("attempt connection to ", url);
@@ -61,6 +65,12 @@ const width = 600;
 //     };
 // }
 // connect();
+
+const dag = DataAccessGateway("HubitatDashboard");
+dag.setConfiguration({
+  defaultLifeSpanInSeconds: 30,
+});
+
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);
   const [readyWs, setReadyWs] = useState(false);
@@ -112,7 +122,7 @@ function App() {
             );
           } else {
             console.log(
-              `Does not save ${objData.displayName}: No device configured`
+              `Does not save ${objData.displayName}: No device configured for id# ${objData.deviceId}`
             );
           }
         } catch (e) {
@@ -137,24 +147,28 @@ function App() {
 
   useEffect(() => {
     console.log("Load from Hubitat");
-    fetch(`http://${SERVER_IP}:${SERVER_PORT}/api/getall`).then(
-      (value: Response) => {
-        value.json().then((data: DeviceDataKind[]) => {
-          data.forEach((p) => {
-            const configData = allDevices[p.id];
-            if (configData !== undefined) {
-              const mergedData = { ...configData, ...p };
-              dispatch(
-                AppActions.initDevice({
-                  device: mergedData,
-                })
-              );
-            }
-          });
-          setReadyWs(true);
+    dag
+      .fetchFast<DeviceDataKind[]>({
+        request: {
+          method: "GET",
+          url: `http://${SERVER_IP}:${SERVER_PORT}/api/getall`,
+        },
+      })
+      .then((value) => {
+        const data: DeviceDataKind[] = value.result;
+        data.forEach((p) => {
+          const configData = allDevices[p.id];
+          if (configData !== undefined) {
+            const mergedData = { ...configData, ...p };
+            dispatch(
+              AppActions.initDevice({
+                device: mergedData,
+              })
+            );
+          }
         });
-      }
-    );
+        setReadyWs(true);
+      });
   }, []);
 
   let optionComponent: JSX.Element | undefined = getOptionComponent();
@@ -251,6 +265,23 @@ function App() {
               toggleDrawer(false);
             }}
             onSave={(deviceToSave: DimmingLightDevice) => {
+              dispatch(AppActions.saveDevice(deviceToSave));
+              save(state.devices[deviceToSave.id], deviceToSave);
+            }}
+          />
+        );
+      } else if (configuringDevice.kind === "AIRPURIFIER") {
+        optionComponent = (
+          <AirPurifierOptions
+            switchName={configuringDevice.label}
+            isDialogOpen={drawerOpen}
+            deviceData={{
+              ...(configuringDevice as AirPurifierDevice),
+            }}
+            onClose={() => {
+              toggleDrawer(false);
+            }}
+            onSave={(deviceToSave: AirPurifierDevice) => {
               dispatch(AppActions.saveDevice(deviceToSave));
               save(state.devices[deviceToSave.id], deviceToSave);
             }}

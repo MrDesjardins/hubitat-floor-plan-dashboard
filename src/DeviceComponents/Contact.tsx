@@ -17,6 +17,8 @@ export enum ContactDirection {
   SlideLeft,
 }
 interface PositionAngle {
+  positionTextX: number;
+  positionTextY: number;
   positionX: number;
   positionY: number;
 
@@ -191,8 +193,8 @@ export const Contact = (props: ContactOptions) => {
     <>
       <Text
         text={`${isContactOpen ? "Open" : "Close"}`}
-        x={positionsAngles.positionX}
-        y={positionsAngles.positionY}
+        x={positionsAngles.positionTextX}
+        y={positionsAngles.positionTextY}
         fill={TEXT_COLOR}
       />
 
@@ -219,6 +221,8 @@ export function getDoorStartPositionEndPosition(
   switch (direction) {
     case ContactDirection.South:
       return {
+        positionTextX: positions[0] + 10,
+        positionTextY: positions[1] + 10,
         positionX: positions[0],
         positionY: positions[1],
         positionXOpen: 30,
@@ -228,6 +232,8 @@ export function getDoorStartPositionEndPosition(
       };
     case ContactDirection.North:
       return {
+        positionTextX: positions[0] + 10,
+        positionTextY: positions[1] + 10,
         positionX: positions[0],
         positionY: positions[1],
         positionXOpen: 30,
@@ -237,6 +243,8 @@ export function getDoorStartPositionEndPosition(
       };
     case ContactDirection.East:
       return {
+        positionTextX: positions[0] + 10,
+        positionTextY: positions[1] + 20,
         positionX: positions[0],
         positionY: positions[1],
         positionXOpen: -30,
@@ -246,6 +254,8 @@ export function getDoorStartPositionEndPosition(
       };
     case ContactDirection.West:
       return {
+        positionTextX: positions[0] + 10,
+        positionTextY: positions[1] + 20,
         positionX: positions[0],
         positionY: positions[1],
         positionXOpen: 30,
@@ -255,6 +265,8 @@ export function getDoorStartPositionEndPosition(
       };
     case ContactDirection.SlideDown:
       return {
+        positionTextX: positions[0] + 10,
+        positionTextY: positions[1] + 20,
         positionX: positions[0],
         positionY: positions[1],
         positionXOpen: 0,
@@ -264,6 +276,8 @@ export function getDoorStartPositionEndPosition(
       };
     case ContactDirection.SlideUp:
       return {
+        positionTextX: positions[0] + 10,
+        positionTextY: positions[1] + 20,
         positionX: positions[0],
         positionY: positions[1],
         positionXOpen: 0,
@@ -273,6 +287,8 @@ export function getDoorStartPositionEndPosition(
       };
     case ContactDirection.SlideLeft:
       return {
+        positionTextX: positions[0],
+        positionTextY: positions[1] + 10,
         positionX: positions[0],
         positionY: positions[1],
         positionXOpen: 40,
@@ -282,6 +298,8 @@ export function getDoorStartPositionEndPosition(
       };
     case ContactDirection.SlideRight:
       return {
+        positionTextX: positions[0] + 5,
+        positionTextY: positions[1] + 10,
         positionX: positions[0],
         positionY: positions[1],
         positionXOpen: 40,

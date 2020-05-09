@@ -1,5 +1,5 @@
-export const TEXT_COLOR = "#3B829C";
-export const LINE_COLOR = "#D7E7D0";
+export const TEXT_COLOR = "#b2ebf2";
+export const LINE_COLOR = "#00bcd4";
 
 export const WALL_COLOR = "#3B829C";
 
