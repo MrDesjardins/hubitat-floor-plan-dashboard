@@ -20,6 +20,7 @@ const buttonStylesIndividual = {
   color: MENU_TEXT_COLOR,
 };
 export const BottomMenu = (props: BottomMenuProps) => {
+  const [value, setValue] = React.useState(0);
 
   return (
     <BottomNavigation
