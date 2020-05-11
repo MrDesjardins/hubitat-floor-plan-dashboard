@@ -24,6 +24,8 @@ import {
 import { appReducer, initialState } from "./reducers/appReducer";
 import { AirPurifierOptions } from "./Components/AirPurifierOptions";
 import DataAccessGateway from "dataaccessgateway";
+import { BottomMenu } from "./Components/BottomMenu";
+import { Devices } from "./Devices";
 const SERVER_IP = process.env.REACT_APP_SERVER_IP;
 const SERVER_PORT = process.env.REACT_APP_SERVER_PORT;
 const WEBSOCKET_IP = process.env.REACT_APP_WEBSOCKET_IP;
@@ -182,23 +184,25 @@ function App() {
       }}
     >
       <TopMenu />
-      <Stage width={width} height={height}>
+      <Stage width={width} height={height - 120}>
         <Layer>
           <FloorPlan />
-          {Object.values(state.devices).map((dev) =>
-            React.createElement(dev.component, {
-              key: dev.id,
-              componentId: dev.id,
-              deviceData: dev,
-              textPosition: dev.textPosition,
-              openConfiguration: () => {
+          <Devices
+            isTemperatureModeOn={state.isTemperatureModeOn}
+            devices={state.devices}
+            openConfiguration={(dev: DeviceDataKind, openDrawer: boolean) => {
                 setConfiguringDevice(dev);
-                setDrawerOpen(true);
-              },
-            })
-          )}
+                setDrawerOpen(openDrawer);
+              }
+            } 
+            />
         </Layer>
       </Stage>
+      <BottomMenu
+        temperatureMode={state.isTemperatureModeOn}
+        onChangeTemperature={(isTemperatureModeOn: boolean) => {
+          dispatch(AppActions.setTemperatureMode(isTemperatureModeOn));
+        }} />
       <Drawer
         className={"app-drawer"}
         anchor={"bottom"}
@@ -305,7 +309,7 @@ function save(
       console.log("Saving Dimmer Light Level");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${
-          existingDeviceData.id
+        existingDeviceData.id
         }/setLevel/${getDimmerLightLevelAttribute(newDeviceData)}`
       );
     }
@@ -316,7 +320,7 @@ function save(
       console.log("Saving Dimmer Power");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-          getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+        getLightOnOffAttribute(newDeviceData) ? "on" : "off"
         }`
       );
     }
@@ -331,7 +335,7 @@ function save(
       console.log("Saving Switch Light Level");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-          getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+        getLightOnOffAttribute(newDeviceData) ? "on" : "off"
         }`
       );
     }

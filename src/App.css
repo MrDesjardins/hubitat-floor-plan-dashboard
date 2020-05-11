@@ -46,7 +46,8 @@ html {
   background-color: rgb(5, 22, 29);
 }
 
-.TopMenu {
+.TopMenu,
+.BottomMenu {
   background: linear-gradient(
     45deg,
     rgba(40, 49, 77, 1) 0%,

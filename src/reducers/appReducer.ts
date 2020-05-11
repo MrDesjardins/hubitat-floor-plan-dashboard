@@ -3,12 +3,14 @@ import {
     AcceptedActions,
     ACTION_SAVE_DEVICE,
     ACTION_INIT_DEVICE,
+    ACTION_SET_TEMPERATURE_MODE,
 } from "../actions/appActions";
 import { getDeviceType } from "../Logics/AttributeLogics";
 
 export const initialState: ApplicationState = {
     devices: {},
     dimmingDialogOpen: false,
+    isTemperatureModeOn: false
 };
 export function appReducer(
     state: ApplicationState,
@@ -40,6 +42,11 @@ export function appReducer(
                 return { ...newState };
             }
             return state;
+        }
+        case ACTION_SET_TEMPERATURE_MODE: {
+            const newState = { ...state };
+            newState.isTemperatureModeOn = action.payload;
+            return newState;
         }
         default:
             return assertActionInReducer(action);
