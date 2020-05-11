@@ -48,6 +48,11 @@ export interface LightSwitchDevice extends DeviceData {
 }
 export interface ThermostatDevice extends DeviceData {
   kind: "THERMOSTAT"
+  temperatureComponent: (props: any) => JSX.Element;
+}
+
+export interface TemperatureDevice extends ThermostatDevice {
+
 }
 
 export interface ContactDevice extends DeviceData {
@@ -58,6 +63,7 @@ export interface ContactDevice extends DeviceData {
 export interface MotionDevice extends DeviceData {
   kind: "MOTION";
   path: number[][];
+  temperatureComponent: (props: any) => JSX.Element;
 }
 export interface AirPurifierDevice extends DeviceData {
   kind: "AIRPURIFIER";
@@ -80,8 +86,8 @@ export interface TvDevice extends DeviceData {
   wattThreashold: number;
 }
 
-export interface DeadboltDevice extends DeviceData{
-  kind:"DEADBOLT";
+export interface DeadboltDevice extends DeviceData {
+  kind: "DEADBOLT";
 }
 
 export interface DeviceAttributes {

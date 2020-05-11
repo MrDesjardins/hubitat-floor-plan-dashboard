@@ -11,6 +11,7 @@ export interface ThermostatOptions extends CommonProps {
 
 export const Thermostat = (props: ThermostatOptions) => {
   const temperature = getTemperatureAtribute(props.deviceData);
+  
   return (
     <>
       <Text

@@ -99,5 +99,5 @@ export const getTemperatureAtribute = (device: ThermostatDevice): number => {
 };
 
 export const getHumidityAtribute = (device: ThermostatDevice): number => {
-  return Number(device.attributes["humidity "]);
+  return Number(device.attributes["humidity"]);
 };

@@ -1,4 +1,4 @@
-import { DeviceDataKind } from "./Models/Devices";
+import { DeviceDataKind, ThermostatDevice, MotionDevice } from "./Models/Devices";
 import React, { FunctionComponent} from "react";
 export interface DevicesProps {
   isTemperatureModeOn: boolean;
@@ -9,8 +9,18 @@ export interface DevicesProps {
 export const Devices: FunctionComponent<DevicesProps> = (props: DevicesProps) => {
  
   if (props.isTemperatureModeOn) {
-    // const temperatureSensors = Object.values(props.devices).filter(d=>d.kind === "MOTION"
-    return null;
+    const temperatureSensors = Object.values(props.devices).filter(d=>d.kind === "THERMOSTAT" || d.kind === "MOTION") as (ThermostatDevice & MotionDevice)[];
+    return <>{temperatureSensors.map((dev) =>
+      React.createElement(dev.temperatureComponent, {
+        key: dev.id,
+        componentId: dev.id,
+        deviceData: dev,
+        textPosition: dev.textPosition,
+        openConfiguration: () => {
+          props.openConfiguration(dev, true);
+        },
+      })
+    )}</>
   } else {
     return <>{Object.values(props.devices).map((dev) =>
       React.createElement(dev.component, {
