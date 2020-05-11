@@ -9,6 +9,7 @@ import {
   ProjectingLightDevice,
   AirPurifierDevice,
   DeadboltDevice,
+  ThermostatDevice,
 } from "../Models/Devices";
 import { allDevices } from "../Models/AllDevices";
 
@@ -91,4 +92,12 @@ export const getDeadboltLockStatus = (
 ): boolean => {
   const attr = device.attributes["lock"];
   return attr === "locked";
+};
+
+export const getTemperatureAtribute = (device: ThermostatDevice): number => {
+  return Number(device.attributes["temperature"]);
+};
+
+export const getHumidityAtribute = (device: ThermostatDevice): number => {
+  return Number(device.attributes["humidity "]);
 };

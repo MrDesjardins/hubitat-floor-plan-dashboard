@@ -8,6 +8,7 @@ import { WashingMachine } from "../DeviceComponents/WashingMachine";
 import { ProjectingLight } from "../DeviceComponents/ProjectingLight";
 import { AirPurifier } from "../DeviceComponents/AirPurifier";
 import { Deadbolt } from "../DeviceComponents/Deadbolt";
+import { Thermostat } from "../DeviceComponents/Thermostat";
 
 const NORTH_WALL = 36;
 export const allDevices: { [deviceId: string]: DeviceDataKind } = {
@@ -469,6 +470,16 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     component: LightSwitch,
     note: "OutSide Left Garage Light",
     textPosition: [10, NORTH_WALL + 420],
+    attributes: {},
+    label: "",
+    name: "",
+  },
+  "17": {
+    id: "17",
+    kind: "THERMOSTAT",
+    component: Thermostat,
+    note: "Corridor Thermostat",
+    textPosition: [190, NORTH_WALL + 160],
     attributes: {},
     label: "",
     name: "",

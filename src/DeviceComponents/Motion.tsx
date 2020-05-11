@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Text } from "react-konva";
 import { CommonProps } from "./Common";
-import { ContactDevice, MotionDevice } from "../Models/Devices";
+import { MotionDevice } from "../Models/Devices";
 import { getMotionOnOffAttribute } from "../Logics/AttributeLogics";
 import { animated, Spring } from "react-spring/renderprops-konva";
 import { useInterval } from "../hooks/useInterval";
@@ -9,7 +9,7 @@ import { TEXT_COLOR, MOTION_COLOR } from "../constants";
 export interface MotionOptions extends CommonProps {
   deviceData: MotionDevice;
 
-  onSave: (deviceData: ContactDevice) => void;
+  onSave: (deviceData: MotionDevice) => void;
 }
 
 export const Motion = (props: MotionOptions) => {

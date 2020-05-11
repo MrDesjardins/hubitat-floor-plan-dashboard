@@ -11,7 +11,8 @@ export type DeviceType =
   | "PROJECTING_LIGHT"
   | "AIRPURIFIER"
   | "WASHINGMACHINE"
-  | "DEADBOLT";
+  | "DEADBOLT"
+  | "THERMOSTAT";
 
 export type DeviceDataKind =
   | UnknownDevice
@@ -23,6 +24,7 @@ export type DeviceDataKind =
   | ProjectingLightDevice
   | AirPurifierDevice
   | WashingMachineDevice
+  | ThermostatDevice
   | DeadboltDevice;
 export interface DeviceData {
   kind: DeviceType;
@@ -43,6 +45,9 @@ export interface DimmingLightDevice extends DeviceData {
 }
 export interface LightSwitchDevice extends DeviceData {
   kind: "SWITCH";
+}
+export interface ThermostatDevice extends DeviceData {
+  kind: "THERMOSTAT"
 }
 
 export interface ContactDevice extends DeviceData {

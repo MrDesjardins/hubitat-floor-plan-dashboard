@@ -9,7 +9,8 @@ export interface DevicesProps {
 export const Devices: FunctionComponent<DevicesProps> = (props: DevicesProps) => {
  
   if (props.isTemperatureModeOn) {
-    return <></>;
+    // const temperatureSensors = Object.values(props.devices).filter(d=>d.kind === "MOTION"
+    return null;
   } else {
     return <>{Object.values(props.devices).map((dev) =>
       React.createElement(dev.component, {
