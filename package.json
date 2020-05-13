@@ -43,7 +43,8 @@
         "copy:env": "copyfiles .env server && copyfiles .env src ",
         "build": "npm run copy:env && react-scripts build",
         "test": "react-scripts test",
-        "eject": "react-scripts eject"
+        "eject": "react-scripts eject",
+        "prettier": "prettier --write src/**/*.{ts,tsx}"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -69,6 +70,7 @@
         "concurrently": "^5.1.0",
         "copyfiles": "^2.2.0",
         "delay": "^4.3.0",
-        "nodemon": "^2.0.3"
+        "nodemon": "^2.0.3",
+        "prettier": "^2.0.5"
     }
 }

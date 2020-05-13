@@ -18,6 +18,9 @@ export const AppActions = {
   saveDevice: createActionPayload<typeof ACTION_SAVE_DEVICE, DeviceDataKind>(
     ACTION_SAVE_DEVICE
   ),
-  setTemperatureMode: createActionPayload<typeof ACTION_SET_TEMPERATURE_MODE, boolean>(ACTION_SET_TEMPERATURE_MODE)
+  setTemperatureMode: createActionPayload<
+    typeof ACTION_SET_TEMPERATURE_MODE,
+    boolean
+  >(ACTION_SET_TEMPERATURE_MODE),
 };
 export type AcceptedActions = ActionsUnion<typeof AppActions>;

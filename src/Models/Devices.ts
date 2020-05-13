@@ -47,13 +47,11 @@ export interface LightSwitchDevice extends DeviceData {
   kind: "SWITCH";
 }
 export interface ThermostatDevice extends DeviceData {
-  kind: "THERMOSTAT"
+  kind: "THERMOSTAT";
   temperatureComponent: (props: any) => JSX.Element;
 }
 
-export interface TemperatureDevice extends ThermostatDevice {
-
-}
+export interface TemperatureDevice extends ThermostatDevice {}
 
 export interface ContactDevice extends DeviceData {
   kind: "CONTACT";

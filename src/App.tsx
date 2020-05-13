@@ -155,26 +155,33 @@ function App() {
       }}
     >
       <TopMenu />
-      <Stage width={width} height={height - 120} onClick={(evt)=>{ 
-        console.log(`${evt.evt.x - WEST_WALL}, ${evt.evt.y - NORTH_WALL - 50}`);}}>
+      <Stage
+        width={width}
+        height={height - 120}
+        onClick={(evt) => {
+          console.log(
+            `${evt.evt.x - WEST_WALL}, ${evt.evt.y - NORTH_WALL - 50}`
+          );
+        }}
+      >
         <Layer>
           <FloorPlan />
           <Devices
             isTemperatureModeOn={state.isTemperatureModeOn}
             devices={state.devices}
             openConfiguration={(dev: DeviceDataKind, openDrawer: boolean) => {
-                setConfiguringDevice(dev);
-                setDrawerOpen(openDrawer);
-              }
-            } 
-            />
+              setConfiguringDevice(dev);
+              setDrawerOpen(openDrawer);
+            }}
+          />
         </Layer>
       </Stage>
       <BottomMenu
         temperatureMode={state.isTemperatureModeOn}
         onChangeTemperature={(isTemperatureModeOn: boolean) => {
           dispatch(AppActions.setTemperatureMode(isTemperatureModeOn));
-        }} />
+        }}
+      />
       <Drawer
         className={"app-drawer"}
         anchor={"bottom"}
@@ -281,7 +288,7 @@ function save(
       console.log("Saving Dimmer Light Level");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${
-        existingDeviceData.id
+          existingDeviceData.id
         }/setLevel/${getDimmerLightLevelAttribute(newDeviceData)}`
       );
     }
@@ -292,7 +299,7 @@ function save(
       console.log("Saving Dimmer Power");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-        getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+          getLightOnOffAttribute(newDeviceData) ? "on" : "off"
         }`
       );
     }
@@ -307,7 +314,7 @@ function save(
       console.log("Saving Switch Light Level");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-        getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+          getLightOnOffAttribute(newDeviceData) ? "on" : "off"
         }`
       );
     }

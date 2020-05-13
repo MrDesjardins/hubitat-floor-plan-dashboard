@@ -1,18 +1,16 @@
 import { BottomNavigation, BottomNavigationAction } from "@material-ui/core";
 import React from "react";
-import { MENU_TEXT_COLOR, TOP_MENU_HEIGHT } from "../constants";
+import { TOP_MENU_HEIGHT } from "../constants";
 import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
 export interface TopMenuProps {}
 
 const buttonStyles = {
   height: TOP_MENU_HEIGHT,
   width: "100%",
-
 };
 const buttonStylesIndividual = {
   height: TOP_MENU_HEIGHT,
   width: "100%",
-
 };
 export const TopMenu = (props: TopMenuProps) => {
   const [value, setValue] = React.useState(0);

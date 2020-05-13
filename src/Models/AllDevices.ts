@@ -444,7 +444,7 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     name: "",
     box: [WEST_WALL + 10, NORTH_WALL + 20, WEST_WALL + 80, NORTH_WALL + 80],
     type: "stars",
-    amount: 12
+    amount: 12,
   },
   "292": {
     id: "292",

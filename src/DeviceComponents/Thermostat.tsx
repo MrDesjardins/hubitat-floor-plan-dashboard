@@ -6,12 +6,11 @@ import { TEXT_COLOR } from "../constants";
 import { getTemperatureAtribute } from "../Logics/AttributeLogics";
 export interface ThermostatOptions extends CommonProps {
   deviceData: ThermostatDevice;
-
 }
 
 export const Thermostat = (props: ThermostatOptions) => {
   const temperature = getTemperatureAtribute(props.deviceData);
-  
+
   return (
     <>
       <Text

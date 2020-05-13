@@ -1,9 +1,6 @@
 import { Image } from "react-konva";
 import React from "react";
-import {
-  COLOR_MACHINE1,
-  COLOR_MACHINE2,
-} from "../constants";
+import { COLOR_MACHINE1, COLOR_MACHINE2 } from "../constants";
 import { useSvgImage } from "../hooks/useSvgImage";
 import { SineWave } from "./SineWave";
 export interface AirPurifierMachineProps {
@@ -70,9 +67,9 @@ export const AirPurifierMachine = (props: AirPurifierMachineProps) => {
         y={props.yPosition}
         onClick={props.onClick}
       />
-      <SineWave x={props.xPosition-10} y={props.xPosition-25} />
-      <SineWave x={props.xPosition-10} y={props.xPosition-30} />
-      <SineWave x={props.xPosition-10} y={props.xPosition-35} />
+      <SineWave x={props.xPosition - 10} y={props.xPosition - 25} />
+      <SineWave x={props.xPosition - 10} y={props.xPosition - 30} />
+      <SineWave x={props.xPosition - 10} y={props.xPosition - 35} />
     </>
   );
 };

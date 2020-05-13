@@ -1,9 +1,9 @@
 import { BottomNavigation, BottomNavigationAction } from "@material-ui/core";
-import React  from "react";
+import React from "react";
 import { MENU_TEXT_COLOR, TOP_MENU_HEIGHT } from "../constants";
-import { Icon } from '@iconify/react';
-import homeThermometer from '@iconify/icons-mdi/home-thermometer';
-import homeThermometerOutline from '@iconify/icons-mdi/home-thermometer-outline';
+import { Icon } from "@iconify/react";
+import homeThermometer from "@iconify/icons-mdi/home-thermometer";
+import homeThermometerOutline from "@iconify/icons-mdi/home-thermometer-outline";
 export interface BottomMenuProps {
   temperatureMode: boolean;
   onChangeTemperature: (isTemperatureOn: boolean) => void;
@@ -35,7 +35,13 @@ export const BottomMenu = (props: BottomMenuProps) => {
       <BottomNavigationAction
         label="Temperature"
         style={buttonStylesIndividual}
-        icon={<Icon icon={props.temperatureMode ? homeThermometer : homeThermometerOutline} />}
+        icon={
+          <Icon
+            icon={
+              props.temperatureMode ? homeThermometer : homeThermometerOutline
+            }
+          />
+        }
         onClick={() => {
           props.onChangeTemperature(!props.temperatureMode);
         }}
@@ -43,4 +49,3 @@ export const BottomMenu = (props: BottomMenuProps) => {
     </BottomNavigation>
   );
 };
-

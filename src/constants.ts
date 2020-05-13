@@ -21,7 +21,5 @@ export const COLOR_MACHINE1 = "#00bcd4";
 export const COLOR_MACHINE2 = "#00bcd4";
 export const COLOR_MACHINE3 = "#b2ebf2";
 
-
-
 export const NORTH_WALL = 93;
 export const WEST_WALL = 41;

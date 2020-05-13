@@ -31,7 +31,11 @@ export const setDimmerLightLevelAttribute = (
 };
 
 export const getLightOnOffAttribute = (
-  device: DimmingLightDevice | LightSwitchDevice | ProjectingLightDevice | AirPurifierDevice
+  device:
+    | DimmingLightDevice
+    | LightSwitchDevice
+    | ProjectingLightDevice
+    | AirPurifierDevice
 ): boolean => {
   return device.attributes["switch"] === "on";
 };
@@ -87,9 +91,7 @@ export const getPowerAttribute = (
   }
   return Number(attr);
 };
-export const getDeadboltLockStatus = (
-  device: DeadboltDevice
-): boolean => {
+export const getDeadboltLockStatus = (device: DeadboltDevice): boolean => {
   const attr = device.attributes["lock"];
   return attr === "locked";
 };
