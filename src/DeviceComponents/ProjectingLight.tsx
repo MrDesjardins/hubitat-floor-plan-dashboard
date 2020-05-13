@@ -26,17 +26,17 @@ export const ProjectingLight = (props: ProjectingLightOptions) => {
     const size = 4 + Math.random() * 10;
     coords.push([x, y, size]);
   }
-
-  const starsComponent = coords.map((c) => {
+  const isOn = getLightOnOffAttribute(props.deviceData) ;
+  const starsComponent =isOn? coords.map((c) => {
     return (
       <AnimatedLight key={i++} width={c[2]} height={c[2]} x={c[0]} y={c[1]} />
     );
-  });
+  }):undefined;
   return (
     <>
       {starsComponent}
       <Text
-        text={`${getLightOnOffAttribute(props.deviceData) ? "On" : "Off"}`}
+        text={`${isOn? "On" : "Stars Off"}`}
         x={props.textPosition[0]}
         y={props.textPosition[1]}
         fill={TEXT_COLOR}

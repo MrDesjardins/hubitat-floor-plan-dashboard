@@ -19,7 +19,7 @@ export const SineWave = (props: SiveWaveProps) => {
 
   const img = useRef<HTMLImageElement>(document.createElement("img"));
 
-  const amplitude = 1.1;
+  const amplitude = 1.05;
   const frequency = 0.25;
   useEffect(() => {
     console.log("Mounted a SineWave");

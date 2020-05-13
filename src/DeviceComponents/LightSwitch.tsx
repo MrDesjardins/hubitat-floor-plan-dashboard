@@ -15,7 +15,7 @@ export const LightSwitch = (props: LightSwitchOptions) => {
     <>
       <ImageLightBulb
         on={getLightOnOffAttribute(props.deviceData)}
-        xPosition={props.textPosition[0]}
+        xPosition={props.textPosition[0]-5}
         yPosition={props.textPosition[1] - 40}
         onClick={() => {
           props.openConfiguration();

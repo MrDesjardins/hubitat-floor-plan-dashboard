@@ -70,9 +70,9 @@ export const AirPurifierMachine = (props: AirPurifierMachineProps) => {
         y={props.yPosition}
         onClick={props.onClick}
       />
-      <SineWave x={props.xPosition-10} y={props.xPosition-50} />
-      <SineWave x={props.xPosition-10} y={props.xPosition-55} />
-      <SineWave x={props.xPosition-10} y={props.xPosition-60} />
+      <SineWave x={props.xPosition-10} y={props.xPosition-25} />
+      <SineWave x={props.xPosition-10} y={props.xPosition-30} />
+      <SineWave x={props.xPosition-10} y={props.xPosition-35} />
     </>
   );
 };

@@ -28,7 +28,7 @@ export const AirPurifier = (props: AirPurifierOptions) => {
       <AirPurifierMachine
         on={isInPower}
         xPosition={x}
-        yPosition={y - 30}
+        yPosition={y - 35}
         onClick={() => {
           props.openConfiguration();
         }}

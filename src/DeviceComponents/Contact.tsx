@@ -5,7 +5,7 @@ import { ContactDevice } from "../Models/Devices";
 import { getContactOnOffAttribute } from "../Logics/AttributeLogics";
 import { Spring, animated } from "react-spring/renderprops-konva";
 import { TEXT_COLOR, LINE_COLOR } from "../constants";
-
+const ContactSize = 35;
 export enum ContactDirection {
   North,
   South,
@@ -77,7 +77,7 @@ function getComponentDoor(
         from={{ x: positionsAngles.positionX }}
         to={{
           x: isContactOpen
-            ? positionsAngles.positionX + 40
+            ? positionsAngles.positionX + ContactSize
             : positionsAngles.positionX,
         }}
       >
@@ -104,7 +104,7 @@ function getComponentDoor(
         from={{ x: positionsAngles.positionX }}
         to={{
           x: isContactOpen
-            ? positionsAngles.positionX - 40
+            ? positionsAngles.positionX - ContactSize
             : positionsAngles.positionX,
         }}
       >
@@ -131,7 +131,7 @@ function getComponentDoor(
         from={{ y: positionsAngles.positionY }}
         to={{
           y: isContactOpen
-            ? positionsAngles.positionY + 40
+            ? positionsAngles.positionY + ContactSize
             : positionsAngles.positionY,
         }}
       >
@@ -158,7 +158,7 @@ function getComponentDoor(
         from={{ y: positionsAngles.positionY }}
         to={{
           y: isContactOpen
-            ? positionsAngles.positionY - 40
+            ? positionsAngles.positionY - ContactSize
             : positionsAngles.positionY,
         }}
       >
@@ -225,8 +225,8 @@ export function getDoorStartPositionEndPosition(
         positionTextY: positions[1] + 10,
         positionX: positions[0],
         positionY: positions[1],
-        positionXOpen: 30,
-        positionYOpen: 30,
+        positionXOpen: 22,
+        positionYOpen: 22,
         angleOpen: 0,
         angleClose: -45,
       };
@@ -236,19 +236,19 @@ export function getDoorStartPositionEndPosition(
         positionTextY: positions[1] + 10,
         positionX: positions[0],
         positionY: positions[1],
-        positionXOpen: 30,
-        positionYOpen: 30,
+        positionXOpen: 22,
+        positionYOpen: 22,
         angleOpen: 0,
         angleClose: -45,
       };
     case ContactDirection.East:
       return {
         positionTextX: positions[0] + 10,
-        positionTextY: positions[1] + 20,
+        positionTextY: positions[1] + 10,
         positionX: positions[0],
         positionY: positions[1],
-        positionXOpen: -30,
-        positionYOpen: 30,
+        positionXOpen: -22,
+        positionYOpen: 22,
         angleOpen: 0,
         angleClose: -45,
       };
@@ -258,8 +258,8 @@ export function getDoorStartPositionEndPosition(
         positionTextY: positions[1] + 20,
         positionX: positions[0],
         positionY: positions[1],
-        positionXOpen: 30,
-        positionYOpen: 30,
+        positionXOpen: 22,
+        positionYOpen: 22,
         angleOpen: 0,
         angleClose: 45,
       };
@@ -270,7 +270,7 @@ export function getDoorStartPositionEndPosition(
         positionX: positions[0],
         positionY: positions[1],
         positionXOpen: 0,
-        positionYOpen: 40,
+        positionYOpen: ContactSize,
         angleOpen: 0,
         angleClose: 0,
       };
@@ -281,7 +281,7 @@ export function getDoorStartPositionEndPosition(
         positionX: positions[0],
         positionY: positions[1],
         positionXOpen: 0,
-        positionYOpen: 40,
+        positionYOpen: ContactSize,
         angleOpen: 0,
         angleClose: 0,
       };
@@ -291,7 +291,7 @@ export function getDoorStartPositionEndPosition(
         positionTextY: positions[1] + 10,
         positionX: positions[0],
         positionY: positions[1],
-        positionXOpen: 40,
+        positionXOpen: ContactSize,
         positionYOpen: 0,
         angleOpen: 0,
         angleClose: 0,
@@ -302,7 +302,7 @@ export function getDoorStartPositionEndPosition(
         positionTextY: positions[1] + 10,
         positionX: positions[0],
         positionY: positions[1],
-        positionXOpen: 40,
+        positionXOpen: ContactSize,
         positionYOpen: 0,
         angleOpen: 0,
         angleClose: 0,

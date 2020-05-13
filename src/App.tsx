@@ -26,6 +26,7 @@ import { AirPurifierOptions } from "./Components/AirPurifierOptions";
 import DataAccessGateway from "dataaccessgateway";
 import { BottomMenu } from "./Components/BottomMenu";
 import { Devices } from "./Devices";
+import { WEST_WALL, NORTH_WALL } from "./constants";
 const SERVER_IP = process.env.REACT_APP_SERVER_IP;
 const SERVER_PORT = process.env.REACT_APP_SERVER_PORT;
 const WEBSOCKET_IP = process.env.REACT_APP_WEBSOCKET_IP;
@@ -37,36 +38,6 @@ console.log(`WS  ${SERVER_IP}:${WEBSOCKET_PORT}, `);
 const webSocketUrl = `ws://${WEBSOCKET_IP}:${WEBSOCKET_PORT}`;
 const height = 1024;
 const width = 600;
-
-// function connect() {
-//     const ws = new WebSocket(url);
-//     console.log("attempt connection to ", url);
-//     ws.onopen = function (e: Event) {
-//         console.log(`connection to  ${url} established`);
-//     };
-
-//     ws.onmessage = (e: MessageEvent) => {
-//         try {
-//             console.log("OnMessage Data", e.data);
-//         } catch (e) {
-//             console.log("Invalid JSON data received from websocket", e.data);
-//             return;
-//         }
-//     };
-
-//     ws.onclose = (e: CloseEvent) => {
-//         console.log("onclose", e);
-//         setTimeout(function () {
-//             connect();
-//         }, 1000);
-//     };
-
-//     ws.onerror = (event: Event) => {
-//         console.log("onError", event);
-//         ws.close();
-//     };
-// }
-// connect();
 
 const dag = DataAccessGateway("HubitatDashboard");
 dag.setConfiguration({
@@ -184,7 +155,8 @@ function App() {
       }}
     >
       <TopMenu />
-      <Stage width={width} height={height - 120}>
+      <Stage width={width} height={height - 120} onClick={(evt)=>{ 
+        console.log(`${evt.evt.x - WEST_WALL}, ${evt.evt.y - NORTH_WALL - 50}`);}}>
         <Layer>
           <FloorPlan />
           <Devices

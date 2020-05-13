@@ -46,7 +46,7 @@ export const Motion = (props: MotionOptions) => {
         <Spring
           native={true}
           from={{
-            x: props.deviceData.path[0][0],
+            x: props.deviceData.path[pathIndex][0],
             y: props.deviceData.path[pathIndex][1],
           }}
           to={{
