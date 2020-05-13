@@ -7,12 +7,12 @@ export interface TopMenuProps {}
 const buttonStyles = {
   height: TOP_MENU_HEIGHT,
   width: "100%",
-  color: MENU_TEXT_COLOR,
+
 };
 const buttonStylesIndividual = {
   height: TOP_MENU_HEIGHT,
   width: "100%",
-  color: MENU_TEXT_COLOR,
+
 };
 export const TopMenu = (props: TopMenuProps) => {
   const [value, setValue] = React.useState(0);

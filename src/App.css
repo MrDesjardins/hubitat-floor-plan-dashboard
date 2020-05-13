@@ -115,3 +115,12 @@ html {
 .app-drawer .MuiSlider-colorPrimary {
   color: #5198ce;
 }
+
+
+.MuiButtonBase-root.MuiBottomNavigationAction-root.Mui-selected {
+  color:#36a8ff;
+}
+
+.MuiButtonBase-root.MuiBottomNavigationAction-root{
+  color:white;
+}
