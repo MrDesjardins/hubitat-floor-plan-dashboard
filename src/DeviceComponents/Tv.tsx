@@ -27,7 +27,7 @@ export const Tv = (props: TvOptions) => {
       setPulseDirection(-1);
     }
     setRadius(radius + pulseDirection);
-  }, 120);
+  }, 200);
   const isTvOn = getPowerOnAttribute(
     props.deviceData,
     props.deviceData.wattThreashold

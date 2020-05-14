@@ -505,7 +505,7 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     component: Thermostat,
     temperatureComponent: Temperature,
     note: "Corridor Thermostat",
-    textPosition: [WEST_WALL + 160, NORTH_WALL + 110],
+    textPosition: [WEST_WALL + 180, NORTH_WALL + 120],
     attributes: {},
     label: "",
     name: "",

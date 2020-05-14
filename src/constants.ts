@@ -1,4 +1,6 @@
 export const TEXT_COLOR = "#b2ebf2";
+
+export const TEXT_SIZE = 14;
 export const LINE_COLOR = "#00bcd4";
 
 export const WALL_COLOR = "#3B829C";
