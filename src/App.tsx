@@ -116,18 +116,20 @@ function App() {
       console.log("onError", event);
       websocketRef.current.close();
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reconnectWebsocket, readyWs]);
 
   useEffect(() => {
-    console.log("Load from Hubitat");
+    console.log("🌐 Fething all data");
     dag
-      .fetchFast<DeviceDataKind[]>({
+      .fetchFastAndFresh<DeviceDataKind[]>({
         request: {
           method: "GET",
           url: `http://${SERVER_IP}:${SERVER_PORT}/api/getall`,
         },
       })
       .then((value) => {
+        console.log("🌐 Using Data From Cache");
         const data: DeviceDataKind[] = value.result;
         data.forEach((p) => {
           const configData = allDevices[p.id];
@@ -140,6 +142,23 @@ function App() {
             );
           }
         });
+        if(value.webPromise!== undefined){
+          value.webPromise.then( (valueWeb )=>{
+            console.log("🌐 Using Data From Hubitat Server");
+            const data: DeviceDataKind[] = valueWeb.result;
+            data.forEach((p) => {
+              const configData = allDevices[p.id];
+              if (configData !== undefined) {
+                const mergedData = { ...configData, ...p };
+                dispatch(
+                  AppActions.initDevice({
+                    device: mergedData,
+                  })
+                );
+              }
+            });
+          });
+        }
         setReadyWs(true);
       });
   }, []);

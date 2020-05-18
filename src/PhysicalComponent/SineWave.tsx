@@ -1,6 +1,5 @@
 import { Image } from "react-konva";
 import React, { useState, useRef, useEffect } from "react";
-import { useSvgImage } from "../hooks/useSvgImage";
 import Konva from "konva";
 import { useInterval } from "../hooks/useInterval";
 import { COLOR_MACHINE3 } from "../constants";

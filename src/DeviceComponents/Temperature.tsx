@@ -86,7 +86,7 @@ function getColorFromTemperature(fahrenheit: number, alpha: number = 0.8): strin
   ];
 
   const max = 80;
-  const min = 60;
+  // const min = 60;
   const index = Math.round(max-fahrenheit);
   if (index < 0) {
     return `rgba(238, 27, 27, ${alpha})`;
@@ -122,6 +122,6 @@ function getColorFromTemperature(fahrenheit: number, alpha: number = 0.8): strin
   // return color;
 }
 
-function log(x: number) {
-  return Math.log(x + 1) / Math.log(1.01);
-}
+// function log(x: number) {
+//   return Math.log(x + 1) / Math.log(1.01);
+// }

@@ -27,6 +27,7 @@ export const ProjectingLight = (props: ProjectingLightOptions) => {
     coords.push([x, y, size]);
   }
   const isOn = getLightOnOffAttribute(props.deviceData);
+
   const starsComponent = isOn
     ? coords.map((c) => {
         return (
