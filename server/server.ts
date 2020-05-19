@@ -24,10 +24,10 @@ console.log(`WS  ${SERVER_IP}:${WEBSOCKET_PORT}, `);
 console.log(`Website  ${WEB_IP}:${WEB_PORT}, `);
 
 const serverApp = express();
-const corsOptions: cors.CorsOptions = {
-    origin: [`//localhost:${WEB_PORT}`, `//${WEB_IP}:${WEB_PORT}`],
-    optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-};
+// const corsOptions: cors.CorsOptions = {
+//     origin: [`//localhost:${WEB_PORT}`, `//${WEB_IP}:${WEB_PORT}`],
+//     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+// };
 serverApp.use(cors());
 // webApp.use(timeout("1s"));
 
@@ -91,11 +91,16 @@ serverApp.listen(SERVER_PORT, () =>
 
 const wsApp = new WebSocket.Server({ port: WEBSOCKET_PORT });
 
-wsApp.on("connection", function connection(ws) {
-    console.log(`Connection established: `);
+wsApp.on("connection", function connection(ws, req) {
+    console.log(`Connection established ${new Date().toISOString()}`, req.socket.remoteAddress);
+
     ws.on("message", function incoming(message) {
         console.log("received: %s", message);
     });
+});
+
+wsApp.on("error", err => {
+    console.error(`Error ${err.name}: ${err.message}`);
 });
 
 // wsApp.on("message", function incoming(data) {
