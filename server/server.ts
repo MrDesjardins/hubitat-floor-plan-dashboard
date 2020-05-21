@@ -18,10 +18,10 @@ const WEBSOCKET_PORT = Number(process.env.REACT_APP_WEBSOCKET_PORT);
 export const APP_ID = process.env.REACT_APP_HUBITAT_APP_ID;
 export const API_TOKEN = process.env.REACT_APP_HUBITAT_API_TOKEN;
 
-console.log(`Hubitat server on IP ${HUBITAT_IP}, `);
-console.log(`Server  ${SERVER_IP}:${SERVER_PORT}, `);
-console.log(`WS  ${SERVER_IP}:${WEBSOCKET_PORT}, `);
-console.log(`Website  ${WEB_IP}:${WEB_PORT}, `);
+console.log(`Hubitat server on IP ${HUBITAT_IP}`);
+console.log(`Server ${SERVER_IP}:${SERVER_PORT}`);
+console.log(`WS ${SERVER_IP}:${WEBSOCKET_PORT}`);
+console.log(`Website ${WEB_IP}:${WEB_PORT}`);
 
 const serverApp = express();
 // const corsOptions: cors.CorsOptions = {

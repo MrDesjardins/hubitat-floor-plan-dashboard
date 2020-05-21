@@ -63,58 +63,58 @@ function App() {
 
     setDrawerOpen(open);
   };
-  // useEffect(() => {
-  //   websocketRef.current = new WebSocket(webSocketUrl);
-  //   console.log("attempt connection to ", webSocketUrl);
-  //   websocketRef.current.onopen = function (e: Event) {
-  //     console.log(`connection to  ${webSocketUrl} established`);
-  //   };
+  useEffect(() => {
+    websocketRef.current = new WebSocket(webSocketUrl);
+    console.log("attempt connection to ", webSocketUrl);
+    websocketRef.current.onopen = function (e: Event) {
+      console.log(`connection to  ${webSocketUrl} established`);
+    };
 
-  //   websocketRef.current.onmessage = (e: MessageEvent) => {
-  //     if (readyWs) {
-  //       try {
-  //         console.log("OnMessage Data", e);
-  //         const objData = JSON.parse(e.data) as DeviceWebsocket;
-  //         const configuredData = allDevices[objData.deviceId];
-  //         if (configuredData !== undefined) {
-  //           const existingDevice = state.devices[objData.deviceId];
-  //           const copyExistingDevice = {
-  //             ...existingDevice,
-  //           };
-  //           copyExistingDevice.attributes = {
-  //             ...copyExistingDevice.attributes,
-  //           };
-  //           copyExistingDevice.attributes[objData.name] = objData.value;
-  //           dispatch(
-  //             AppActions.initDevice({
-  //               device: copyExistingDevice,
-  //             })
-  //           );
-  //         } else {
-  //           console.log(
-  //             `Does not save ${objData.displayName}: No device configured for id# ${objData.deviceId}`
-  //           );
-  //         }
-  //       } catch (e) {
-  //         console.log("Invalid JSON data received from websocket", e);
-  //         return;
-  //       }
-  //     }
-  //   };
+    websocketRef.current.onmessage = (e: MessageEvent) => {
+      if (readyWs) {
+        try {
+          console.log("OnMessage Data", e);
+          const objData = JSON.parse(e.data) as DeviceWebsocket;
+          const configuredData = allDevices[objData.deviceId];
+          if (configuredData !== undefined) {
+            const existingDevice = state.devices[objData.deviceId];
+            const copyExistingDevice = {
+              ...existingDevice,
+            };
+            copyExistingDevice.attributes = {
+              ...copyExistingDevice.attributes,
+            };
+            copyExistingDevice.attributes[objData.name] = objData.value;
+            dispatch(
+              AppActions.initDevice({
+                devices: [copyExistingDevice],
+              })
+            );
+          } else {
+            console.log(
+              `Does not save ${objData.displayName}: No device configured for id# ${objData.deviceId}`
+            );
+          }
+        } catch (e) {
+          console.log("Invalid JSON data received from websocket", e);
+          return;
+        }
+      }
+    };
 
-  //   websocketRef.current.onclose = (e: CloseEvent) => {
-  //     console.log("onclose", e);
-  //     setTimeout(function () {
-  //       setReconnectWebsocket({}); // New reference of objet will force this useEffect to restart
-  //     }, 5000);
-  //   };
+    websocketRef.current.onclose = (e: CloseEvent) => {
+      console.log("onclose", e);
+      setTimeout(function () {
+        setReconnectWebsocket({}); // New reference of objet will force this useEffect to restart
+      }, 5000);
+    };
 
-  //   websocketRef.current.onerror = (event: Event) => {
-  //     console.log("onError", event);
-  //     websocketRef.current.close();
-  //   };
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [reconnectWebsocket, readyWs]);
+    websocketRef.current.onerror = (event: Event) => {
+      console.log("onError", event);
+      websocketRef.current.close();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reconnectWebsocket, readyWs]);
 
   useEffect(() => {
     console.log("🌐 Fething all data");
