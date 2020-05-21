@@ -30,9 +30,10 @@ const SERVER_IP = process.env.REACT_APP_SERVER_IP;
 const SERVER_PORT = process.env.REACT_APP_SERVER_PORT;
 const WEBSOCKET_IP = process.env.REACT_APP_WEBSOCKET_IP;
 const WEBSOCKET_PORT = process.env.REACT_APP_WEBSOCKET_PORT;
+const WEBSOCKET_ENABLED = process.env.REACT_APP_WEBSOCKET_ENABLED === "true";
 
 console.log(`Server  ${SERVER_IP}:${SERVER_PORT}, `);
-console.log(`WS  ${SERVER_IP}:${WEBSOCKET_PORT}, `);
+console.log(`WS ${WEBSOCKET_ENABLED ? "Enabled" : "Disabled"} ${SERVER_IP}:${WEBSOCKET_PORT}, `);
 
 const webSocketUrl = `ws://${WEBSOCKET_IP}:${WEBSOCKET_PORT}`;
 
@@ -64,55 +65,57 @@ function App() {
     setDrawerOpen(open);
   };
   useEffect(() => {
-    websocketRef.current = new WebSocket(webSocketUrl);
-    console.log("attempt connection to ", webSocketUrl);
-    websocketRef.current.onopen = function (e: Event) {
-      console.log(`connection to  ${webSocketUrl} established`);
-    };
+    if (WEBSOCKET_ENABLED) {
+      websocketRef.current = new WebSocket(webSocketUrl);
+      console.log("attempt connection to ", webSocketUrl);
+      websocketRef.current.onopen = function (e: Event) {
+        console.log(`connection to  ${webSocketUrl} established`);
+      };
 
-    websocketRef.current.onmessage = (e: MessageEvent) => {
-      if (readyWs) {
-        try {
-          console.log("OnMessage Data", e);
-          const objData = JSON.parse(e.data) as DeviceWebsocket;
-          const configuredData = allDevices[objData.deviceId];
-          if (configuredData !== undefined) {
-            const existingDevice = state.devices[objData.deviceId];
-            const copyExistingDevice = {
-              ...existingDevice,
-            };
-            copyExistingDevice.attributes = {
-              ...copyExistingDevice.attributes,
-            };
-            copyExistingDevice.attributes[objData.name] = objData.value;
-            dispatch(
-              AppActions.initDevice({
-                devices: [copyExistingDevice],
-              })
-            );
-          } else {
-            console.log(
-              `Does not save ${objData.displayName}: No device configured for id# ${objData.deviceId}`
-            );
+      websocketRef.current.onmessage = (e: MessageEvent) => {
+        if (readyWs) {
+          try {
+            console.log("OnMessage Data", e);
+            const objData = JSON.parse(e.data) as DeviceWebsocket;
+            const configuredData = allDevices[objData.deviceId];
+            if (configuredData !== undefined) {
+              const existingDevice = state.devices[objData.deviceId];
+              const copyExistingDevice = {
+                ...existingDevice,
+              };
+              copyExistingDevice.attributes = {
+                ...copyExistingDevice.attributes,
+              };
+              copyExistingDevice.attributes[objData.name] = objData.value;
+              dispatch(
+                AppActions.initDevice({
+                  devices: [copyExistingDevice],
+                })
+              );
+            } else {
+              console.log(
+                `Does not save ${objData.displayName}: No device configured for id# ${objData.deviceId}`
+              );
+            }
+          } catch (e) {
+            console.log("Invalid JSON data received from websocket", e);
+            return;
           }
-        } catch (e) {
-          console.log("Invalid JSON data received from websocket", e);
-          return;
         }
-      }
-    };
+      };
 
-    websocketRef.current.onclose = (e: CloseEvent) => {
-      console.log("onclose", e);
-      setTimeout(function () {
-        setReconnectWebsocket({}); // New reference of objet will force this useEffect to restart
-      }, 5000);
-    };
+      websocketRef.current.onclose = (e: CloseEvent) => {
+        console.log("onclose", e);
+        setTimeout(function () {
+          setReconnectWebsocket({}); // New reference of objet will force this useEffect to restart
+        }, 5000);
+      };
 
-    websocketRef.current.onerror = (event: Event) => {
-      console.log("onError", event);
-      websocketRef.current.close();
-    };
+      websocketRef.current.onerror = (event: Event) => {
+        console.log("onError", event);
+        websocketRef.current.close();
+      };
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reconnectWebsocket, readyWs]);
 
@@ -139,7 +142,9 @@ function App() {
   }, []);
 
   let optionComponent: JSX.Element | undefined = getOptionComponent();
-
+  useEffect(() => {
+    console.log(`Temperature mode is ${state.isTemperatureModeOn}`);
+  }, [state.isTemperatureModeOn]);
   return (
     <div
       className="App"

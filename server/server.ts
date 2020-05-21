@@ -15,12 +15,13 @@ const SERVER_IP = process.env.REACT_APP_SERVER_IP;
 const SERVER_PORT = Number(process.env.REACT_APP_SERVER_PORT);
 
 const WEBSOCKET_PORT = Number(process.env.REACT_APP_WEBSOCKET_PORT);
+const WEBSOCKET_ENABLED = process.env.REACT_APP_WEBSOCKET_ENABLED === "true";
 export const APP_ID = process.env.REACT_APP_HUBITAT_APP_ID;
 export const API_TOKEN = process.env.REACT_APP_HUBITAT_API_TOKEN;
 
 console.log(`Hubitat server on IP ${HUBITAT_IP}`);
 console.log(`Server ${SERVER_IP}:${SERVER_PORT}`);
-console.log(`WS ${SERVER_IP}:${WEBSOCKET_PORT}`);
+console.log(`WS ${WEBSOCKET_ENABLED ? "Enabled" : "Disabled"} ${SERVER_IP}:${WEBSOCKET_PORT}`);
 console.log(`Website ${WEB_IP}:${WEB_PORT}`);
 
 const serverApp = express();
@@ -76,13 +77,14 @@ serverApp.get("/api/save/:deviceid/:key", async (req: any, res: any) => {
  */
 serverApp.post("/refresh", (req: any, res: any) => {
     const data = JSON.stringify(req.body.content);
-    console.log(data);
-
-    wsApp.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-            client.send(data);
-        }
-    });
+    if (WEBSOCKET_ENABLED) {
+        console.log(data);
+        wsApp.clients.forEach((client) => {
+            if (client.readyState === WebSocket.OPEN) {
+                client.send(data);
+            }
+        });
+    }
 });
 
 serverApp.listen(SERVER_PORT, () =>
@@ -90,20 +92,22 @@ serverApp.listen(SERVER_PORT, () =>
 );
 
 const wsApp = new WebSocket.Server({ port: WEBSOCKET_PORT });
+if (WEBSOCKET_ENABLED) {
+    console.log("Setup connection");
+    wsApp.on("connection", function connection(ws, req) {
+        console.log(`Connection established ${new Date().toISOString()}`, req.socket.remoteAddress);
 
-console.log("Setup connection");
-wsApp.on("connection", function connection(ws, req) {
-    console.log(`Connection established ${new Date().toISOString()}`, req.socket.remoteAddress);
-
-    ws.on("message", function incoming(message) {
-        console.log("received: %s", message);
+        ws.on("message", function incoming(message) {
+            console.log("received: %s", message);
+        });
     });
-});
 
-wsApp.on("error", err => {
-    console.error(`Error ${err.name}: ${err.message}`);
-});
+    wsApp.on("error", err => {
+        console.error(`Error ${err.name}: ${err.message}`);
+    });
 
-// wsApp.on("message", function incoming(data) {
-//     console.log(data);
-// });
+    // wsApp.on("message", function incoming(data) {
+    //     console.log(data);
+    //});
+
+}

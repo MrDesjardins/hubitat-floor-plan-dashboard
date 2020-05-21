@@ -37,3 +37,4 @@ export const DARK_THEME = createMuiTheme({
     type: 'dark',
   },
 });
+export const FPS = 60;

@@ -1,21 +1,31 @@
 import { ThermostatDevice, MotionDevice, DeviceDataKind } from "../Models/Devices";
 import { getTemperatureAtribute, getHumidityAtribute } from "../Logics/AttributeLogics";
-import { TEXT_SIZE, TEXT_COLOR } from "../constants";
+import { TEXT_SIZE, TEXT_COLOR, FPS } from "../constants";
+import { DictionaryOf } from "../Commons/DictionaryOf";
 
 type TemperatureDevice = ThermostatDevice & MotionDevice;
+const delay = 120;
+let lastFrame = 0;
+let deviceRadius: DictionaryOf<number> = {};
+let deviceDirection: DictionaryOf<number> = {};
 export function drawTemperatureLayer(ctx: CanvasRenderingContext2D, devices: (TemperatureDevice)[], openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void) {
+  const currentFrame = Date.now();
+  const diff = currentFrame - lastFrame;
+  const update = diff >= delay;
   devices.forEach(singleDevice => {
-    drawTemperatureSensor(ctx, singleDevice, (dev: DeviceDataKind, openDrawer: boolean) => {
+    drawTemperatureSensor(ctx, singleDevice, update, (dev: DeviceDataKind, openDrawer: boolean) => {
       openConfiguration(dev, openDrawer);
     });
   });
+  if (update) {
+    lastFrame = currentFrame;
+  }
 }
 
-const radiusTick = 0.5;
-const maxRadius = 70;
-const minRadius = 55;
+const maxRadius = 65;
+const minRadius = 50;
 
-export function drawTemperatureSensor(ctx: CanvasRenderingContext2D, device: TemperatureDevice, openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void) {
+export function drawTemperatureSensor(ctx: CanvasRenderingContext2D, device: TemperatureDevice, update: boolean, openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void) {
   const temperature = getTemperatureAtribute(device);
   const humidity = getHumidityAtribute(device);
   const [x, y] = device.textPosition;
@@ -23,12 +33,24 @@ export function drawTemperatureSensor(ctx: CanvasRenderingContext2D, device: Tem
   const color2 = getColorFromTemperature(temperature - 3, 0.15);
   const text = `${temperature.toFixed(1)}°F`;
 
+  let radius = deviceRadius[device.id];
+  if (radius === undefined) {
+    radius = minRadius;
+    deviceRadius[device.id] = radius + 1;
+  }
+  if (update) {
+    if (radius >= maxRadius || radius <= minRadius) {
+      deviceDirection[device.id] = (deviceDirection[device.id] ?? -1) * -1;
+    }
+    radius += deviceDirection[device.id];
+  }
+
   ctx.beginPath();
-  const gradient = ctx.createRadialGradient(x, y, 0, x, y, minRadius);
+  const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
   gradient.addColorStop(0, color1);
   gradient.addColorStop(1, color2);
   ctx.fillStyle = gradient;
-  ctx.arc(x, y, minRadius, 0 , 2 * Math.PI);
+  ctx.arc(x, y, radius, 0, 2 * Math.PI);
   ctx.fill();
 
   ctx.beginPath();
@@ -39,7 +61,7 @@ export function drawTemperatureSensor(ctx: CanvasRenderingContext2D, device: Tem
     ctx.beginPath();
     ctx.fillText(text, x, y + 15);
   }
-
+  deviceRadius[device.id] = radius;
 }
 
 
@@ -75,10 +97,11 @@ function getColorFromTemperature(fahrenheit: number, alpha: number = 0.8): strin
   if (index < 0) {
     return `rgba(238, 27, 27, ${alpha})`;
   }
-  if (index > colors.length) {
+  if (index >= colors.length) {
     return `rgba(138, 15, 138, ${alpha})`;
   }
-  return colors[index];
+  const colorToReturn = colors[index];
+  return colorToReturn;
   // const diff = fahrenheit-65;
   // let colorRed: number;
   // let colorBlue: number;

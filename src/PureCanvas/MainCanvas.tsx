@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import { WEST_WALL, NORTH_WALL, MAIN_MENU_WIDTH } from "../constants";
 import { DeviceDataKind } from "../Models/Devices";
 import { DictionaryOf } from "../Commons/DictionaryOf";
@@ -18,6 +18,16 @@ export const MainCanvas = (props: MainCanvasProps) => {
 
   const refCanvasDevices = useRef<HTMLCanvasElement>(null);
   const refContextDevices = useRef<CanvasRenderingContext2D | undefined | null>();
+
+  const requestRef = React.useRef<number>();
+  const draw = useCallback(() => {
+    if (refContextDevices !== undefined && refContextDevices.current) {
+      refContextDevices.current!.clearRect(0, 0, props.width, props.height);
+      drawDevices(refContextDevices.current!, props.devices, props.isTemperatureModeOn, props.openConfiguration)
+    }
+    requestRef.current = window.requestAnimationFrame(draw);
+  }, [props.devices, props.isTemperatureModeOn, props.openConfiguration, props.height, props.width]);
+
   useEffect(() => {
     refContextFloorPlan.current = refCanvasFloorPlan.current?.getContext("2d")!;
     refContextDevices.current = refCanvasDevices.current?.getContext("2d")!;
@@ -25,12 +35,17 @@ export const MainCanvas = (props: MainCanvasProps) => {
   }, [
     /*Only when mounting*/
   ]);
-  if (refContextDevices !== undefined && refContextDevices.current) {
-    window.requestAnimationFrame(() => {
-      refContextDevices.current!.clearRect(0, 0, props.width, props.height);
-      drawDevices(refContextDevices.current!, props.devices, props.isTemperatureModeOn, props.openConfiguration)
-    });
-  }
+  useEffect(() => {
+    requestRef.current = requestAnimationFrame(draw);
+    return () => {
+      if (requestRef.current !== undefined) {
+        console.log("OUT");
+        cancelAnimationFrame(requestRef.current);
+      }
+    }
+  }, [draw]);
+
+
   return <>
     <canvas style={{ position: "absolute", zIndex: 200, left: MAIN_MENU_WIDTH, top: 0 }} ref={refCanvasDevices} width={props.width} height={props.height} onClick={(evt) => {
       console.log(
