@@ -9,7 +9,7 @@ export const ACTION_SAVE_DEVICE = "ACTION_SAVE_DEVICE";
 export const ACTION_SET_TEMPERATURE_MODE = "ACTION_SET_TEMPERATURE_MODE";
 
 export interface InitData {
-  device: DeviceDataKind;
+  devices: DeviceDataKind[];
 }
 export const AppActions = {
   initDevice: createActionPayload<typeof ACTION_INIT_DEVICE, InitData>(

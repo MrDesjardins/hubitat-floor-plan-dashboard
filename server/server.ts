@@ -91,6 +91,7 @@ serverApp.listen(SERVER_PORT, () =>
 
 const wsApp = new WebSocket.Server({ port: WEBSOCKET_PORT });
 
+console.log("Setup connection");
 wsApp.on("connection", function connection(ws, req) {
     console.log(`Connection established ${new Date().toISOString()}`, req.socket.remoteAddress);
 
