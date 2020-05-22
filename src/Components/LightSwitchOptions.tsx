@@ -4,7 +4,7 @@ import {
   getLightOnOffAttribute,
   setLightOnOffAttribute,
 } from "../Logics/AttributeLogics";
-import { LightSwitchDevice } from "../Models/Devices";
+import { LightSwitchDevice } from "../Models/devices";
 
 export interface LightSwitchOptionsProps {
   isDialogOpen: boolean;

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useCallback } from "react";
 import { WEST_WALL, NORTH_WALL, MAIN_MENU_WIDTH } from "../constants";
-import { DeviceDataKind } from "../Models/Devices";
-import { DictionaryOf } from "../Commons/DictionaryOf";
+import { DeviceDataKind } from "../Models/devices";
+import { DictionaryOf } from "../Commons/dictionaryOf";
 import { drawFlooPlan } from "./floorPlan";
 import { drawDevices } from "./devices";
 export interface MainCanvasProps {

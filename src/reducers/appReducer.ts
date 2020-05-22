@@ -1,4 +1,4 @@
-import { ApplicationState } from "../Models/ApplicationState";
+import { ApplicationState } from "../Models/applicationState";
 import {
   AcceptedActions,
   ACTION_SAVE_DEVICE,

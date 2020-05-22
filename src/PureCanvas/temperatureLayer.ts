@@ -1,7 +1,7 @@
-import { ThermostatDevice, MotionDevice, DeviceDataKind } from "../Models/Devices";
+import { ThermostatDevice, MotionDevice, DeviceDataKind } from "../Models/devices";
 import { getTemperatureAtribute, getHumidityAtribute } from "../Logics/AttributeLogics";
 import { TEXT_SIZE, TEXT_COLOR, FPS } from "../constants";
-import { DictionaryOf } from "../Commons/DictionaryOf";
+import { DictionaryOf } from "../Commons/dictionaryOf";
 
 type TemperatureDevice = ThermostatDevice & MotionDevice;
 const delay = 120;

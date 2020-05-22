@@ -6,7 +6,7 @@ import {
   getDimmerLightLevelAttribute,
   getLightOnOffAttribute,
 } from "../Logics/AttributeLogics";
-import { DimmingLightDevice } from "../Models/Devices";
+import { DimmingLightDevice } from "../Models/devices";
 import { CommonProps } from "./Common";
 
 export interface DimmerOptions extends CommonProps {

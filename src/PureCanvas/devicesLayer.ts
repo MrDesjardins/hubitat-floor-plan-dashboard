@@ -1,186 +1,97 @@
-import { DeviceDataKind, ContactDevice, ContactDirection } from "../Models/Devices";
-import { DictionaryOf } from "../Commons/DictionaryOf";
-import { getContactOnOffAttribute } from "../Logics/AttributeLogics";
-import { CONTACT_SIZE, CONTACT_WIDTH, OPEN_ANGLE, CLOSE_ANGLE, TEXT_SIZE, TEXT_COLOR, TEXT_PADDING, COLOR_MACHINE1 } from "../constants";
+import { DeviceDataKind, DeadboltDevice } from "../Models/devices";
+import { drawContact } from "./contactDrawing";
+import {
+  TEXT_SIZE,
+  TEXT_COLOR,
+  TEXT_PADDING,
+  CONTACT_SIZE,
+  CONTACT_WIDTH,
+  COLOR_MACHINE1,
+  LINE_COLOR,
+} from "../constants";
+import { getOpenCloseText, getDeadlockText } from "../Commons/textbuilder";
+import { getDeadboltLockStatus } from "../Logics/AttributeLogics";
+import { drawPath2D } from "./commonDrawing";
 
 const delay = 20;
 let lastFrame = 0;
 
-export function drawDevicesLayer(ctx: CanvasRenderingContext2D, devices: (DeviceDataKind)[], openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void) {
+export function drawDevicesLayer(
+  ctx: CanvasRenderingContext2D,
+  devices: DeviceDataKind[],
+  openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void
+) {
   const currentFrame = Date.now();
   const diff = currentFrame - lastFrame;
   const update = diff >= delay;
-  devices.forEach(singleDevice => {
+  devices.forEach((singleDevice) => {
     switch (singleDevice.kind) {
       case "CONTACT":
         drawContact(ctx, singleDevice, update, openConfiguration);
         break;
+      case "DEADBOLT":
+        drawDeadbolt(ctx, singleDevice, update, openConfiguration);
     }
-
   });
   if (update) {
     lastFrame = currentFrame;
   }
 }
 
-const contactsAngle: DictionaryOf<number> = {};
-const contactsTranslation: DictionaryOf<[number, number]> = {};
-export function drawContact(ctx: CanvasRenderingContext2D, device: ContactDevice, update: boolean, openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void) {
-  drawRotativePhysicalContact(ctx, device, update);
-  drawSlidingPhysicalContact(ctx, device, update);
-}
-
-
-
-function drawRotativePhysicalContact(
+export function drawDeadbolt(
   ctx: CanvasRenderingContext2D,
-  device: ContactDevice,
-  update: boolean
+  device: DeadboltDevice,
+  update: boolean,
+  openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void
 ): void {
-  if (device.direction === ContactDirection.East || device.direction === ContactDirection.West || device.direction === ContactDirection.North || device.direction === ContactDirection.South) {
-    const isContactOpen = getContactOnOffAttribute(device);
-    const openAngle = getOpenAngle(device, true);
-    const closeAngle = getOpenAngle(device, false);
-    if (contactsAngle[device.id] === undefined) {
-      contactsAngle[device.id] = getOpenAngle(device, !isContactOpen); // Reverse because of the animation to go to the desire position
-    }
-    if (update) {
-      if (isContactOpen && contactsAngle[device.id] !== openAngle) {
-        contactsAngle[device.id] += (contactsAngle[device.id] - openAngle) < 0 ? 1 : -1;
-      }
-      if (!isContactOpen && contactsAngle[device.id] !== closeAngle) {
-        contactsAngle[device.id] += (contactsAngle[device.id] - openAngle) < 0 ? -1 : 1;
-      }
-    }
+  const isLock = getDeadboltLockStatus(device);
+  ctx.beginPath();
+  ctx.font = `${TEXT_SIZE}px Arial`;
+  ctx.fillStyle = TEXT_COLOR;
+  ctx.fillText(
+    getDeadlockText(isLock),
+    device.textPosition[0],
+    device.textPosition[1]
+  );
 
-    switch (device.direction) {
-      case ContactDirection.East:
-      case ContactDirection.West:
-      case ContactDirection.North:
-      case ContactDirection.South:
-        ctx.beginPath();
-        ctx.font = `${TEXT_SIZE}px Arial`;
-        ctx.fillStyle = TEXT_COLOR;
-        ctx.fillText(getText(isContactOpen), device.textPosition[0], device.textPosition[1]);
-        ctx.moveTo(device.textPosition[0] - TEXT_PADDING, device.textPosition[1] - TEXT_PADDING);
-        const coord = getCoordinateWithAngle(device.textPosition[0] - TEXT_PADDING, device.textPosition[1] - TEXT_PADDING, CONTACT_SIZE, contactsAngle[device.id], device.direction);
-        ctx.lineTo(coord[0], coord[1])
-        ctx.lineWidth = CONTACT_WIDTH;
-        ctx.strokeStyle = COLOR_MACHINE1;
-        ctx.lineCap = "square";
-        ctx.stroke();
-        break;
-    }
-  }
+  const lockImagePath: Path2D[] = [
+    new Path2D(
+      "M63 84H37c-8.284 0-15-6.716-15-15V48c0-2.761 2.239-5 5-5h46c2.761 0 5 2.239 5 5v21C78 77.284 71.284 84 63 84zM71 42.5v-6.997c0-11.387-8.854-21.085-20.234-21.49C38.819 13.589 29 23.148 29 35v7"
+    ),
+    new Path2D(
+      "M36,42v-6.605c0-7.538,5.793-14.025,13.323-14.379C57.363,20.637,64,27.044,64,35v7.5"
+    ),
+    new Path2D("M65.5 51.5L78 51.5M57.5 51.5L62.5 51.5M22 51.5L54.5 51.5"),
+    new Path2D("M22 60.5L78 60.5"),
+    new Path2D(
+      "M53.5,77.5l-1.896-7.583C52.152,69.459,52.5,68.77,52.5,68c0-1.381-1.119-2.5-2.5-2.5s-2.5,1.119-2.5,2.5c0,0.77,0.348,1.459,0.896,1.917L46.5,77.5H53.5z"
+    ),
+    new Path2D(
+      "M29.028 51.319L22.454 60.689M37.028 51.319L30.454 60.689M45.028 51.319L38.454 60.689M53.028 51.319L46.454 60.689M61.028 51.319L54.454 60.689M69.028 51.319L62.454 60.689M77.028 51.319L70.454 60.689"
+    ),
+  ];
+
+  const unlockImagePath: Path2D[] = [
+    new Path2D(
+      "M69 84H43c-8.284 0-15-6.716-15-15V48c0-2.761 2.239-5 5-5h46c2.761 0 5 2.239 5 5v21C84 77.284 77.284 84 69 84zM46 42.5v-6.997c0-11.387-8.854-21.085-20.234-21.49C13.819 13.589 4 23.148 4 35v.5C4 37.433 5.567 39 7.5 39s3.5-1.567 3.5-3.5v-.105c0-7.538 5.793-14.025 13.323-14.379C32.363 20.637 39 27.044 39 35v7.5"
+    ),
+    new Path2D("M71.5 51.5L84 51.5M63.5 51.5L68.5 51.5M28 51.5L60.5 51.5"),
+    new Path2D("M65.5 51.5L78 51.5M57.5 51.5L62.5 51.5M22 51.5L54.5 51.5"),
+    new Path2D("M28 60.5L84 60.5"),
+    new Path2D(
+      "M59.5,77.5l-1.896-7.583C58.152,69.459,58.5,68.77,58.5,68c0-1.381-1.119-2.5-2.5-2.5s-2.5,1.119-2.5,2.5c0,0.77,0.348,1.459,0.896,1.917L52.5,77.5H59.5z"
+    ),
+    new Path2D(
+      "M35.028 51.319L28.454 60.689M43.028 51.319L36.454 60.689M51.028 51.319L44.454 60.689M59.028 51.319L52.454 60.689M67.028 51.319L60.454 60.689M75.028 51.319L68.454 60.689M83.028 51.319L76.454 60.689"
+    ),
+  ];
+  drawPath2D(ctx, isLock ? lockImagePath : unlockImagePath, {
+    location: {
+      x: device.textPosition[0] - TEXT_PADDING / 2,
+      y: device.textPosition[1]
+    },
+    lineWidth: 2,
+    fillStyle: "none",
+    scale: 0.4,
+  }, false);
 }
-
-function drawSlidingPhysicalContact(
-  ctx: CanvasRenderingContext2D,
-  device: ContactDevice,
-  update: boolean
-): void {
-  if (device.direction === ContactDirection.SlideDown || device.direction === ContactDirection.SlideLeft || device.direction === ContactDirection.SlideRight || device.direction === ContactDirection.SlideUp) {
-    const isContactOpen = getContactOnOffAttribute(device);
-    const openCoordinate = getOpenCoordinate(device, true);
-    const closeCoordinate = getOpenCoordinate(device, false);
-    if (contactsTranslation[device.id] === undefined) {
-      contactsTranslation[device.id] = getOpenCoordinate(device, !isContactOpen); // Reverse because of the animation to go to the desire position
-    }
-    let contactWidth = (device.direction === ContactDirection.SlideDown || device.direction === ContactDirection.SlideUp) ? 0 : CONTACT_SIZE;
-    let contactHeight = (device.direction === ContactDirection.SlideDown || device.direction === ContactDirection.SlideUp) ? CONTACT_SIZE : 0;
-    if (update) {
-      if (device.direction === ContactDirection.SlideDown || device.direction === ContactDirection.SlideUp) {
-        if (isContactOpen && contactsTranslation[device.id][1] !== openCoordinate[1]) {
-          contactsTranslation[device.id][1] += contactsTranslation[device.id][1] - openCoordinate[1] < 0 ? 1 : -1;
-        }
-        if (!isContactOpen && contactsTranslation[device.id][1] !== closeCoordinate[1]) {
-          contactsTranslation[device.id][1] += contactsTranslation[device.id][1] - closeCoordinate[1] > 0 ? -1 : 1;
-        }
-      } else {
-        if (isContactOpen && contactsTranslation[device.id][0] !== openCoordinate[0]) {
-          contactsTranslation[device.id][0] += contactsTranslation[device.id][0] - openCoordinate[0] > 0 ? 1 : -1;
-        }
-        if (!isContactOpen && contactsTranslation[device.id][0] !== closeCoordinate[0]) {
-          contactsTranslation[device.id][0] += contactsTranslation[device.id][0] - closeCoordinate[0] < 0 ? 1 : -1;
-        }
-      }
-    }
-
-    switch (device.direction) {
-      case ContactDirection.SlideDown:
-      case ContactDirection.SlideUp:
-      case ContactDirection.SlideRight:
-      case ContactDirection.SlideLeft:
-        ctx.beginPath();
-        ctx.font = `${TEXT_SIZE}px Arial`;
-        ctx.fillStyle = TEXT_COLOR;
-        ctx.fillText(getText(isContactOpen), device.textPosition[0], device.textPosition[1]);
-        const x = device.textPosition[0] - TEXT_PADDING + contactsTranslation[device.id][0];
-        const y = device.textPosition[1] - TEXT_PADDING + contactsTranslation[device.id][1];
-        ctx.moveTo(x, y);
-        ctx.lineTo(x + contactWidth, y + contactHeight);
-        ctx.lineWidth = CONTACT_WIDTH;
-        ctx.strokeStyle = COLOR_MACHINE1;
-        ctx.lineCap = "square";
-        ctx.stroke();
-        break;
-    }
-  }
-}
-
-function getOpenCoordinate(device: ContactDevice, isContactOpen: boolean): [number, number] {
-  const direction = device.direction;
-  if (direction === ContactDirection.SlideRight) {
-    return isContactOpen ? [-CONTACT_SIZE, 0] : [0, 0];
-  } else if (direction === ContactDirection.SlideLeft) {
-    return isContactOpen ? [+CONTACT_SIZE, 0] : [0, 0];
-  } else if (direction === ContactDirection.SlideUp) {
-    return isContactOpen ? [0, -CONTACT_SIZE] : [0, 0];
-  } else if (direction === ContactDirection.SlideDown) {
-    return isContactOpen ? [0, CONTACT_SIZE] : [0, 0];
-  }
-  return [0, 0];
-}
-
-
-function getText(isContactOpen: boolean): string {
-  return `${isContactOpen ? "Open" : "Close"}`;
-}
-
-function getOpenAngle(device: ContactDevice, isContactOpen: boolean): number {
-  const direction = device.direction;
-  if (direction === ContactDirection.East) {
-    return isContactOpen ? -OPEN_ANGLE : CLOSE_ANGLE
-  } else if (direction === ContactDirection.West) {
-    return isContactOpen ? -OPEN_ANGLE : CLOSE_ANGLE
-  } else if (direction === ContactDirection.North) {
-    return isContactOpen ? OPEN_ANGLE : CLOSE_ANGLE
-  } else if (direction === ContactDirection.South) {
-    return isContactOpen ? -OPEN_ANGLE : CLOSE_ANGLE;
-
-  }
-  return 0;
-}
-
-function getCoordinateWithAngle(x: number, y: number, contactSize: number, angle: number, direction: ContactDirection): [number, number] {
-  let xEndContactWhenClosed = x;
-  let yEndContactWhenClosed = y;
-
-  if (direction === ContactDirection.East || direction === ContactDirection.West || direction === ContactDirection.SlideDown || direction === ContactDirection.SlideUp) {
-    yEndContactWhenClosed = y + contactSize;
-  } else if (direction === ContactDirection.North || direction === ContactDirection.South || direction === ContactDirection.SlideLeft || direction === ContactDirection.SlideRight) {
-    xEndContactWhenClosed = x + contactSize;
-  }
-  const [newX, newY] = rotateFromCentralPoint(x, y, xEndContactWhenClosed, yEndContactWhenClosed, angle);
-  return [newX, newY];
-}
-
-function rotateFromCentralPoint(cx: number, cy: number, x: number, y: number, angle: number): [number, number] {
-  const radians = (Math.PI / 180) * angle;
-  const cos = Math.cos(radians);
-  const sin = Math.sin(radians);
-  const nx = (cos * (x - cx)) + (sin * (y - cy)) + cx;
-  const ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
-  return [nx, ny];
-}
-

@@ -2,7 +2,7 @@ import React from "react";
 import { Text } from "react-konva";
 import { TEXT_COLOR } from "../constants";
 import { getLightOnOffAttribute } from "../Logics/AttributeLogics";
-import { AirPurifierDevice } from "../Models/Devices";
+import { AirPurifierDevice } from "../Models/devices";
 import { CommonProps } from "./Common";
 import { AirPurifierMachine } from "../PhysicalComponent/AirPurifierMachine";
 // import { useInterval } from "../hooks/useInterval";

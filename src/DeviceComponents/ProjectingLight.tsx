@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Text } from "react-konva";
 import { TEXT_COLOR } from "../constants";
 import { getLightOnOffAttribute } from "../Logics/AttributeLogics";
-import { ProjectingLightDevice } from "../Models/Devices";
+import { ProjectingLightDevice } from "../Models/devices";
 import { CommonProps } from "./Common";
 import { Image } from "react-konva";
 import { useSvgImage2 } from "../hooks/useSvgImage";

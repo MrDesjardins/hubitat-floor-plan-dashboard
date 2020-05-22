@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Text } from "react-konva";
 import { CommonProps } from "./Common";
-import { MotionDevice } from "../Models/Devices";
+import { MotionDevice } from "../Models/devices";
 import { getMotionOnOffAttribute } from "../Logics/AttributeLogics";
 import { animated, Spring } from "react-spring/renderprops-konva";
 import { useInterval } from "../hooks/useInterval";

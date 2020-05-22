@@ -10,7 +10,7 @@ import {
   getDimmerLightLevelAttribute,
   getLightOnOffAttribute,
 } from "./Logics/AttributeLogics";
-import { allDevices } from "./Models/AllDevices";
+import { allDevices } from "./Models/allDevices";
 import {
   DeviceData,
   DeviceDataKind,
@@ -18,7 +18,7 @@ import {
   DimmingLightDevice,
   LightSwitchDevice,
   AirPurifierDevice,
-} from "./Models/Devices";
+} from "./Models/devices";
 import { appReducer, initialState } from "./reducers/appReducer";
 import { AirPurifierOptions } from "./Components/AirPurifierOptions";
 import DataAccessGateway from "dataaccessgateway";

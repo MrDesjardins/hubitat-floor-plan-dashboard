@@ -2,7 +2,7 @@ import {
   DeviceDataKind,
   ThermostatDevice,
   MotionDevice,
-} from "./Models/Devices";
+} from "./Models/devices";
 import React, { FunctionComponent } from "react";
 export interface DevicesProps {
   isTemperatureModeOn: boolean;

@@ -4,7 +4,7 @@ import {
   getLightOnOffAttribute,
   setLightOnOffAttribute,
 } from "../Logics/AttributeLogics";
-import { AirPurifierDevice } from "../Models/Devices";
+import { AirPurifierDevice } from "../Models/devices";
 
 export interface AirPurifierOptionsProps {
   isDialogOpen: boolean;

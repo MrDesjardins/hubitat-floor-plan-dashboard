@@ -1,5 +1,5 @@
-import { DeviceDataKind } from "./Devices";
-import { DictionaryOf } from "../Commons/DictionaryOf";
+import { DeviceDataKind } from "./devices";
+import { DictionaryOf } from "../Commons/dictionaryOf";
 
 
 export interface ApplicationState {

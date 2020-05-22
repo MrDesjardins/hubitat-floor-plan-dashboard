@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from "react-konva";
 import { CommonProps } from "./Common";
-import { ThermostatDevice } from "../Models/Devices";
+import { ThermostatDevice } from "../Models/devices";
 import { TEXT_COLOR, COLOR_MACHINE1 } from "../constants";
 import { getTemperatureAtribute, getThermostatMode } from "../Logics/AttributeLogics";
 import { useSvgImage } from "../hooks/useSvgImage";

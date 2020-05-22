@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Text, Circle } from "react-konva";
 import { CommonProps } from "./Common";
-import { TemperatureDevice } from "../Models/Devices";
+import { TemperatureDevice } from "../Models/devices";
 import { TEXT_COLOR, TEXT_SIZE } from "../constants";
 import {
   getTemperatureAtribute,

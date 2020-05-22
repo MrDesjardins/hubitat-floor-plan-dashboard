@@ -1,7 +1,7 @@
 import React from "react";
 import { Text } from "react-konva";
 import { CommonProps } from "./Common";
-import { ContactDevice } from "../Models/Devices";
+import { ContactDevice } from "../Models/devices";
 import { getContactOnOffAttribute } from "../Logics/AttributeLogics";
 import { Spring, animated } from "react-spring/renderprops-konva";
 import { TEXT_COLOR, LINE_COLOR } from "../constants";
