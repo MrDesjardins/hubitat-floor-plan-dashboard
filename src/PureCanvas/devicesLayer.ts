@@ -86,20 +86,24 @@ function drawSlidingPhysicalContact(
     if (contactsTranslation[device.id] === undefined) {
       contactsTranslation[device.id] = getOpenCoordinate(device, !isContactOpen); // Reverse because of the animation to go to the desire position
     }
+    let contactWidth = 0;
+    let contactHeight = 0;
     if (update) {
       if (device.direction === ContactDirection.SlideDown || device.direction === ContactDirection.SlideUp) {
-        if (isContactOpen && contactsTranslation[device.id][1] !== closeCoordinate[1]) {
-          contactsTranslation[device.id][1] -= 1;
+        contactHeight = CONTACT_SIZE;
+        if (isContactOpen && contactsTranslation[device.id][1] !== openCoordinate[1]) {
+          contactsTranslation[device.id][1] += contactsTranslation[device.id][1] - openCoordinate[1] < 0 ? 1 : -1;
         }
         if (!isContactOpen && contactsTranslation[device.id][1] !== closeCoordinate[1]) {
-          contactsTranslation[device.id][1] += 1;
+          contactsTranslation[device.id][1] += contactsTranslation[device.id][1] - closeCoordinate[1] > 0 ? -1 : 1;
         }
       } else {
-        if (isContactOpen && contactsTranslation[device.id][0] !== closeCoordinate[0]) {
-          contactsTranslation[device.id][0] -= 1;
+        contactWidth = CONTACT_SIZE;
+        if (isContactOpen && contactsTranslation[device.id][0] !== openCoordinate[0]) {
+          contactsTranslation[device.id][0] += contactsTranslation[device.id][0] - openCoordinate[0] > 0 ? 1 : -1;
         }
         if (!isContactOpen && contactsTranslation[device.id][0] !== closeCoordinate[0]) {
-          contactsTranslation[device.id][0] += 1;
+          contactsTranslation[device.id][0] += contactsTranslation[device.id][0] - closeCoordinate[0] < 0 ? 1 : -1;
         }
       }
     }
@@ -116,7 +120,7 @@ function drawSlidingPhysicalContact(
         const x = device.textPosition[0] - TEXT_PADDING + contactsTranslation[device.id][0];
         const y = device.textPosition[1] - TEXT_PADDING + contactsTranslation[device.id][1];
         ctx.moveTo(x, y);
-        ctx.lineTo(x + CONTACT_SIZE, y);
+        ctx.lineTo(x + contactWidth, y + contactHeight);
         ctx.lineWidth = CONTACT_WIDTH;
         ctx.strokeStyle = COLOR_MACHINE1;
         ctx.lineCap = "square";
@@ -126,6 +130,19 @@ function drawSlidingPhysicalContact(
   }
 }
 
+function getOpenCoordinate(device: ContactDevice, isContactOpen: boolean): [number, number] {
+  const direction = device.direction;
+  if (direction === ContactDirection.SlideRight) {
+    return isContactOpen ? [-CONTACT_SIZE, 0] : [0, 0];
+  } else if (direction === ContactDirection.SlideLeft) {
+    return isContactOpen ? [+CONTACT_SIZE, 0] : [0, 0];
+  } else if (direction === ContactDirection.SlideUp) {
+    return isContactOpen ? [0, -CONTACT_SIZE] : [0, 0];
+  } else if (direction === ContactDirection.SlideDown) {
+    return isContactOpen ? [0, CONTACT_SIZE] : [0, 0];
+  }
+  return [0, 0];
+}
 
 
 function getText(isContactOpen: boolean): string {
@@ -169,16 +186,3 @@ function rotateFromCentralPoint(cx: number, cy: number, x: number, y: number, an
   return [nx, ny];
 }
 
-function getOpenCoordinate(device: ContactDevice, isContactOpen: boolean): [number, number] {
-  const direction = device.direction;
-  if (direction === ContactDirection.SlideRight) {
-    return isContactOpen ? [-CONTACT_SIZE, 0] : [0, 0];
-  } else if (direction === ContactDirection.SlideLeft) {
-    return isContactOpen ? [+CONTACT_SIZE, 0] : [0, 0];
-  } else if (direction === ContactDirection.SlideUp) {
-    return isContactOpen ? [0, +CONTACT_SIZE] : [0, 0];
-  } else if (direction === ContactDirection.SlideDown) {
-    return isContactOpen ? [0, -CONTACT_SIZE] : [0, 0];
-  }
-  return [0, 0];
-}
