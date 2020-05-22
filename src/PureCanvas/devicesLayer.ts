@@ -86,11 +86,10 @@ function drawSlidingPhysicalContact(
     if (contactsTranslation[device.id] === undefined) {
       contactsTranslation[device.id] = getOpenCoordinate(device, !isContactOpen); // Reverse because of the animation to go to the desire position
     }
-    let contactWidth = 0;
-    let contactHeight = 0;
+    let contactWidth = (device.direction === ContactDirection.SlideDown || device.direction === ContactDirection.SlideUp) ? 0 : CONTACT_SIZE;
+    let contactHeight = (device.direction === ContactDirection.SlideDown || device.direction === ContactDirection.SlideUp) ? CONTACT_SIZE : 0;
     if (update) {
       if (device.direction === ContactDirection.SlideDown || device.direction === ContactDirection.SlideUp) {
-        contactHeight = CONTACT_SIZE;
         if (isContactOpen && contactsTranslation[device.id][1] !== openCoordinate[1]) {
           contactsTranslation[device.id][1] += contactsTranslation[device.id][1] - openCoordinate[1] < 0 ? 1 : -1;
         }
@@ -98,7 +97,6 @@ function drawSlidingPhysicalContact(
           contactsTranslation[device.id][1] += contactsTranslation[device.id][1] - closeCoordinate[1] > 0 ? -1 : 1;
         }
       } else {
-        contactWidth = CONTACT_SIZE;
         if (isContactOpen && contactsTranslation[device.id][0] !== openCoordinate[0]) {
           contactsTranslation[device.id][0] += contactsTranslation[device.id][0] - openCoordinate[0] > 0 ? 1 : -1;
         }
