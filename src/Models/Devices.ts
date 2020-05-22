@@ -1,4 +1,3 @@
-import { ContactDirection } from "../DeviceComponents/Contact";
 import { TvDirection } from "../DeviceComponents/Tv";
 
 export type DeviceType =
@@ -102,4 +101,16 @@ export interface DeviceWebsocket {
   descriptionText: string;
   unit: string;
   data: {};
+}
+
+
+export enum ContactDirection {
+  North,
+  South,
+  East,
+  West,
+  SlideDown,
+  SlideUp,
+  SlideRight,
+  SlideLeft,
 }

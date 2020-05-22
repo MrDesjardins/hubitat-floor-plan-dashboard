@@ -39,7 +39,6 @@ export const MainCanvas = (props: MainCanvasProps) => {
     requestRef.current = requestAnimationFrame(draw);
     return () => {
       if (requestRef.current !== undefined) {
-        console.log("OUT");
         cancelAnimationFrame(requestRef.current);
       }
     }
@@ -49,7 +48,7 @@ export const MainCanvas = (props: MainCanvasProps) => {
   return <>
     <canvas style={{ position: "absolute", zIndex: 200, left: MAIN_MENU_WIDTH, top: 0 }} ref={refCanvasDevices} width={props.width} height={props.height} onClick={(evt) => {
       console.log(
-        `${evt.clientX - WEST_WALL}, ${evt.clientY - NORTH_WALL - 50}`
+        `${evt.clientX - WEST_WALL - MAIN_MENU_WIDTH}, ${evt.clientY - NORTH_WALL}`
       );
     }}>Canvas is not supported</canvas>
     <canvas style={{ position: "absolute", zIndex: 100, left: MAIN_MENU_WIDTH, top: 0 }} ref={refCanvasFloorPlan} width={props.width} height={props.height}></canvas>

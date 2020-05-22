@@ -1,6 +1,8 @@
 import { DictionaryOf } from "../Commons/DictionaryOf";
 import { DeviceDataKind, ThermostatDevice, MotionDevice } from "../Models/Devices";
 import { drawTemperatureLayer } from "./temperatureLayer";
+import { drawDevicesLayer } from "./devicesLayer";
+
 
 export function drawDevices(ctx: CanvasRenderingContext2D, devices: DictionaryOf<DeviceDataKind>, isTemperatureModeOn: boolean, openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void): void {
 
@@ -11,6 +13,6 @@ export function drawDevices(ctx: CanvasRenderingContext2D, devices: DictionaryOf
     drawTemperatureLayer(ctx, temperatureSensors, openConfiguration);
 
   } else {
-    console.log("not temperature devices");
+    drawDevicesLayer(ctx, Object.values(devices), openConfiguration);
   }
 }

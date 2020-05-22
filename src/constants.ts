@@ -38,3 +38,11 @@ export const DARK_THEME = createMuiTheme({
   },
 });
 export const FPS = 60;
+
+export const CONTACT_SIZE = 35;
+export const CONTACT_WIDTH = 4;
+
+export const OPEN_ANGLE = 45;
+export const CLOSE_ANGLE = 0;
+
+export const TEXT_PADDING = 15;
