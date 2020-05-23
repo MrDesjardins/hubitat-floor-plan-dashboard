@@ -103,7 +103,6 @@ export interface DeviceWebsocket {
   data: {};
 }
 
-
 export enum ContactDirection {
   North,
   South,

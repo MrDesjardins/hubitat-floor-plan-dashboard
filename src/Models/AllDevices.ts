@@ -386,16 +386,16 @@ import { WEST_WALL, NORTH_WALL, TEXT_PADDING } from "../constants";
 //   },
 // };
 
-
-
-
 export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "27": {
     id: "27",
     kind: "CONTACT",
     component: Contact,
     note: "Master Closet Door",
-    textPosition: [WEST_WALL + 171 + TEXT_PADDING, NORTH_WALL + 250 + TEXT_PADDING],
+    textPosition: [
+      WEST_WALL + 171 + TEXT_PADDING,
+      NORTH_WALL + 250 + TEXT_PADDING,
+    ],
     direction: ContactDirection.West,
     attributes: {},
     label: "",
@@ -406,7 +406,10 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     kind: "CONTACT",
     component: Contact,
     note: "Outside Garage Door",
-    textPosition: [WEST_WALL + 2 + TEXT_PADDING, NORTH_WALL + 335 + TEXT_PADDING],
+    textPosition: [
+      WEST_WALL + 2 + TEXT_PADDING,
+      NORTH_WALL + 335 + TEXT_PADDING,
+    ],
     direction: ContactDirection.West,
     attributes: {},
     label: "",
@@ -417,7 +420,10 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     kind: "CONTACT",
     component: Contact,
     note: "Indoor Garage Door",
-    textPosition: [WEST_WALL + 260 + TEXT_PADDING, NORTH_WALL + 320 + TEXT_PADDING],
+    textPosition: [
+      WEST_WALL + 260 + TEXT_PADDING,
+      NORTH_WALL + 320 + TEXT_PADDING,
+    ],
     direction: ContactDirection.East,
     attributes: {},
     label: "",
@@ -428,7 +434,10 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     kind: "CONTACT",
     component: Contact,
     note: "Front Door",
-    textPosition: [WEST_WALL + 270 + TEXT_PADDING, NORTH_WALL + 353 + TEXT_PADDING],
+    textPosition: [
+      WEST_WALL + 270 + TEXT_PADDING,
+      NORTH_WALL + 353 + TEXT_PADDING,
+    ],
     direction: ContactDirection.South,
     attributes: {},
     label: "",
@@ -472,7 +481,10 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     kind: "CONTACT",
     component: Contact,
     note: "Living Room Left Window",
-    textPosition: [WEST_WALL + 348 + TEXT_PADDING, NORTH_WALL + 384 + TEXT_PADDING],
+    textPosition: [
+      WEST_WALL + 348 + TEXT_PADDING,
+      NORTH_WALL + 384 + TEXT_PADDING,
+    ],
     direction: ContactDirection.SlideRight,
     attributes: {},
     label: "",
@@ -483,7 +495,10 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     kind: "CONTACT",
     component: Contact,
     note: "Living Room Right Window",
-    textPosition: [WEST_WALL + 438 + TEXT_PADDING, NORTH_WALL + 384 + TEXT_PADDING],
+    textPosition: [
+      WEST_WALL + 438 + TEXT_PADDING,
+      NORTH_WALL + 384 + TEXT_PADDING,
+    ],
     direction: ContactDirection.SlideLeft,
     attributes: {},
     label: "",
@@ -494,7 +509,10 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     kind: "CONTACT",
     component: Contact,
     note: "Master Bedroom Left Window",
-    textPosition: [WEST_WALL + 2 + TEXT_PADDING, NORTH_WALL + 255 + TEXT_PADDING],
+    textPosition: [
+      WEST_WALL + 2 + TEXT_PADDING,
+      NORTH_WALL + 255 + TEXT_PADDING,
+    ],
     direction: ContactDirection.SlideDown,
     attributes: {},
     label: "",
@@ -505,7 +523,10 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     kind: "CONTACT",
     component: Contact,
     note: "Kitchen Door",
-    textPosition: [WEST_WALL + 516 + TEXT_PADDING, NORTH_WALL + 28 + TEXT_PADDING],
+    textPosition: [
+      WEST_WALL + 516 + TEXT_PADDING,
+      NORTH_WALL + 28 + TEXT_PADDING,
+    ],
     direction: ContactDirection.SlideDown,
     attributes: {},
     label: "",
@@ -530,5 +551,31 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     attributes: {},
     label: "",
     name: "",
+  },
+  "46": {
+    id: "46",
+    kind: "TV",
+    component: Tv,
+    note: "Living Room TV",
+    textPosition: [WEST_WALL + 510, NORTH_WALL + 300],
+    direction: TvDirection.West,
+    radius: [15, 28],
+    attributes: {},
+    label: "",
+    name: "",
+    wattThreashold: 10,
+  },
+  "44": {
+    id: "44",
+    kind: "TV",
+    component: Tv,
+    note: "Computer Monitor",
+    textPosition: [WEST_WALL + 370, NORTH_WALL + 350],
+    direction: TvDirection.West,
+    radius: [10, 15],
+    attributes: {},
+    label: "",
+    name: "",
+    wattThreashold: 50,
   },
 };

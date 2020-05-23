@@ -20,7 +20,7 @@ export function appReducer(
     case ACTION_INIT_DEVICE: {
       const newState = { ...state };
       newState.devices = { ...newState.devices };
-      action.payload.devices.forEach(dev => {
+      action.payload.devices.forEach((dev) => {
         newState.devices[dev.id] = dev;
       });
       return newState;

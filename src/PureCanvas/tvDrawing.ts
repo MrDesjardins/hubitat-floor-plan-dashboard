@@ -1,0 +1,58 @@
+import { getTVText } from "../Commons/textbuilder";
+import { TEXT_COLOR, TEXT_SIZE } from "../constants";
+import { TvDirection } from "../DeviceComponents/Tv";
+import { getPowerOnAttribute } from "../Logics/AttributeLogics";
+import { DeviceDataKind, TvDevice } from "../Models/devices";
+import { degreeToRadian } from "../Commons/mathematic";
+import { DictionaryOf } from "../Commons/dictionaryOf";
+const devicseRadius: DictionaryOf<number> = {};
+const devicseDirection: DictionaryOf<number> = {};
+export function drawTV(
+  ctx: CanvasRenderingContext2D,
+  device: TvDevice,
+  update: boolean,
+  openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void
+): void {
+  const isTVOn = getPowerOnAttribute(device, device.wattThreashold);
+  const x = device.textPosition[0];
+  const y = device.textPosition[1];
+  if (devicseRadius[device.id] === undefined) {
+    devicseRadius[device.id] = device.radius[0];
+    devicseDirection[device.id] = -1;
+  }
+
+  if (update) {
+    if (devicseRadius[device.id] >= device.radius[1] || devicseRadius[device.id] <= device.radius[0]) {
+      devicseDirection[device.id] *= -1;
+    }
+    devicseRadius[device.id] += devicseDirection[device.id];
+
+  }
+  ctx.beginPath();
+  ctx.font = `${TEXT_SIZE}px Arial`;
+  ctx.fillStyle = TEXT_COLOR;
+  ctx.fillText(
+    getTVText(isTVOn),
+    device.textPosition[0],
+    device.textPosition[1]
+  );
+
+  // const angle = getAngleFromDirection(device.direction);
+  ctx.beginPath();
+  ctx.fillStyle = "rgba(250,235,100,0.4)";
+  ctx.arc(x, y, devicseRadius[device.id], degreeToRadian(-90), degreeToRadian(90), true);
+  ctx.fill();
+}
+
+const getAngleFromDirection = (direction: TvDirection): number => {
+  switch (direction) {
+    case TvDirection.East:
+      return 270;
+    case TvDirection.South:
+      return 0;
+    case TvDirection.West:
+      return 90;
+    case TvDirection.North:
+      return 180;
+  }
+};

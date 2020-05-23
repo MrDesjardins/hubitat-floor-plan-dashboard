@@ -1,4 +1,10 @@
-import { Button, Divider, Drawer, Grid, ThemeProvider } from "@material-ui/core";
+import {
+  Button,
+  Divider,
+  Drawer,
+  Grid,
+  ThemeProvider,
+} from "@material-ui/core";
 import React, { useEffect, useReducer, useRef, useState } from "react";
 import "typeface-roboto";
 import { AppActions, InitData } from "./actions/appActions";
@@ -25,7 +31,12 @@ import DataAccessGateway from "dataaccessgateway";
 
 import { MainCanvas } from "./PureCanvas/MainCanvas";
 import { ActionsWithPayload } from "./infrastructure/ReducerActions";
-import { APP_WIDTH, APP_HEIGHT, MAIN_MENU_WIDTH, DARK_THEME } from "./constants";
+import {
+  APP_WIDTH,
+  APP_HEIGHT,
+  MAIN_MENU_WIDTH,
+  DARK_THEME,
+} from "./constants";
 const SERVER_IP = process.env.REACT_APP_SERVER_IP;
 const SERVER_PORT = process.env.REACT_APP_SERVER_PORT;
 const WEBSOCKET_IP = process.env.REACT_APP_WEBSOCKET_IP;
@@ -33,7 +44,11 @@ const WEBSOCKET_PORT = process.env.REACT_APP_WEBSOCKET_PORT;
 const WEBSOCKET_ENABLED = process.env.REACT_APP_WEBSOCKET_ENABLED === "true";
 
 console.log(`Server  ${SERVER_IP}:${SERVER_PORT}, `);
-console.log(`WS ${WEBSOCKET_ENABLED ? "Enabled" : "Disabled"} ${SERVER_IP}:${WEBSOCKET_PORT}, `);
+console.log(
+  `WS ${
+    WEBSOCKET_ENABLED ? "Enabled" : "Disabled"
+  } ${SERVER_IP}:${WEBSOCKET_PORT}, `
+);
 
 const webSocketUrl = `ws://${WEBSOCKET_IP}:${WEBSOCKET_PORT}`;
 
@@ -158,7 +173,8 @@ function App() {
           temperatureMode={state.isTemperatureModeOn}
           onChangeTemperature={(isTemperatureModeOn: boolean) => {
             dispatch(AppActions.setTemperatureMode(isTemperatureModeOn));
-          }} />
+          }}
+        />
         <MainCanvas
           width={APP_WIDTH - MAIN_MENU_WIDTH}
           height={APP_HEIGHT}
@@ -167,7 +183,8 @@ function App() {
           openConfiguration={(dev: DeviceDataKind, openDrawer: boolean) => {
             setConfiguringDevice(dev);
             setDrawerOpen(openDrawer);
-          }} />
+          }}
+        />
         <Drawer
           className={"app-drawer"}
           anchor={"bottom"}
@@ -196,7 +213,7 @@ function App() {
               style={{ marginLeft: 10 }}
             >
               Close
-          </Button>
+            </Button>
           </Grid>
         </Drawer>
       </ThemeProvider>
@@ -263,9 +280,14 @@ function App() {
   }
 }
 
-function saveState(value: DeviceDataKind[], dispatch: React.Dispatch<ActionsWithPayload<"ACTION_INIT_DEVICE", InitData> |
-  ActionsWithPayload<"ACTION_SAVE_DEVICE", DeviceDataKind> |
-  ActionsWithPayload<"ACTION_SET_TEMPERATURE_MODE", boolean>>) {
+function saveState(
+  value: DeviceDataKind[],
+  dispatch: React.Dispatch<
+    | ActionsWithPayload<"ACTION_INIT_DEVICE", InitData>
+    | ActionsWithPayload<"ACTION_SAVE_DEVICE", DeviceDataKind>
+    | ActionsWithPayload<"ACTION_SET_TEMPERATURE_MODE", boolean>
+  >
+) {
   const allDataWithConfigurationInAllDevices: DeviceDataKind[] = [];
   value.forEach((p) => {
     const configData = allDevices[p.id];
@@ -274,9 +296,11 @@ function saveState(value: DeviceDataKind[], dispatch: React.Dispatch<ActionsWith
       allDataWithConfigurationInAllDevices.push(mergedData);
     }
   });
-  dispatch(AppActions.initDevice({
-    devices: allDataWithConfigurationInAllDevices,
-  }));
+  dispatch(
+    AppActions.initDevice({
+      devices: allDataWithConfigurationInAllDevices,
+    })
+  );
 }
 
 function save(
@@ -291,7 +315,7 @@ function save(
       console.log("Saving Dimmer Light Level");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${
-        existingDeviceData.id
+          existingDeviceData.id
         }/setLevel/${getDimmerLightLevelAttribute(newDeviceData)}`
       );
     }
@@ -302,7 +326,7 @@ function save(
       console.log("Saving Dimmer Power");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-        getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+          getLightOnOffAttribute(newDeviceData) ? "on" : "off"
         }`
       );
     }
@@ -317,7 +341,7 @@ function save(
       console.log("Saving Switch Light Level");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-        getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+          getLightOnOffAttribute(newDeviceData) ? "on" : "off"
         }`
       );
     }

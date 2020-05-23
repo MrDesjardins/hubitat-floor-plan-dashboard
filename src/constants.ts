@@ -34,7 +34,7 @@ export const MAIN_MENU_WIDTH = 300;
 
 export const DARK_THEME = createMuiTheme({
   palette: {
-    type: 'dark',
+    type: "dark",
   },
 });
 export const FPS = 60;

@@ -19,24 +19,29 @@ export const Temperature = (props: TemperatureOptions) => {
   const humidity = getHumidityAtribute(props.deviceData);
   const [x, y] = props.deviceData.textPosition;
   const color1 = getColorFromTemperature(temperature);
-  const color2 = getColorFromTemperature(temperature-3, 0.15);
+  const color2 = getColorFromTemperature(temperature - 3, 0.15);
   const [pulseDirection, setPulseDirection] = useState(radiusTick);
-  const [radius, setRadius] = useState(minRadius + Math.random()*(maxRadius-minRadius));
+  const [radius, setRadius] = useState(
+    minRadius + Math.random() * (maxRadius - minRadius)
+  );
 
   useInterval(() => {
     if (radius <= minRadius) {
       setPulseDirection(radiusTick);
     } else if (radius >= maxRadius) {
-      setPulseDirection(-1*radiusTick);
+      setPulseDirection(-1 * radiusTick);
     }
     setRadius(radius + pulseDirection);
   }, 100 + Math.random() * 200);
-  
+
   return (
     <>
-      <Circle x={x+15} y={y+15} radius={radius}
+      <Circle
+        x={x + 15}
+        y={y + 15}
+        radius={radius}
         fillRadialGradientStartRadius={0}
-        fillRadialGradientEndRadius={radius*0.9}
+        fillRadialGradientEndRadius={radius * 0.9}
         fillRadialGradientColorStops={[0, color1, 1, color2]}
       />
       <Text
@@ -59,9 +64,10 @@ export const Temperature = (props: TemperatureOptions) => {
   );
 };
 
-
-function getColorFromTemperature(fahrenheit: number, alpha: number = 0.8): string {
-
+function getColorFromTemperature(
+  fahrenheit: number,
+  alpha: number = 0.8
+): string {
   const colors: string[] = [
     `rgba(255, 10, 15, ${alpha})`,
     `rgba(250, 20, 25, ${alpha})`,
@@ -87,7 +93,7 @@ function getColorFromTemperature(fahrenheit: number, alpha: number = 0.8): strin
 
   const max = 80;
   // const min = 60;
-  const index = Math.round(max-fahrenheit);
+  const index = Math.round(max - fahrenheit);
   if (index < 0) {
     return `rgba(238, 27, 27, ${alpha})`;
   }

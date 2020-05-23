@@ -1,4 +1,14 @@
-import { makeStyles, Theme, createStyles, Drawer, Divider, List, ListItem, ListItemIcon, ListItemText } from "@material-ui/core";
+import {
+  makeStyles,
+  Theme,
+  createStyles,
+  Drawer,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from "@material-ui/core";
 import { Icon } from "@iconify/react";
 import homeThermometer from "@iconify/icons-mdi/home-thermometer";
 import homeThermometerOutline from "@iconify/icons-mdi/home-thermometer-outline";
@@ -9,7 +19,7 @@ import { MAIN_MENU_WIDTH } from "../constants";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: 'flex',
+      display: "flex",
     },
     appBar: {
       width: `calc(100% - ${MAIN_MENU_WIDTH}px)`,
@@ -29,10 +39,8 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: theme.palette.background.default,
       padding: theme.spacing(3),
     },
-  }),
+  })
 );
-
-
 
 export interface MainMenuProps {
   temperatureMode: boolean;
@@ -40,45 +48,57 @@ export interface MainMenuProps {
 }
 export const MainMenu = (props: MainMenuProps) => {
   const classes = useStyles();
-  return <Drawer
-    className={classes.drawer}
-    variant="permanent"
-    classes={{
-      paper: classes.drawerPaper,
-    }}
-    anchor="left"
-  >
-    <div className={classes.toolbar} />
-    <Divider />
-    <List>
-      <ListItem button key={"ArmAway"}>
-        <ListItemIcon><AccessAlarmIcon /></ListItemIcon>
-        <ListItemText primary="Arm Away" />
-      </ListItem>
-      <ListItem button key={"ArmSleep"}>
-        <ListItemIcon><AccessAlarmIcon /></ListItemIcon>
-        <ListItemText primary="Arm Sleep" />
-      </ListItem>
-      <ListItem button key={"Disarm"}>
-        <ListItemIcon><AccessAlarmIcon /></ListItemIcon>
-        <ListItemText primary="Disarm" />
-      </ListItem>
-    </List>
-    <Divider />
-    <List>
-      <ListItem button key={"temperatureMode"} onClick={() => {
-        props.onChangeTemperature(!props.temperatureMode);
-      }}>
-        <ListItemIcon>
-          <Icon
-            className="MuiSvgIcon-root"
-            icon={
-              props.temperatureMode ? homeThermometer : homeThermometerOutline
-            }
-          />
-        </ListItemIcon>
-        <ListItemText primary="Temperature Mode" />
-      </ListItem>
-    </List>
-  </Drawer>;
+  return (
+    <Drawer
+      className={classes.drawer}
+      variant="permanent"
+      classes={{
+        paper: classes.drawerPaper,
+      }}
+      anchor="left"
+    >
+      <div className={classes.toolbar} />
+      <Divider />
+      <List>
+        <ListItem button key={"ArmAway"}>
+          <ListItemIcon>
+            <AccessAlarmIcon />
+          </ListItemIcon>
+          <ListItemText primary="Arm Away" />
+        </ListItem>
+        <ListItem button key={"ArmSleep"}>
+          <ListItemIcon>
+            <AccessAlarmIcon />
+          </ListItemIcon>
+          <ListItemText primary="Arm Sleep" />
+        </ListItem>
+        <ListItem button key={"Disarm"}>
+          <ListItemIcon>
+            <AccessAlarmIcon />
+          </ListItemIcon>
+          <ListItemText primary="Disarm" />
+        </ListItem>
+      </List>
+      <Divider />
+      <List>
+        <ListItem
+          button
+          key={"temperatureMode"}
+          onClick={() => {
+            props.onChangeTemperature(!props.temperatureMode);
+          }}
+        >
+          <ListItemIcon>
+            <Icon
+              className="MuiSvgIcon-root"
+              icon={
+                props.temperatureMode ? homeThermometer : homeThermometerOutline
+              }
+            />
+          </ListItemIcon>
+          <ListItemText primary="Temperature Mode" />
+        </ListItem>
+      </List>
+    </Drawer>
+  );
 };

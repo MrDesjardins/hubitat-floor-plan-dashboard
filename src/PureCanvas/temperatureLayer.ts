@@ -1,5 +1,12 @@
-import { ThermostatDevice, MotionDevice, DeviceDataKind } from "../Models/devices";
-import { getTemperatureAtribute, getHumidityAtribute } from "../Logics/AttributeLogics";
+import {
+  ThermostatDevice,
+  MotionDevice,
+  DeviceDataKind,
+} from "../Models/devices";
+import {
+  getTemperatureAtribute,
+  getHumidityAtribute,
+} from "../Logics/AttributeLogics";
 import { TEXT_SIZE, TEXT_COLOR, FPS } from "../constants";
 import { DictionaryOf } from "../Commons/dictionaryOf";
 
@@ -8,14 +15,23 @@ const delay = 120;
 let lastFrame = 0;
 let deviceRadius: DictionaryOf<number> = {};
 let deviceDirection: DictionaryOf<number> = {};
-export function drawTemperatureLayer(ctx: CanvasRenderingContext2D, devices: (TemperatureDevice)[], openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void) {
+export function drawTemperatureLayer(
+  ctx: CanvasRenderingContext2D,
+  devices: TemperatureDevice[],
+  openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void
+) {
   const currentFrame = Date.now();
   const diff = currentFrame - lastFrame;
   const update = diff >= delay;
-  devices.forEach(singleDevice => {
-    drawTemperatureSensor(ctx, singleDevice, update, (dev: DeviceDataKind, openDrawer: boolean) => {
-      openConfiguration(dev, openDrawer);
-    });
+  devices.forEach((singleDevice) => {
+    drawTemperatureSensor(
+      ctx,
+      singleDevice,
+      update,
+      (dev: DeviceDataKind, openDrawer: boolean) => {
+        openConfiguration(dev, openDrawer);
+      }
+    );
   });
   if (update) {
     lastFrame = currentFrame;
@@ -25,7 +41,12 @@ export function drawTemperatureLayer(ctx: CanvasRenderingContext2D, devices: (Te
 const maxRadius = 65;
 const minRadius = 50;
 
-export function drawTemperatureSensor(ctx: CanvasRenderingContext2D, device: TemperatureDevice, update: boolean, openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void) {
+export function drawTemperatureSensor(
+  ctx: CanvasRenderingContext2D,
+  device: TemperatureDevice,
+  update: boolean,
+  openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void
+) {
   const temperature = getTemperatureAtribute(device);
   const humidity = getHumidityAtribute(device);
   const [x, y] = device.textPosition;
@@ -64,10 +85,10 @@ export function drawTemperatureSensor(ctx: CanvasRenderingContext2D, device: Tem
   deviceRadius[device.id] = radius;
 }
 
-
-
-function getColorFromTemperature(fahrenheit: number, alpha: number = 0.8): string {
-
+function getColorFromTemperature(
+  fahrenheit: number,
+  alpha: number = 0.8
+): string {
   const colors: string[] = [
     `rgba(255, 10, 15, ${alpha})`,
     `rgba(250, 20, 25, ${alpha})`,
