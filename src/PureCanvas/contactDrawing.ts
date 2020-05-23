@@ -14,17 +14,21 @@ import {
 import { ContactDirection } from "../DeviceComponents/Contact";
 import { getContactOnOffAttribute } from "../Logics/AttributeLogics";
 import { ContactDevice, DeviceDataKind } from "../Models/devices";
+import { delayedDeviceAnimation } from "../Commons/animation";
 
 const contactsAngle: DictionaryOf<number> = {};
 const contactsTranslation: DictionaryOf<[number, number]> = {};
 export function drawContact(
   ctx: CanvasRenderingContext2D,
   device: ContactDevice,
-  update: boolean,
   openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void
 ) {
-  drawRotativePhysicalContact(ctx, device, update);
-  drawSlidingPhysicalContact(ctx, device, update);
+
+  delayedDeviceAnimation(device.id, (update: boolean) => {
+    drawRotativePhysicalContact(ctx, device, update);
+    drawSlidingPhysicalContact(ctx, device, update);
+
+  }, 20);
 }
 
 function drawRotativePhysicalContact(
@@ -111,12 +115,12 @@ function drawSlidingPhysicalContact(
     }
     let contactWidth =
       device.direction === ContactDirection.SlideDown ||
-      device.direction === ContactDirection.SlideUp
+        device.direction === ContactDirection.SlideUp
         ? 0
         : CONTACT_SIZE;
     let contactHeight =
       device.direction === ContactDirection.SlideDown ||
-      device.direction === ContactDirection.SlideUp
+        device.direction === ContactDirection.SlideUp
         ? CONTACT_SIZE
         : 0;
     if (update) {

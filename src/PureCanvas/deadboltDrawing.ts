@@ -7,7 +7,6 @@ import { drawPath2D } from "./commonDrawing";
 export function drawDeadbolt(
   ctx: CanvasRenderingContext2D,
   device: DeadboltDevice,
-  update: boolean,
   openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void
 ): void {
   const isLock = getDeadboltLockStatus(device);
