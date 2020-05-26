@@ -6,6 +6,7 @@ import { drawLightSwitch } from "./lightSwitchDrawing";
 import { drawDimmerSwitch } from "./dimmerSwitchDrawing";
 import { drawMotion } from "./motionDrawing";
 import { drawWashingMachine } from "./washingMachineDrawing";
+import { drawThermostat } from "./thermostatDrawing";
 
 
 export function drawDevicesLayer(
@@ -36,6 +37,9 @@ export function drawDevicesLayer(
         break;
       case "WASHINGMACHINE":
         drawWashingMachine(ctx, singleDevice, openConfiguration);
+        break;
+      case "THERMOSTAT":
+        drawThermostat(ctx, singleDevice, openConfiguration);
         break;
     }
   });

@@ -1,9 +1,9 @@
-import { delayedDeviceMultiAnimations, delayedDeviceAnimation } from "../Commons/animation";
+import { delayedDeviceAnimation } from "../Commons/animation";
 import { DictionaryOf } from "../Commons/dictionaryOf";
 import { degreeToRadian } from "../Commons/mathematic";
-import { getMotionText, getWashingMachineText } from "../Commons/textbuilder";
-import { MOTION_COLOR, TEXT_COLOR, TEXT_SIZE, CONTACT_WIDTH, COLOR_MACHINE1, WASHING_MACHINE_WIDTH } from "../constants";
-import { getMotionOnOffAttribute, getPowerAttribute } from "../Logics/AttributeLogics";
+import { getWashingMachineText } from "../Commons/textbuilder";
+import { COLOR_MACHINE1, TEXT_COLOR, TEXT_SIZE, WASHING_MACHINE_WIDTH } from "../constants";
+import { getPowerAttribute } from "../Logics/AttributeLogics";
 import { DeviceDataKind, WashingMachineDevice } from "../Models/devices";
 
 const deviceAngle: DictionaryOf<number> = {};
