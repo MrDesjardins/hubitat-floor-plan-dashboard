@@ -2,6 +2,9 @@ import { DeviceDataKind } from "../Models/devices";
 import { drawContact } from "./contactDrawing";
 import { drawDeadbolt } from "./deadboltDrawing";
 import { drawTV } from "./tvDrawing";
+import { drawLightSwitch } from "./lightSwitchDrawing";
+import { drawDimmerSwitch } from "./dimmerSwitchDrawing";
+import { drawMotion } from "./motionDrawing";
 
 
 export function drawDevicesLayer(
@@ -20,7 +23,16 @@ export function drawDevicesLayer(
         break;
       case "TV":
         drawTV(ctx, singleDevice, openConfiguration);
+        break;
+      case "SWITCH":
+        drawLightSwitch(ctx, singleDevice, openConfiguration);
+        break;
+      case "DIMMER":
+        drawDimmerSwitch(ctx, singleDevice, openConfiguration);
+        break;
+      case "MOTION":
+        drawMotion(ctx, singleDevice, openConfiguration);
+        break;
     }
   });
-
 }

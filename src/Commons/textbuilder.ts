@@ -9,3 +9,7 @@ export function getDeadlockText(isLock: boolean): string {
 export function getTVText(isTvOn: boolean): string {
   return `${isTvOn ? "On" : "Off"}`;
 }
+
+export function getMotionText(isInMotion: boolean): string {
+  return `${isInMotion ? "Motion" : "No Motion"} `;
+}
