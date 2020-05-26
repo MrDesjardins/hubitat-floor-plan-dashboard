@@ -1,9 +1,27 @@
 import { getAirPurifierText } from "../Commons/textbuilder";
-import { COLOR_MACHINE1, COLOR_MACHINE2, TEXT_COLOR, TEXT_SIZE } from "../constants";
+import { COLOR_MACHINE1, COLOR_MACHINE2, TEXT_COLOR, TEXT_SIZE, COLOR_MACHINE3 } from "../constants";
 import { getLightOnOffAttribute } from "../Logics/AttributeLogics";
 import { AirPurifierDevice, DeviceDataKind } from "../Models/devices";
 import { drawPath2D } from "./commonDrawing";
+import { delayedDeviceAnimation } from "../Commons/animation";
+import { DictionaryOf } from "../Commons/dictionaryOf";
 
+
+interface SiveWaveProps {
+  x: number;
+  y: number;
+}
+interface DataT {
+  type: string;
+  values: number[];
+}
+const offsetByDevice: DictionaryOf<number> = {};
+const deviceWave1: DictionaryOf<number> = {};
+const deviceWave2: DictionaryOf<number> = {};
+const deviceWave3: DictionaryOf<number> = {};
+
+const amplitude = 1.05;
+const frequency = 0.25;
 
 export function drawAirPurifier(
   ctx: CanvasRenderingContext2D,
@@ -80,5 +98,59 @@ export function drawAirPurifier(
     },
     true
   );
+  offsetByDevice[device.id] = offsetByDevice[device.id] ?? 0;
+  delayedDeviceAnimation(device.id, (update: boolean) => {
+
+    if (update) {
+      offsetByDevice[device.id] += 12;
+    }
+    let data: DataT[] = [
+      {
+        type: "M",
+        values: [0, 150],
+      },
+    ];
+    let x = 0;
+    while (x < 300) {
+      let point = {
+        x: x,
+        y: 150 - pathFunction(x, offsetByDevice[device.id]),
+      };
+      data.push({
+        type: "L",
+        values: [point.x, point.y],
+      });
+      x += 1;
+    }
+    const path = data.map((d) => d.type + " " + d.values.join(" ")).join(" ");
+    // const paths = path.map(p => new Path2D(p));
+    for (let vertical = 0; vertical < 3; vertical++) {
+      drawPath2D(
+        ctx,
+        [new Path2D(path)],
+        {
+          location: {
+            x: device.textPosition[0] - 14,
+            y: device.textPosition[1] - 40 - vertical * 6,
+          },
+          lineWidth: 30,
+          fillStyle: "none",
+          scale: 0.075,
+          stroke: COLOR_MACHINE3
+        },
+        false
+      );
+    }
+  }, 100);
 }
 
+const pathFunction = (x: number, offset: number) => {
+  const result =
+    // Function to determine curve
+    // 0.2*(Math.sin(Math.sqrt(x)-$scope.offset))*x;
+    Math.sin(Math.sqrt(x * frequency) - offset) *
+    x *
+    (0.1 * amplitude);
+
+  return result;
+};
