@@ -7,6 +7,7 @@ import { drawDimmerSwitch } from "./dimmerSwitchDrawing";
 import { drawMotion } from "./motionDrawing";
 import { drawWashingMachine } from "./washingMachineDrawing";
 import { drawThermostat } from "./thermostatDrawing";
+import { drawAirPurifier } from "./airpurifierDrawing";
 
 
 export function drawDevicesLayer(
@@ -40,6 +41,9 @@ export function drawDevicesLayer(
         break;
       case "THERMOSTAT":
         drawThermostat(ctx, singleDevice, openConfiguration);
+        break;
+      case "AIRPURIFIER":
+        drawAirPurifier(ctx, singleDevice, openConfiguration);
         break;
     }
   });

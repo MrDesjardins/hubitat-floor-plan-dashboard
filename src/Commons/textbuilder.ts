@@ -17,3 +17,7 @@ export function getMotionText(isInMotion: boolean): string {
 export function getWashingMachineText(isInPower: boolean): string {
   return `${isInPower ? "On" : "Off"}`;
 }
+
+export function getAirPurifierText(isInPower: boolean): string {
+  return `${isInPower ? "Air On" : "Air Off"}`;
+}
