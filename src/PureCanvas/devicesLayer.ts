@@ -5,6 +5,7 @@ import { drawTV } from "./tvDrawing";
 import { drawLightSwitch } from "./lightSwitchDrawing";
 import { drawDimmerSwitch } from "./dimmerSwitchDrawing";
 import { drawMotion } from "./motionDrawing";
+import { drawWashingMachine } from "./washingMachineDrawing";
 
 
 export function drawDevicesLayer(
@@ -32,6 +33,9 @@ export function drawDevicesLayer(
         break;
       case "MOTION":
         drawMotion(ctx, singleDevice, openConfiguration);
+        break;
+      case "WASHINGMACHINE":
+        drawWashingMachine(ctx, singleDevice, openConfiguration);
         break;
     }
   });

@@ -46,3 +46,5 @@ export const OPEN_ANGLE = 45;
 export const CLOSE_ANGLE = 0;
 
 export const TEXT_PADDING = 15;
+
+export const WASHING_MACHINE_WIDTH = 3;

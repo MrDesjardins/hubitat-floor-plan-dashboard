@@ -47,18 +47,8 @@ export function drawMotion(
       const yTotalDistance = Math.ceil(device.path[indexNext][1] - device.path[devicePathIndex[device.id]][1]);
       const xPixelMove = xTotalDistance / 20;
       const yPixelMove = yTotalDistance / 20;
-      // console.log(indexNext);
-      // console.log(xTotalDistance, yTotalDistance);
-      // console.log("Move from ", devicePathLocation[device.id][0], devicePathLocation[device.id][1]);
-      // console.log("Move to ", devicePathLocation[device.id][0] + xPixelMove, devicePathLocation[device.id][1] + yPixelMove);
-
-
-      // console.log("x:", Math.abs(devicePathLocation[device.id][0] - xPixelMove));
-      // console.log("y:", Math.abs(devicePathLocation[device.id][1] - yPixelMove));
       const nextXPixel = devicePathLocation[device.id][0] + xPixelMove;
       const nextYPixel = devicePathLocation[device.id][1] + yPixelMove;
-
-      console.log(xTotalDistance, nextXPixel, device.path[indexNext][0]);
       const horizontalRightMovement = (xTotalDistance >= 0 && nextXPixel >= device.path[indexNext][0]);
       const horizontalLeftMovement = (xTotalDistance <= 0 && nextXPixel <= device.path[indexNext][0]);
       const verticalTopMovement = (yTotalDistance >= 0 && nextYPixel >= device.path[indexNext][1]);
@@ -81,7 +71,7 @@ export function drawMotion(
     );
 
     // const angle = getAngleFromDirection(device.direction);
-    if (true || isInMotion) {
+    if (isInMotion) {
       ctx.beginPath();
       ctx.fillStyle = MOTION_COLOR;
       ctx.arc(devicePathLocation[device.id][0], devicePathLocation[device.id][1], deviceRadiusDimension[device.id], degreeToRadian(0), degreeToRadian(360), true);

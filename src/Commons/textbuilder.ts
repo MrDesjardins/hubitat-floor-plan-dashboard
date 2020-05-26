@@ -13,3 +13,7 @@ export function getTVText(isTvOn: boolean): string {
 export function getMotionText(isInMotion: boolean): string {
   return `${isInMotion ? "Motion" : "No Motion"} `;
 }
+
+export function getWashingMachineText(isInPower: boolean): string {
+  return `${isInPower ? "On" : "Off"}`;
+}
