@@ -7,7 +7,7 @@ import {
   getTemperatureAtribute,
   getHumidityAtribute,
 } from "../Logics/AttributeLogics";
-import { TEXT_SIZE, TEXT_COLOR, FPS } from "../constants";
+import { TEXT_SIZE, TEXT_COLOR } from "../constants";
 import { DictionaryOf } from "../Commons/dictionaryOf";
 
 type TemperatureDevice = ThermostatDevice & MotionDevice;
@@ -78,9 +78,9 @@ export function drawTemperatureSensor(
   ctx.font = `${TEXT_SIZE}px Arial`;
   ctx.fillStyle = TEXT_COLOR;
   ctx.fillText(text, x, y);
-  if (isNaN(humidity)) {
+  if (!isNaN(humidity)) {
     ctx.beginPath();
-    ctx.fillText(text, x, y + 15);
+    ctx.fillText(`${humidity.toFixed(1)}%`, x, y + 15);
   }
   deviceRadius[device.id] = radius;
 }

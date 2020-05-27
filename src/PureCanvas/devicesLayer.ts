@@ -8,6 +8,7 @@ import { drawMotion } from "./motionDrawing";
 import { drawWashingMachine } from "./washingMachineDrawing";
 import { drawThermostat } from "./thermostatDrawing";
 import { drawAirPurifier } from "./airpurifierDrawing";
+import { drawProjectingLight } from "./projectionLightDrawing";
 
 
 export function drawDevicesLayer(
@@ -44,6 +45,9 @@ export function drawDevicesLayer(
         break;
       case "AIRPURIFIER":
         drawAirPurifier(ctx, singleDevice, openConfiguration);
+        break;
+      case "PROJECTING_LIGHT":
+        drawProjectingLight(ctx, singleDevice, openConfiguration);
         break;
     }
   });

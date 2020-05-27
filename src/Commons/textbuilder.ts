@@ -21,3 +21,7 @@ export function getWashingMachineText(isInPower: boolean): string {
 export function getAirPurifierText(isInPower: boolean): string {
   return `${isInPower ? "Air On" : "Air Off"}`;
 }
+
+export function getProjectionText(isOn: boolean): string {
+  return `${isOn ? "On" : "Stars Off"}`;
+}

@@ -16,9 +16,6 @@ interface DataT {
   values: number[];
 }
 const offsetByDevice: DictionaryOf<number> = {};
-const deviceWave1: DictionaryOf<number> = {};
-const deviceWave2: DictionaryOf<number> = {};
-const deviceWave3: DictionaryOf<number> = {};
 
 const amplitude = 1.05;
 const frequency = 0.25;
