@@ -1,5 +1,5 @@
-import { DeviceDataKind, DimmingLightDevice } from "Models/devices";
-import { getLightOnOffAttribute, getDimmerLightLevelAttribute } from "Logics/attributeLogics";
+import { DeviceDataKind, DimmingLightDevice } from "models/devices";
+import { getLightOnOffAttribute, getDimmerLightLevelAttribute } from "logics/attributeLogics";
 import { TEXT_SIZE, TEXT_COLOR, TEXT_PADDING, LIGHT_ON_COLOR, LIGHT_OFF_COLOR } from "../constants";
 import { drawPath2D } from "./commonDrawing";
 

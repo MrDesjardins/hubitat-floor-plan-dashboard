@@ -1,10 +1,10 @@
-import { delayedDeviceMultiAnimations } from "Commons/animation";
-import { DictionaryOf } from "Commons/dictionaryOf";
-import { degreeToRadian } from "Commons/mathematic";
-import { getMotionText } from "Commons/textbuilder";
+import { delayedDeviceMultiAnimations } from "commons/animation";
+import { DictionaryOf } from "commons/dictionaryOf";
+import { degreeToRadian } from "commons/mathematic";
+import { getMotionText } from "commons/textbuilder";
 import { MOTION_COLOR, TEXT_COLOR, TEXT_SIZE } from "../constants";
-import { getMotionOnOffAttribute } from "Logics/attributeLogics";
-import { DeviceDataKind, MotionDevice } from "Models/devices";
+import { getMotionOnOffAttribute } from "logics/attributeLogics";
+import { DeviceDataKind, MotionDevice } from "models/devices";
 
 const deviceRadiusDirection: DictionaryOf<number> = {};
 const deviceRadiusDimension: DictionaryOf<number> = {};

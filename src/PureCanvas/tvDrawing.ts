@@ -1,10 +1,10 @@
-import { getTVText } from "Commons/textbuilder";
+import { getTVText } from "commons/textbuilder";
 import { TEXT_COLOR, TEXT_SIZE } from "../constants";
-import { getPowerOnAttribute } from "Logics/attributeLogics";
-import { DeviceDataKind, TvDevice, TvDirection } from "Models/devices";
-import { degreeToRadian } from "Commons/mathematic";
-import { DictionaryOf } from "Commons/dictionaryOf";
-import { delayedDeviceAnimation } from "Commons/animation";
+import { getPowerOnAttribute } from "logics/attributeLogics";
+import { DeviceDataKind, TvDevice } from "models/devices";
+import { degreeToRadian } from "commons/mathematic";
+import { DictionaryOf } from "commons/dictionaryOf";
+import { delayedDeviceAnimation } from "commons/animation";
 
 
 const devicseRadius: DictionaryOf<number> = {};

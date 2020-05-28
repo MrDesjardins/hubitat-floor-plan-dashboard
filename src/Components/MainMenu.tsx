@@ -8,12 +8,12 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-} from "@material-ui/core";
-import { Icon } from "@iconify/react";
-import homeThermometer from "@iconify/icons-mdi/home-thermometer";
-import homeThermometerOutline from "@iconify/icons-mdi/home-thermometer-outline";
-import React from "react";
-import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
+} from "components/node_modules/@material-ui/core";
+import { Icon } from "components/node_modules/@iconify/react";
+import homeThermometer from "components/node_modules/@iconify/icons-mdi/home-thermometer";
+import homeThermometerOutline from "components/node_modules/@iconify/icons-mdi/home-thermometer-outline";
+import React from "components/node_modules/react";
+import AccessAlarmIcon from "components/node_modules/@material-ui/icons/AccessAlarm";
 import { MAIN_MENU_WIDTH } from "../constants";
 
 const useStyles = makeStyles((theme: Theme) =>

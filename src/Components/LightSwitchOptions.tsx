@@ -1,10 +1,10 @@
-import { Switch, Typography } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import { Switch, Typography } from "components/node_modules/@material-ui/core";
+import React, { useEffect, useState } from "components/node_modules/react";
 import {
   getLightOnOffAttribute,
   setLightOnOffAttribute,
-} from "Logics/attributeLogics";
-import { LightSwitchDevice } from "Models/devices";
+} from "logics/attributeLogics";
+import { LightSwitchDevice } from "models/devices";
 
 export interface LightSwitchOptionsProps {
   isDialogOpen: boolean;

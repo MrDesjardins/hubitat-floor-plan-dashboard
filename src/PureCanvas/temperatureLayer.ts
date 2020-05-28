@@ -2,14 +2,14 @@ import {
   ThermostatDevice,
   MotionDevice,
   DeviceDataKind,
-} from "Models/devices";
+} from "models/devices";
 import {
   getTemperatureAtribute,
   getHumidityAtribute,
-} from "Logics/attributeLogics";
+} from "logics/attributeLogics";
 import { TEXT_SIZE, TEXT_COLOR } from "../constants";
-import { DictionaryOf } from "Commons/dictionaryOf";
-import { delayedDeviceAnimation } from "Commons/animation";
+import { DictionaryOf } from "commons/dictionaryOf";
+import { delayedDeviceAnimation } from "commons/animation";
 import { drawWeatherOutsideLayer } from "./drawWeatherOutsideLayer";
 
 type TemperatureDevice = ThermostatDevice & MotionDevice;

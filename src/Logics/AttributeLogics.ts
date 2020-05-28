@@ -10,8 +10,8 @@ import {
   AirPurifierDevice,
   DeadboltDevice,
   ThermostatDevice,
-} from "Models/devices";
-import { allDevices } from "Models/allDevices";
+} from "models/devices";
+import { allDevices } from "models/allDevices";
 
 export const getDimmerLightLevelAttribute = (
   device: DimmingLightDevice

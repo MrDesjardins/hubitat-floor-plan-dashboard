@@ -1,9 +1,9 @@
-import { DictionaryOf } from "Commons/dictionaryOf";
+import { DictionaryOf } from "commons/dictionaryOf";
 import {
   DeviceDataKind,
   ThermostatDevice,
   MotionDevice,
-} from "Models/devices";
+} from "models/devices";
 import { drawTemperatureLayer } from "./temperatureLayer";
 import { drawDevicesLayer } from "./devicesLayer";
 

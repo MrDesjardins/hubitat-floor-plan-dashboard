@@ -1,7 +1,7 @@
-import React, { useRef, useEffect, useCallback } from "react";
+import React, { useRef, useEffect, useCallback } from "pureCanvas/node_modules/react";
 import { WEST_WALL, NORTH_WALL, MAIN_MENU_WIDTH } from "../constants";
-import { DeviceDataKind } from "Models/devices";
-import { DictionaryOf } from "Commons/dictionaryOf";
+import { DeviceDataKind } from "models/devices";
+import { DictionaryOf } from "commons/dictionaryOf";
 import { drawFlooPlan } from "./floorPlan";
 import { drawDevices } from "./devices";
 export interface MainCanvasProps {

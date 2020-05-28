@@ -1,5 +1,5 @@
-import { LightSwitchDevice, DeviceDataKind } from "Models/devices";
-import { getLightOnOffAttribute } from "Logics/attributeLogics";
+import { LightSwitchDevice, DeviceDataKind } from "models/devices";
+import { getLightOnOffAttribute } from "logics/attributeLogics";
 import { TEXT_SIZE, TEXT_COLOR, TEXT_PADDING, LIGHT_ON_COLOR, LIGHT_OFF_COLOR } from "../constants";
 import { drawPath2D } from "./commonDrawing";
 

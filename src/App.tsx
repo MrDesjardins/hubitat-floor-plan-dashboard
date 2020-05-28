@@ -1,19 +1,19 @@
 import { Button, Divider, Drawer, Grid, ThemeProvider } from "@material-ui/core";
 import DataAccessGateway from "dataaccessgateway";
-import { getDimmerLightLevelAttribute, getLightOnOffAttribute } from "Logics/attributeLogics";
+import { getDimmerLightLevelAttribute, getLightOnOffAttribute } from "logics/attributeLogics";
 import React, { useEffect, useReducer, useRef, useState } from "react";
 import "typeface-roboto";
 import { AppActions, InitData } from "actions/appActions";
 import "./App.css";
-import { AirPurifierOptions } from "Components/AirPurifierOptions";
-import { DimmerLightOptions } from "Components/DimmerLightOptions";
-import { LightSwitchOptions } from "Components/LightSwitchOptions";
-import { MainMenu } from "Components/MainMenu";
+import { AirPurifierOptions } from "components/AirPurifierOptions";
+import { DimmerLightOptions } from "components/DimmerLightOptions";
+import { LightSwitchOptions } from "components/LightSwitchOptions";
+import { MainMenu } from "components/MainMenu";
 import { APP_HEIGHT, APP_WIDTH, DARK_THEME, MAIN_MENU_WIDTH } from "./constants";
-import { ActionsWithPayload } from "infrastructure/ReducerActions";
-import { allDevices } from "Models/allDevices";
-import { AirPurifierDevice, DeviceData, DeviceDataKind, DeviceWebsocket, DimmingLightDevice, LightSwitchDevice } from "Models/devices";
-import { MainCanvas } from "PureCanvas/MainCanvas";
+import { ActionsWithPayload } from "infrastructure/reducerActions";
+import { allDevices } from "models/allDevices";
+import { AirPurifierDevice, DeviceData, DeviceDataKind, DeviceWebsocket, DimmingLightDevice, LightSwitchDevice } from "models/devices";
+import { MainCanvas } from "pureCanvas/MainCanvas";
 import { appReducer, initialState } from "reducers/appReducer";
 
 const SERVER_IP = process.env.REACT_APP_SERVER_IP;
