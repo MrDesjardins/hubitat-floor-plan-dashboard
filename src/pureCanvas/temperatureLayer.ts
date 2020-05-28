@@ -12,7 +12,7 @@ import { DictionaryOf } from "commons/dictionaryOf";
 import { delayedDeviceAnimation } from "commons/animation";
 import { drawWeatherOutsideLayer } from "./drawWeatherOutsideLayer";
 
-type TemperatureDevice = ThermostatDevice & MotionDevice;
+type TemperatureDevice = ThermostatDevice | MotionDevice;
 let deviceRadius: DictionaryOf<number> = {};
 let deviceDirection: DictionaryOf<number> = {};
 export function drawTemperatureLayer(
@@ -40,7 +40,6 @@ export function drawTemperatureLayer(
 const maxRadius = 65;
 const minRadius = 50;
 
-
 export function drawTemperatureSensor(
   ctx: CanvasRenderingContext2D,
   device: TemperatureDevice,
@@ -48,7 +47,7 @@ export function drawTemperatureSensor(
   openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void
 ) {
   const temperature = getTemperatureAtribute(device);
-  const humidity = getHumidityAtribute(device);
+  const humidity = device.kind === "MOTION" ? getHumidityAtribute(device) : -1;
   const [x, y] = device.textPosition;
   const color1 = getColorFromTemperature(temperature);
   const color2 = getColorFromTemperature(temperature - 3, 0.15);
@@ -78,7 +77,7 @@ export function drawTemperatureSensor(
   ctx.font = `${TEXT_SIZE}px Arial`;
   ctx.fillStyle = TEXT_COLOR;
   ctx.fillText(text, x, y);
-  if (!isNaN(humidity)) {
+  if (!isNaN(humidity) && humidity !== -1) {
     ctx.beginPath();
     ctx.fillText(`${humidity.toFixed(1)}%`, x, y + 15);
   }

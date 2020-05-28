@@ -96,11 +96,11 @@ export const getDeadboltLockStatus = (device: DeadboltDevice): boolean => {
   return attr === "locked";
 };
 
-export const getTemperatureAtribute = (device: ThermostatDevice): number => {
+export const getTemperatureAtribute = (device: ThermostatDevice | MotionDevice): number => {
   return Number(device.attributes["temperature"]);
 };
 
-export const getHumidityAtribute = (device: ThermostatDevice): number => {
+export const getHumidityAtribute = (device: MotionDevice): number => {
   return Number(device.attributes["humidity"]);
 };
 
