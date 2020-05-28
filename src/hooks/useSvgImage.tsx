@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "Hooks/node_modules/react";
+import { useRef, useEffect } from "react";
 
 export interface UseSvgImageProps {
   svg: string;

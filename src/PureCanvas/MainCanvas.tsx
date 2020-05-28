@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useCallback } from "pureCanvas/node_modules/react";
+import React, { useRef, useEffect, useCallback } from "react";
 import { WEST_WALL, NORTH_WALL, MAIN_MENU_WIDTH } from "../constants";
 import { DeviceDataKind } from "models/devices";
 import { DictionaryOf } from "commons/dictionaryOf";

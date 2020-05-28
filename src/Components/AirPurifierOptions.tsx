@@ -1,5 +1,5 @@
-import { Switch, Typography } from "components/node_modules/@material-ui/core";
-import React, { useEffect, useState } from "components/node_modules/react";
+import { Switch, Typography } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
 import {
   getLightOnOffAttribute,
   setLightOnOffAttribute,

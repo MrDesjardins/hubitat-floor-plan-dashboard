@@ -1,6 +1,6 @@
-import { Switch, Typography } from "components/node_modules/@material-ui/core";
-import Slider from "components/node_modules/@material-ui/core/Slider";
-import React, { useEffect, useState } from "components/node_modules/react";
+import { Switch, Typography } from "@material-ui/core";
+import Slider from "@material-ui/core/Slider";
+import React, { useEffect, useState } from "react";
 import {
   getDimmerLightLevelAttribute,
   getLightOnOffAttribute,
