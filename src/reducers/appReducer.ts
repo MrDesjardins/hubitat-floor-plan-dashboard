@@ -1,11 +1,11 @@
-import { ApplicationState } from "../Models/applicationState";
+import { ApplicationState } from "Models/applicationState";
 import {
   AcceptedActions,
   ACTION_SAVE_DEVICE,
   ACTION_INIT_DEVICE,
   ACTION_SET_TEMPERATURE_MODE,
-} from "../actions/appActions";
-import { getDeviceType } from "../Logics/attributeLogics";
+} from "actions/appActions";
+import { getDeviceType } from "Logics/attributeLogics";
 
 export const initialState: ApplicationState = {
   devices: {},

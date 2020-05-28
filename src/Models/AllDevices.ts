@@ -1,22 +1,10 @@
-import { DeviceDataKind } from "./devices";
-import { Dimmer } from "../DeviceComponents/Dimmer";
-import { LightSwitch } from "../DeviceComponents/LightSwitch";
-import { Contact, ContactDirection } from "../DeviceComponents/Contact";
-import { Motion } from "../DeviceComponents/Motion";
-import { TvDirection, Tv } from "../DeviceComponents/Tv";
-import { WashingMachine } from "../DeviceComponents/WashingMachine";
-import { ProjectingLight } from "../DeviceComponents/ProjectingLight";
-import { AirPurifier } from "../DeviceComponents/AirPurifier";
-import { Deadbolt } from "../DeviceComponents/Deadbolt";
-import { Thermostat } from "../DeviceComponents/Thermostat";
-import { Temperature } from "../DeviceComponents/Temperature";
+import { DeviceDataKind, ContactDirection, TvDirection } from "./devices";
 import { WEST_WALL, NORTH_WALL, TEXT_PADDING } from "../constants";
 
 export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "27": {
     id: "27",
     kind: "CONTACT",
-    component: Contact,
     note: "Master Closet Door",
     textPosition: [
       WEST_WALL + 171 + TEXT_PADDING,
@@ -30,7 +18,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "67": {
     id: "67",
     kind: "CONTACT",
-    component: Contact,
     note: "Outside Garage Door",
     textPosition: [
       WEST_WALL + 2 + TEXT_PADDING,
@@ -44,7 +31,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "32": {
     id: "32",
     kind: "CONTACT",
-    component: Contact,
     note: "Indoor Garage Door",
     textPosition: [
       WEST_WALL + 260 + TEXT_PADDING,
@@ -58,7 +44,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "31": {
     id: "31",
     kind: "CONTACT",
-    component: Contact,
     note: "Front Door",
     textPosition: [
       WEST_WALL + 270 + TEXT_PADDING,
@@ -72,7 +57,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "38": {
     id: "38",
     kind: "CONTACT",
-    component: Contact,
     note: "Alicia Bedroom Window",
     textPosition: [WEST_WALL + 44 + TEXT_PADDING, NORTH_WALL + TEXT_PADDING],
     direction: ContactDirection.SlideRight,
@@ -83,7 +67,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "40": {
     id: "41",
     kind: "CONTACT",
-    component: Contact,
     note: "Playroom Bedroom Window",
     textPosition: [WEST_WALL + 298 + TEXT_PADDING, NORTH_WALL + TEXT_PADDING],
     direction: ContactDirection.SlideRight,
@@ -94,7 +77,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "41": {
     id: "41",
     kind: "CONTACT",
-    component: Contact,
     note: "Jacob Bedroom Window",
     textPosition: [WEST_WALL + 168 + TEXT_PADDING, NORTH_WALL + TEXT_PADDING],
     direction: ContactDirection.SlideRight,
@@ -105,7 +87,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "227": {
     id: "227",
     kind: "CONTACT",
-    component: Contact,
     note: "Living Room Left Window",
     textPosition: [
       WEST_WALL + 348 + TEXT_PADDING,
@@ -119,7 +100,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "226": {
     id: "226",
     kind: "CONTACT",
-    component: Contact,
     note: "Living Room Right Window",
     textPosition: [
       WEST_WALL + 438 + TEXT_PADDING,
@@ -133,7 +113,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "68": {
     id: "68",
     kind: "CONTACT",
-    component: Contact,
     note: "Master Bedroom Left Window",
     textPosition: [
       WEST_WALL + 2 + TEXT_PADDING,
@@ -147,7 +126,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "18": {
     id: "18",
     kind: "CONTACT",
-    component: Contact,
     note: "Kitchen Door",
     textPosition: [
       WEST_WALL + 516 + TEXT_PADDING,
@@ -161,7 +139,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "321": {
     id: "321",
     kind: "DEADBOLT",
-    component: Deadbolt,
     note: "Front Door Deadbolt",
     textPosition: [WEST_WALL + 272, NORTH_WALL + 400],
     attributes: {},
@@ -171,7 +148,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "322": {
     id: "322",
     kind: "DEADBOLT",
-    component: Deadbolt,
     note: "Garage Indoor Deadbolt",
     textPosition: [WEST_WALL + 225, NORTH_WALL + 335],
     attributes: {},
@@ -181,7 +157,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "46": {
     id: "46",
     kind: "TV",
-    component: Tv,
     note: "Living Room TV",
     textPosition: [WEST_WALL + 510, NORTH_WALL + 300],
     direction: TvDirection.West,
@@ -194,7 +169,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "44": {
     id: "44",
     kind: "TV",
-    component: Tv,
     note: "Computer Monitor",
     textPosition: [WEST_WALL + 370, NORTH_WALL + 350],
     direction: TvDirection.West,
@@ -206,7 +180,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   }, "11": {
     id: "11",
     kind: "SWITCH",
-    component: LightSwitch,
     note: "Alicia Ligth",
     textPosition: [WEST_WALL + 75, NORTH_WALL + 86],
     attributes: {},
@@ -216,7 +189,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "129": {
     id: "129",
     kind: "DIMMER",
-    component: Dimmer,
     note: "Bathroom Light",
     textPosition: [WEST_WALL + 210, NORTH_WALL + 190],
     attributes: {},
@@ -226,7 +198,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "7": {
     id: "7",
     kind: "SWITCH",
-    component: LightSwitch,
     note: "Garage Light",
     textPosition: [WEST_WALL + 165, NORTH_WALL + 540],
     attributes: {},
@@ -236,7 +207,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "3": {
     id: "3",
     kind: "SWITCH",
-    component: LightSwitch,
     note: "Entry",
     textPosition: [WEST_WALL + 288, NORTH_WALL + 305],
     attributes: {},
@@ -246,7 +216,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "9": {
     id: "9",
     kind: "SWITCH",
-    component: LightSwitch,
     note: "Jacob",
     textPosition: [WEST_WALL + 178, NORTH_WALL + 80],
     attributes: {},
@@ -256,7 +225,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "8": {
     id: "8",
     kind: "SWITCH",
-    component: LightSwitch,
     note: "Playroom Light",
     textPosition: [WEST_WALL + 320, NORTH_WALL + 80],
     attributes: {},
@@ -266,7 +234,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "196": {
     id: "196",
     kind: "SWITCH",
-    component: LightSwitch,
     note: "Outside Backyard Light",
     textPosition: [WEST_WALL + 520, NORTH_WALL - 8],
     attributes: {},
@@ -276,7 +243,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "194": {
     id: "194",
     kind: "SWITCH",
-    component: LightSwitch,
     note: "OutSide Left Garage Light",
     textPosition: [WEST_WALL - 30, NORTH_WALL + 320],
     attributes: {},
@@ -286,7 +252,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "1": {
     id: "1",
     kind: "DIMMER",
-    component: Dimmer,
     note: "Dinning Room Light",
     textPosition: [WEST_WALL + 405, NORTH_WALL + 170],
     attributes: {},
@@ -296,7 +261,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "2": {
     id: "2",
     kind: "DIMMER",
-    component: Dimmer,
     note: "Living Room Light",
     textPosition: [WEST_WALL + 430, NORTH_WALL + 300],
     attributes: {},
@@ -306,7 +270,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "4": {
     id: "4",
     kind: "DIMMER",
-    component: Dimmer,
     note: "Kitchen Light",
     textPosition: [WEST_WALL + 445, NORTH_WALL + 95],
     attributes: {},
@@ -316,7 +279,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "73": {
     id: "73",
     kind: "DIMMER",
-    component: Dimmer,
     note: "Corridor",
     textPosition: [WEST_WALL + 123, NORTH_WALL + 155],
     attributes: {},
@@ -326,7 +288,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "385": {
     id: "385",
     kind: "DIMMER",
-    component: Dimmer,
     note: "Master Bathroom Light",
     textPosition: [WEST_WALL + 12, NORTH_WALL + 200],
     attributes: {},
@@ -336,7 +297,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "290": {
     id: "290",
     kind: "DIMMER",
-    component: Dimmer,
     note: "Master Bedroom Light",
     textPosition: [WEST_WALL + 80, NORTH_WALL + 260],
     attributes: {},
@@ -346,7 +306,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "13": {
     id: "13",
     kind: "DIMMER",
-    component: Dimmer,
     note: "Master Walkin Closet",
     textPosition: [WEST_WALL + 210, NORTH_WALL + 280],
     attributes: {},
@@ -356,8 +315,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "28": {
     id: "28",
     kind: "MOTION",
-    component: Motion,
-    temperatureComponent: Temperature,
     note: "Master Bathroom",
     textPosition: [WEST_WALL + 62, NORTH_WALL + 170],
     path: [
@@ -371,8 +328,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "16": {
     id: "16",
     kind: "MOTION",
-    component: Motion,
-    temperatureComponent: Temperature,
     note: "Garage Motion",
     textPosition: [WEST_WALL + 170, NORTH_WALL + 390],
     path: [
@@ -392,8 +347,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "29": {
     id: "29",
     kind: "MOTION",
-    component: Motion,
-    temperatureComponent: Temperature,
     note: "Corridor Motion",
     textPosition: [WEST_WALL + 250, NORTH_WALL + 120],
     path: [
@@ -410,8 +363,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "30": {
     id: "30",
     kind: "MOTION",
-    component: Motion,
-    temperatureComponent: Temperature,
     note: "Bathroom Motion",
     textPosition: [WEST_WALL + 180, NORTH_WALL + 200],
     path: [
@@ -426,8 +377,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "24": {
     id: "24",
     kind: "MOTION",
-    component: Motion,
-    temperatureComponent: Temperature,
     note: "Living Room Motion",
     textPosition: [WEST_WALL + 325, NORTH_WALL + 270],
     path: [
@@ -444,8 +393,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "451": {
     id: "451",
     kind: "MOTION",
-    component: Motion,
-    temperatureComponent: Temperature,
     note: "Master Closet Motion",
     textPosition: [WEST_WALL + 180, NORTH_WALL + 295],
     path: [
@@ -461,8 +408,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "449": {
     id: "449",
     kind: "MOTION",
-    component: Motion,
-    temperatureComponent: Temperature,
     note: "Kitchen Motion",
     textPosition: [WEST_WALL + 460, NORTH_WALL + 130],
     path: [
@@ -478,8 +423,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "450": {
     id: "450",
     kind: "MOTION",
-    component: Motion,
-    temperatureComponent: Temperature,
     note: "Outside Left Garage",
     textPosition: [WEST_WALL - 30, NORTH_WALL + 550],
     path: [
@@ -493,7 +436,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "25": {
     id: "25",
     kind: "WASHINGMACHINE",
-    component: WashingMachine,
     note: "WashingMachine",
     textPosition: [WEST_WALL + 112, NORTH_WALL + 360],
     width: 30,
@@ -504,8 +446,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "17": {
     id: "17",
     kind: "THERMOSTAT",
-    component: Thermostat,
-    temperatureComponent: Temperature,
     note: "Corridor Thermostat",
     textPosition: [WEST_WALL + 180, NORTH_WALL + 120],
     attributes: {},
@@ -515,7 +455,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "483": {
     id: "483",
     kind: "AIRPURIFIER",
-    component: AirPurifier,
     note: "Alicia Air Purifier",
     textPosition: [WEST_WALL + 93, NORTH_WALL + 60],
     attributes: {},
@@ -525,7 +464,6 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
   "482": {
     id: "482",
     kind: "PROJECTING_LIGHT",
-    component: ProjectingLight,
     note: "Alicia Star Machine",
     textPosition: [WEST_WALL + 10, NORTH_WALL + 100],
     attributes: {},

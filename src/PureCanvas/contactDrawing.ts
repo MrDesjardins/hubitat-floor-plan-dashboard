@@ -1,6 +1,6 @@
-import { DictionaryOf } from "../Commons/dictionaryOf";
-import { rotateFromCentralPoint } from "../Commons/mathematic";
-import { getOpenCloseText } from "../Commons/textbuilder";
+import { DictionaryOf } from "Commons/dictionaryOf";
+import { rotateFromCentralPoint } from "Commons/mathematic";
+import { getOpenCloseText } from "Commons/textbuilder";
 import {
   CLOSE_ANGLE,
   COLOR_MACHINE1,
@@ -11,10 +11,9 @@ import {
   TEXT_PADDING,
   TEXT_SIZE,
 } from "../constants";
-import { ContactDirection } from "../DeviceComponents/Contact";
-import { getContactOnOffAttribute } from "../Logics/attributeLogics";
-import { ContactDevice, DeviceDataKind } from "../Models/devices";
-import { delayedDeviceAnimation } from "../Commons/animation";
+import { getContactOnOffAttribute } from "Logics/attributeLogics";
+import { ContactDevice, DeviceDataKind, ContactDirection } from "Models/devices";
+import { delayedDeviceAnimation } from "Commons/animation";
 
 const contactsAngle: DictionaryOf<number> = {};
 const contactsTranslation: DictionaryOf<[number, number]> = {};

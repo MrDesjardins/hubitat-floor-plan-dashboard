@@ -1,11 +1,10 @@
-import { getTVText } from "../Commons/textbuilder";
+import { getTVText } from "Commons/textbuilder";
 import { TEXT_COLOR, TEXT_SIZE } from "../constants";
-import { TvDirection } from "../DeviceComponents/Tv";
-import { getPowerOnAttribute } from "../Logics/attributeLogics";
-import { DeviceDataKind, TvDevice } from "../Models/devices";
-import { degreeToRadian } from "../Commons/mathematic";
-import { DictionaryOf } from "../Commons/dictionaryOf";
-import { delayedDeviceAnimation } from "../Commons/animation";
+import { getPowerOnAttribute } from "Logics/attributeLogics";
+import { DeviceDataKind, TvDevice, TvDirection } from "Models/devices";
+import { degreeToRadian } from "Commons/mathematic";
+import { DictionaryOf } from "Commons/dictionaryOf";
+import { delayedDeviceAnimation } from "Commons/animation";
 
 
 const devicseRadius: DictionaryOf<number> = {};
@@ -49,15 +48,15 @@ export function drawTV(
   }, (3000 * 1 / (device.radius[1] - device.radius[0])));
 }
 
-const getAngleFromDirection = (direction: TvDirection): number => {
-  switch (direction) {
-    case TvDirection.East:
-      return 270;
-    case TvDirection.South:
-      return 0;
-    case TvDirection.West:
-      return 90;
-    case TvDirection.North:
-      return 180;
-  }
-};
+// const getAngleFromDirection = (direction: TvDirection): number => {
+//   switch (direction) {
+//     case TvDirection.East:
+//       return 270;
+//     case TvDirection.South:
+//       return 0;
+//     case TvDirection.West:
+//       return 90;
+//     case TvDirection.North:
+//       return 180;
+//   }
+// };

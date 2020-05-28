@@ -1,4 +1,9 @@
-import { TvDirection } from "../DeviceComponents/Tv";
+export enum TvDirection {
+  East,
+  West,
+  North,
+  South
+}
 
 export type DeviceType =
   | "UNKNOWN"
@@ -34,7 +39,6 @@ export interface DeviceData {
 
   note: string; // For me
   textPosition: [number, number];
-  component: (props: any) => JSX.Element;
 }
 export interface UnknownDevice extends DeviceData {
   kind: "UNKNOWN";
@@ -47,10 +51,9 @@ export interface LightSwitchDevice extends DeviceData {
 }
 export interface ThermostatDevice extends DeviceData {
   kind: "THERMOSTAT";
-  temperatureComponent: (props: any) => JSX.Element;
 }
 
-export interface TemperatureDevice extends ThermostatDevice {}
+export interface TemperatureDevice extends ThermostatDevice { }
 
 export interface ContactDevice extends DeviceData {
   kind: "CONTACT";
@@ -60,7 +63,6 @@ export interface ContactDevice extends DeviceData {
 export interface MotionDevice extends DeviceData {
   kind: "MOTION";
   path: number[][];
-  temperatureComponent: (props: any) => JSX.Element;
 }
 export interface AirPurifierDevice extends DeviceData {
   kind: "AIRPURIFIER";

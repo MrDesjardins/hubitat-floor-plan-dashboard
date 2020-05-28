@@ -1,42 +1,21 @@
-import {
-  Button,
-  Divider,
-  Drawer,
-  Grid,
-  ThemeProvider,
-} from "@material-ui/core";
+import { Button, Divider, Drawer, Grid, ThemeProvider } from "@material-ui/core";
+import DataAccessGateway from "dataaccessgateway";
+import { getDimmerLightLevelAttribute, getLightOnOffAttribute } from "Logics/attributeLogics";
 import React, { useEffect, useReducer, useRef, useState } from "react";
 import "typeface-roboto";
-import { AppActions, InitData } from "./actions/appActions";
+import { AppActions, InitData } from "actions/appActions";
 import "./App.css";
-import { DimmerLightOptions } from "./Components/DimmerLightOptions";
-import { LightSwitchOptions } from "./Components/LightSwitchOptions";
-import { MainMenu } from "./Components/MainMenu";
-import {
-  getDimmerLightLevelAttribute,
-  getLightOnOffAttribute,
-} from "./Logics/attributeLogics";
-import { allDevices } from "./Models/allDevices";
-import {
-  DeviceData,
-  DeviceDataKind,
-  DeviceWebsocket,
-  DimmingLightDevice,
-  LightSwitchDevice,
-  AirPurifierDevice,
-} from "./Models/devices";
-import { appReducer, initialState } from "./reducers/appReducer";
-import { AirPurifierOptions } from "./Components/AirPurifierOptions";
-import DataAccessGateway from "dataaccessgateway";
+import { AirPurifierOptions } from "Components/AirPurifierOptions";
+import { DimmerLightOptions } from "Components/DimmerLightOptions";
+import { LightSwitchOptions } from "Components/LightSwitchOptions";
+import { MainMenu } from "Components/MainMenu";
+import { APP_HEIGHT, APP_WIDTH, DARK_THEME, MAIN_MENU_WIDTH } from "./constants";
+import { ActionsWithPayload } from "infrastructure/ReducerActions";
+import { allDevices } from "Models/allDevices";
+import { AirPurifierDevice, DeviceData, DeviceDataKind, DeviceWebsocket, DimmingLightDevice, LightSwitchDevice } from "Models/devices";
+import { MainCanvas } from "PureCanvas/MainCanvas";
+import { appReducer, initialState } from "reducers/appReducer";
 
-import { MainCanvas } from "./PureCanvas/MainCanvas";
-import { ActionsWithPayload } from "./infrastructure/ReducerActions";
-import {
-  APP_WIDTH,
-  APP_HEIGHT,
-  MAIN_MENU_WIDTH,
-  DARK_THEME,
-} from "./constants";
 const SERVER_IP = process.env.REACT_APP_SERVER_IP;
 const SERVER_PORT = process.env.REACT_APP_SERVER_PORT;
 const WEBSOCKET_IP = process.env.REACT_APP_WEBSOCKET_IP;
@@ -46,7 +25,7 @@ const WEBSOCKET_ENABLED = process.env.REACT_APP_WEBSOCKET_ENABLED === "true";
 console.log(`Server  ${SERVER_IP}:${SERVER_PORT}, `);
 console.log(
   `WS ${
-    WEBSOCKET_ENABLED ? "Enabled" : "Disabled"
+  WEBSOCKET_ENABLED ? "Enabled" : "Disabled"
   } ${SERVER_IP}:${WEBSOCKET_PORT}, `
 );
 
@@ -315,7 +294,7 @@ function save(
       console.log("Saving Dimmer Light Level");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${
-          existingDeviceData.id
+        existingDeviceData.id
         }/setLevel/${getDimmerLightLevelAttribute(newDeviceData)}`
       );
     }
@@ -326,7 +305,7 @@ function save(
       console.log("Saving Dimmer Power");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-          getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+        getLightOnOffAttribute(newDeviceData) ? "on" : "off"
         }`
       );
     }
@@ -341,7 +320,7 @@ function save(
       console.log("Saving Switch Light Level");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-          getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+        getLightOnOffAttribute(newDeviceData) ? "on" : "off"
         }`
       );
     }

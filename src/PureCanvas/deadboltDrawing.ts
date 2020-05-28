@@ -1,7 +1,7 @@
-import { DeadboltDevice, DeviceDataKind } from "../Models/devices";
-import { getDeadboltLockStatus } from "../Logics/attributeLogics";
+import { DeadboltDevice, DeviceDataKind } from "Models/devices";
+import { getDeadboltLockStatus } from "Logics/attributeLogics";
 import { TEXT_SIZE, TEXT_COLOR, TEXT_PADDING } from "../constants";
-import { getDeadlockText } from "../Commons/textbuilder";
+import { getDeadlockText } from "Commons/textbuilder";
 import { drawPath2D } from "./commonDrawing";
 
 export function drawDeadbolt(
