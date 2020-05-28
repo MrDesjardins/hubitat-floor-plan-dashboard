@@ -5,7 +5,7 @@ import { ImageLightBulb } from "../PhysicalComponent/ImageLightBulb";
 import {
   getDimmerLightLevelAttribute,
   getLightOnOffAttribute,
-} from "../Logics/AttributeLogics";
+} from "../Logics/attributeLogics";
 import { DimmingLightDevice } from "../Models/devices";
 import { CommonProps } from "./Common";
 

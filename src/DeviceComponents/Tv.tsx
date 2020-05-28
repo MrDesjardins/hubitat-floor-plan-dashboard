@@ -1,7 +1,7 @@
 import { CommonProps } from "./Common";
 import React, { useState } from "react";
 import { useInterval } from "../hooks/useInterval";
-import { getPowerOnAttribute } from "../Logics/AttributeLogics";
+import { getPowerOnAttribute } from "../Logics/attributeLogics";
 import { TvDevice } from "../Models/devices";
 import { Text, Arc } from "react-konva";
 import { TEXT_COLOR } from "../constants";

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Text, Circle, Rect, Line } from "react-konva";
 import { CommonProps } from "./Common";
 import { WashingMachineDevice } from "../Models/devices";
-import { getPowerAttribute } from "../Logics/AttributeLogics";
+import { getPowerAttribute } from "../Logics/attributeLogics";
 import { useInterval } from "../hooks/useInterval";
 import { TEXT_COLOR, LINE_COLOR } from "../constants";
 // import { useInterval } from "../hooks/useInterval";

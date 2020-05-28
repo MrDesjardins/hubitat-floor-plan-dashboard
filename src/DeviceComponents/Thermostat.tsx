@@ -6,7 +6,7 @@ import { TEXT_COLOR, COLOR_MACHINE1 } from "../constants";
 import {
   getTemperatureAtribute,
   getThermostatMode,
-} from "../Logics/AttributeLogics";
+} from "../Logics/attributeLogics";
 import { useSvgImage } from "../hooks/useSvgImage";
 import { Image } from "react-konva";
 export interface ThermostatOptions extends CommonProps {

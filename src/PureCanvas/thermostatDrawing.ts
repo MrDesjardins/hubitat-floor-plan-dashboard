@@ -1,4 +1,4 @@
-import { getTemperatureAtribute, getThermostatMode } from "../Logics/AttributeLogics";
+import { getTemperatureAtribute, getThermostatMode } from "../Logics/attributeLogics";
 import { DeviceDataKind, ThermostatDevice } from "../Models/devices";
 import { TEXT_SIZE, TEXT_COLOR, TEXT_PADDING, COLOR_MACHINE1 } from "../constants";
 import { drawPath2D } from "./commonDrawing";

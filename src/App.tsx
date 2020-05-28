@@ -15,7 +15,7 @@ import { MainMenu } from "./Components/MainMenu";
 import {
   getDimmerLightLevelAttribute,
   getLightOnOffAttribute,
-} from "./Logics/AttributeLogics";
+} from "./Logics/attributeLogics";
 import { allDevices } from "./Models/allDevices";
 import {
   DeviceData,

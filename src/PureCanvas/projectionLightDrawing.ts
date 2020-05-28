@@ -1,5 +1,5 @@
 import { ProjectingLightDevice, DeviceDataKind } from "../Models/devices";
-import { getLightOnOffAttribute } from "../Logics/AttributeLogics";
+import { getLightOnOffAttribute } from "../Logics/attributeLogics";
 import { delayedDeviceAnimation } from "../Commons/animation";
 import { TEXT_SIZE, TEXT_COLOR } from "../constants";
 import { getProjectionText } from "../Commons/textbuilder";

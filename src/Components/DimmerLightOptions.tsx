@@ -6,7 +6,7 @@ import {
   getLightOnOffAttribute,
   setDimmerLightLevelAttribute,
   setLightOnOffAttribute,
-} from "../Logics/AttributeLogics";
+} from "../Logics/attributeLogics";
 import { DimmingLightDevice } from "../Models/devices";
 export interface DimmerLightOptionsProps {
   isDialogOpen: boolean;

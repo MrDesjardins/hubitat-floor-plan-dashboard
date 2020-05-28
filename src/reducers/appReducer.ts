@@ -5,7 +5,7 @@ import {
   ACTION_INIT_DEVICE,
   ACTION_SET_TEMPERATURE_MODE,
 } from "../actions/appActions";
-import { getDeviceType } from "../Logics/AttributeLogics";
+import { getDeviceType } from "../Logics/attributeLogics";
 
 export const initialState: ApplicationState = {
   devices: {},

@@ -1,5 +1,5 @@
 import { LightSwitchDevice, DeviceDataKind, DimmingLightDevice } from "../Models/devices";
-import { getLightOnOffAttribute, getDimmerLightLevelAttribute } from "../Logics/AttributeLogics";
+import { getLightOnOffAttribute, getDimmerLightLevelAttribute } from "../Logics/attributeLogics";
 import { TEXT_SIZE, TEXT_COLOR, TEXT_PADDING, LIGHT_ON_COLOR, LIGHT_OFF_COLOR } from "../constants";
 import { drawPath2D } from "./commonDrawing";
 

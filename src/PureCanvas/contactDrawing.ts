@@ -12,7 +12,7 @@ import {
   TEXT_SIZE,
 } from "../constants";
 import { ContactDirection } from "../DeviceComponents/Contact";
-import { getContactOnOffAttribute } from "../Logics/AttributeLogics";
+import { getContactOnOffAttribute } from "../Logics/attributeLogics";
 import { ContactDevice, DeviceDataKind } from "../Models/devices";
 import { delayedDeviceAnimation } from "../Commons/animation";
 

@@ -3,7 +3,7 @@ import { DictionaryOf } from "../Commons/dictionaryOf";
 import { degreeToRadian } from "../Commons/mathematic";
 import { getMotionText } from "../Commons/textbuilder";
 import { MOTION_COLOR, TEXT_COLOR, TEXT_SIZE } from "../constants";
-import { getMotionOnOffAttribute } from "../Logics/AttributeLogics";
+import { getMotionOnOffAttribute } from "../Logics/attributeLogics";
 import { DeviceDataKind, MotionDevice } from "../Models/devices";
 
 const deviceRadiusDirection: DictionaryOf<number> = {};

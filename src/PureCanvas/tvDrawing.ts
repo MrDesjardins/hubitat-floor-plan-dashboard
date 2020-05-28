@@ -1,7 +1,7 @@
 import { getTVText } from "../Commons/textbuilder";
 import { TEXT_COLOR, TEXT_SIZE } from "../constants";
 import { TvDirection } from "../DeviceComponents/Tv";
-import { getPowerOnAttribute } from "../Logics/AttributeLogics";
+import { getPowerOnAttribute } from "../Logics/attributeLogics";
 import { DeviceDataKind, TvDevice } from "../Models/devices";
 import { degreeToRadian } from "../Commons/mathematic";
 import { DictionaryOf } from "../Commons/dictionaryOf";

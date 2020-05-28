@@ -3,7 +3,7 @@ import React from "react";
 import { Text } from "react-konva";
 import { TEXT_COLOR } from "../constants";
 import { ImageLightBulb } from "../PhysicalComponent/ImageLightBulb";
-import { getLightOnOffAttribute } from "../Logics/AttributeLogics";
+import { getLightOnOffAttribute } from "../Logics/attributeLogics";
 import { LightSwitchDevice } from "../Models/devices";
 import { CommonProps } from "./Common";
 export interface LightSwitchOptions extends CommonProps {

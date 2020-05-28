@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import {
   getLightOnOffAttribute,
   setLightOnOffAttribute,
-} from "../Logics/AttributeLogics";
+} from "../Logics/attributeLogics";
 import { AirPurifierDevice } from "../Models/devices";
 
 export interface AirPurifierOptionsProps {

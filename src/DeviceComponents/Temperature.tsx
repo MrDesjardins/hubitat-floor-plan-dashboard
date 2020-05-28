@@ -6,7 +6,7 @@ import { TEXT_COLOR, TEXT_SIZE } from "../constants";
 import {
   getTemperatureAtribute,
   getHumidityAtribute,
-} from "../Logics/AttributeLogics";
+} from "../Logics/attributeLogics";
 import { useInterval } from "../hooks/useInterval";
 export interface TemperatureOptions extends CommonProps {
   deviceData: TemperatureDevice;

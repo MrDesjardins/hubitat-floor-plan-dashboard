@@ -2,7 +2,7 @@ import "konva/lib/shapes/Path";
 import React from "react";
 import { Text } from "react-konva";
 import { TEXT_COLOR, LINE_COLOR } from "../constants";
-import { getDeadboltLockStatus } from "../Logics/AttributeLogics";
+import { getDeadboltLockStatus } from "../Logics/attributeLogics";
 import { DeadboltDevice } from "../Models/devices";
 import { CommonProps } from "./Common";
 import { useSvgImage } from "../hooks/useSvgImage";

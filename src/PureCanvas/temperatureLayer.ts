@@ -6,13 +6,13 @@ import {
 import {
   getTemperatureAtribute,
   getHumidityAtribute,
-} from "../Logics/AttributeLogics";
+} from "../Logics/attributeLogics";
 import { TEXT_SIZE, TEXT_COLOR } from "../constants";
 import { DictionaryOf } from "../Commons/dictionaryOf";
+import { delayedDeviceAnimation } from "../Commons/animation";
+import { drawWeatherOutsideLayer } from "./drawWeatherOutsideLayer";
 
 type TemperatureDevice = ThermostatDevice & MotionDevice;
-const delay = 120;
-let lastFrame = 0;
 let deviceRadius: DictionaryOf<number> = {};
 let deviceDirection: DictionaryOf<number> = {};
 export function drawTemperatureLayer(
@@ -20,26 +20,26 @@ export function drawTemperatureLayer(
   devices: TemperatureDevice[],
   openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void
 ) {
-  const currentFrame = Date.now();
-  const diff = currentFrame - lastFrame;
-  const update = diff >= delay;
-  devices.forEach((singleDevice) => {
-    drawTemperatureSensor(
-      ctx,
-      singleDevice,
-      update,
-      (dev: DeviceDataKind, openDrawer: boolean) => {
-        openConfiguration(dev, openDrawer);
-      }
-    );
-  });
-  if (update) {
-    lastFrame = currentFrame;
-  }
-}
 
+  delayedDeviceAnimation("temperature", (update: boolean) => {
+    devices.forEach((singleDevice) => {
+      drawTemperatureSensor(
+        ctx,
+        singleDevice,
+        update,
+        (dev: DeviceDataKind, openDrawer: boolean) => {
+          openConfiguration(dev, openDrawer);
+        }
+      );
+    });
+
+  }, 120);
+
+  drawWeatherOutsideLayer(ctx);
+}
 const maxRadius = 65;
 const minRadius = 50;
+
 
 export function drawTemperatureSensor(
   ctx: CanvasRenderingContext2D,

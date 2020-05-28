@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Text } from "react-konva";
 import { CommonProps } from "./Common";
 import { MotionDevice } from "../Models/devices";
-import { getMotionOnOffAttribute } from "../Logics/AttributeLogics";
+import { getMotionOnOffAttribute } from "../Logics/attributeLogics";
 import { animated, Spring } from "react-spring/renderprops-konva";
 import { useInterval } from "../hooks/useInterval";
 import { TEXT_COLOR, MOTION_COLOR } from "../constants";
