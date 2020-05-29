@@ -1,8 +1,8 @@
 import { TEXT_SIZE, TEXT_COLOR } from "../constants";
 
-const FIRST_X = 560;
-const IMAGE_X = 600;
-const SECOND_X = 660;
+const FIRST_X = 0;
+const IMAGE_X = 40;
+const SECOND_X = 60;
 const FIRST_Y = 70;
 const VERTICAL_SPACE = 30;
 const img = new Image();

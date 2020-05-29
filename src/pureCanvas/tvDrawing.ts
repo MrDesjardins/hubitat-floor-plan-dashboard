@@ -41,10 +41,12 @@ export function drawTV(
     );
 
     // const angle = getAngleFromDirection(device.direction);
-    ctx.beginPath();
-    ctx.fillStyle = "rgba(250,235,100,0.4)";
-    ctx.arc(x, y, devicseRadius[device.id], degreeToRadian(-90), degreeToRadian(90), true);
-    ctx.fill();
+    if (isTVOn) {
+      ctx.beginPath();
+      ctx.fillStyle = "rgba(250,235,100,0.4)";
+      ctx.arc(x, y, devicseRadius[device.id], degreeToRadian(-90), degreeToRadian(90), true);
+      ctx.fill();
+    }
   }, (3000 * 1 / (device.radius[1] - device.radius[0])));
 }
 

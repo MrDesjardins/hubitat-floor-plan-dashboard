@@ -1,9 +1,10 @@
 import React, { useRef, useEffect, useCallback } from "react";
-import { WEST_WALL, NORTH_WALL, MAIN_MENU_WIDTH } from "../constants";
+import { WEST_WALL, NORTH_WALL, MAIN_MENU_WIDTH, TEMPERATURE_OUTSIDE_LEFT } from "../constants";
 import { DeviceDataKind } from "models/devices";
 import { DictionaryOf } from "commons/dictionaryOf";
 import { drawFlooPlan } from "./floorPlan";
 import { drawDevices } from "./devices";
+import { drawWeatherOutsideLayer } from "./drawWeatherOutsideLayer";
 export interface MainCanvasProps {
   width: number;
   height: number;
@@ -22,8 +23,27 @@ export const MainCanvas = (props: MainCanvasProps) => {
     CanvasRenderingContext2D | undefined | null
   >();
 
+  const refCanvasOutsideTemperature = useRef<HTMLCanvasElement>(null);
+  const refContextOutsideTemperature = useRef<
+    CanvasRenderingContext2D | undefined | null
+  >();
+
+  useEffect(
+    () => {
+      refContextFloorPlan.current = refCanvasFloorPlan.current?.getContext("2d")!;
+      refContextDevices.current = refCanvasDevices.current?.getContext("2d")!;
+      refContextOutsideTemperature.current = refCanvasOutsideTemperature.current?.getContext("2d")!;
+
+      drawFlooPlan(refContextFloorPlan.current);
+    },
+    [
+      /*Only when mounting*/
+    ]
+  );
+
+  // ========================================== DEVICES ===========================================
   const requestRef = React.useRef<number>();
-  const draw = useCallback(() => {
+  const drawDevicesOnCanvas = useCallback(() => {
     if (refContextDevices !== undefined && refContextDevices.current) {
       refContextDevices.current!.clearRect(0, 0, props.width, props.height);
       drawDevices(
@@ -33,7 +53,7 @@ export const MainCanvas = (props: MainCanvasProps) => {
         props.openConfiguration
       );
     }
-    requestRef.current = window.requestAnimationFrame(draw);
+    requestRef.current = window.requestAnimationFrame(drawDevicesOnCanvas);
   }, [
     props.devices,
     props.isTemperatureModeOn,
@@ -42,29 +62,62 @@ export const MainCanvas = (props: MainCanvasProps) => {
     props.width,
   ]);
 
-  useEffect(
-    () => {
-      refContextFloorPlan.current = refCanvasFloorPlan.current?.getContext(
-        "2d"
-      )!;
-      refContextDevices.current = refCanvasDevices.current?.getContext("2d")!;
-      drawFlooPlan(refContextFloorPlan.current);
-    },
-    [
-      /*Only when mounting*/
-    ]
-  );
   useEffect(() => {
-    requestRef.current = requestAnimationFrame(draw);
+    requestRef.current = requestAnimationFrame(drawDevicesOnCanvas);
     return () => {
       if (requestRef.current !== undefined) {
         cancelAnimationFrame(requestRef.current);
       }
     };
-  }, [draw]);
+  }, [drawDevicesOnCanvas]);
 
+  // ========================================== Temperature ===========================================
+
+  const temperatureOutsideRef = React.useRef<number>();
+  const drawTemperatureOutsideOnCanvas = useCallback(() => {
+    if (refContextOutsideTemperature !== undefined && refContextOutsideTemperature.current) {
+      refContextOutsideTemperature.current!.clearRect(0, 0, props.width, props.height);
+      drawWeatherOutsideLayer(
+        refContextOutsideTemperature.current!
+      );
+    }
+    temperatureOutsideRef.current = window.requestAnimationFrame(drawTemperatureOutsideOnCanvas);
+  }, [
+    props.height,
+    props.width,
+  ]);
+
+
+  useEffect(() => {
+    temperatureOutsideRef.current = requestAnimationFrame(drawTemperatureOutsideOnCanvas);
+    return () => {
+      if (temperatureOutsideRef.current !== undefined) {
+        cancelAnimationFrame(temperatureOutsideRef.current);
+      }
+    };
+  }, [drawTemperatureOutsideOnCanvas]);
+
+  // ========================================== CANVAS ===========================================
   return (
     <>
+      <canvas
+        style={{
+          position: "absolute",
+          zIndex: 300,
+          left: MAIN_MENU_WIDTH + props.width - TEMPERATURE_OUTSIDE_LEFT,
+          top: 0,
+        }}
+        ref={refCanvasOutsideTemperature}
+        width={props.width - TEMPERATURE_OUTSIDE_LEFT - MAIN_MENU_WIDTH}
+        height={props.height}
+        onClick={(evt) => {
+          console.log(
+            `Temperature: ${evt.clientX - WEST_WALL - MAIN_MENU_WIDTH}, ${
+            evt.clientY - NORTH_WALL
+            }`
+          );
+        }}
+      ></canvas>
       <canvas
         style={{
           position: "absolute",
@@ -77,14 +130,12 @@ export const MainCanvas = (props: MainCanvasProps) => {
         height={props.height}
         onClick={(evt) => {
           console.log(
-            `${evt.clientX - WEST_WALL - MAIN_MENU_WIDTH}, ${
-              evt.clientY - NORTH_WALL
+            `Devices: ${evt.clientX - WEST_WALL - MAIN_MENU_WIDTH}, ${
+            evt.clientY - NORTH_WALL
             }`
           );
         }}
-      >
-        Canvas is not supported
-      </canvas>
+      ></canvas>
       <canvas
         style={{
           position: "absolute",

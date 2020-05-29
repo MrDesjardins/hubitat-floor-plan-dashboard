@@ -31,6 +31,7 @@ export const WEST_WALL = 41;
 export const APP_HEIGHT = 600;
 export const APP_WIDTH = 1024;
 export const MAIN_MENU_WIDTH = 300;
+export const TEMPERATURE_OUTSIDE_LEFT = 100;
 
 export const DARK_THEME = createMuiTheme({
   palette: {

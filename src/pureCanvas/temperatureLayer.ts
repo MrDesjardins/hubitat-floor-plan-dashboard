@@ -10,7 +10,6 @@ import {
 import { TEXT_SIZE, TEXT_COLOR } from "../constants";
 import { DictionaryOf } from "commons/dictionaryOf";
 import { delayedDeviceAnimation } from "commons/animation";
-import { drawWeatherOutsideLayer } from "./drawWeatherOutsideLayer";
 
 type TemperatureDevice = ThermostatDevice | MotionDevice;
 let deviceRadius: DictionaryOf<number> = {};
@@ -35,7 +34,6 @@ export function drawTemperatureLayer(
 
   }, 120);
 
-  drawWeatherOutsideLayer(ctx);
 }
 const maxRadius = 65;
 const minRadius = 50;
