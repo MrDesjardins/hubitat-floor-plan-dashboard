@@ -1,20 +1,45 @@
-import { Button, Divider, Drawer, Grid, ThemeProvider } from "@material-ui/core";
-import DataAccessGateway from "dataaccessgateway";
-import { getDimmerLightLevelAttribute, getLightOnOffAttribute } from "logics/attributeLogics";
-import React, { useEffect, useReducer, useRef, useState } from "react";
-import "typeface-roboto";
+import {
+  Button,
+  Divider,
+  Drawer,
+  Grid,
+  ThemeProvider,
+} from "@material-ui/core";
 import { AppActions, InitData } from "actions/appActions";
-import "./App.css";
 import { AirPurifierOptions } from "components/AirPurifierOptions";
 import { DimmerLightOptions } from "components/DimmerLightOptions";
 import { LightSwitchOptions } from "components/LightSwitchOptions";
 import { MainMenu } from "components/MainMenu";
-import { APP_HEIGHT, APP_WIDTH, DARK_THEME, MAIN_MENU_WIDTH } from "./constants";
+import DataAccessGateway from "dataaccessgateway";
 import { ActionsWithPayload } from "infrastructure/reducerActions";
+import {
+  getDimmerLightLevelAttribute,
+  getLightOnOffAttribute,
+} from "logics/attributeLogics";
 import { allDevices } from "models/allDevices";
-import { AirPurifierDevice, DeviceData, DeviceDataKind, DeviceWebsocket, DimmingLightDevice, LightSwitchDevice } from "models/devices";
+import {
+  AirPurifierDevice,
+  DeviceData,
+  DeviceDataKind,
+  DeviceWebsocket,
+  DimmingLightDevice,
+  LightSwitchDevice,
+} from "models/devices";
 import { MainCanvas } from "pureCanvas/MainCanvas";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import { appReducer, initialState } from "reducers/appReducer";
+import "typeface-roboto";
+import "./App.css";
+import { WeatherPanel } from "./components/WeatherPanel";
+import {
+  APP_HEIGHT,
+  APP_WIDTH,
+  DARK_THEME,
+  FETCHING_TIME_MS,
+  MAIN_MENU_WIDTH,
+} from "./constants";
+import { useInterval } from "./hooks/useInterval";
+import { Weather } from "./models/weather";
 
 const SERVER_IP = process.env.REACT_APP_SERVER_IP;
 const SERVER_PORT = process.env.REACT_APP_SERVER_PORT;
@@ -25,7 +50,7 @@ const WEBSOCKET_ENABLED = process.env.REACT_APP_WEBSOCKET_ENABLED === "true";
 console.log(`Server  ${SERVER_IP}:${SERVER_PORT}, `);
 console.log(
   `WS ${
-  WEBSOCKET_ENABLED ? "Enabled" : "Disabled"
+    WEBSOCKET_ENABLED ? "Enabled" : "Disabled"
   } ${SERVER_IP}:${WEBSOCKET_PORT}, `
 );
 
@@ -139,6 +164,34 @@ function App() {
   useEffect(() => {
     console.log(`Temperature mode is ${state.isTemperatureModeOn}`);
   }, [state.isTemperatureModeOn]);
+
+  useInterval(
+    () => {
+      console.log("🌐 Fething all outside weather");
+      dag
+        .fetchFastAndFresh<Weather>({
+          request: {
+            method: "GET",
+            url: `http://${SERVER_IP}:${SERVER_PORT}/api/weather`,
+          },
+          memoryCache: { lifespanInSeconds: 60 * 5 },
+          persistentCache: { lifespanInSeconds: 60 * 5 },
+        })
+        .then((value) => {
+          console.log("🌐 Using Weather Data From Cache");
+          dispatch(AppActions.setOutsideWeather(value.result));
+          if (value.webPromise !== undefined) {
+            value.webPromise.then((valueWeb) => {
+              console.log("🌐 Using Weather Data From Open Weather Server");
+              dispatch(AppActions.setOutsideWeather(valueWeb.result));
+            });
+          }
+          setReadyWs(true);
+        });
+    },
+    FETCHING_TIME_MS,
+    true
+  );
   return (
     <div
       className="App"
@@ -195,6 +248,7 @@ function App() {
             </Button>
           </Grid>
         </Drawer>
+        <WeatherPanel data={state.weather} />
       </ThemeProvider>
     </div>
   );
@@ -294,7 +348,7 @@ function save(
       console.log("Saving Dimmer Light Level");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${
-        existingDeviceData.id
+          existingDeviceData.id
         }/setLevel/${getDimmerLightLevelAttribute(newDeviceData)}`
       );
     }
@@ -305,7 +359,7 @@ function save(
       console.log("Saving Dimmer Power");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-        getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+          getLightOnOffAttribute(newDeviceData) ? "on" : "off"
         }`
       );
     }
@@ -320,7 +374,7 @@ function save(
       console.log("Saving Switch Light Level");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-        getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+          getLightOnOffAttribute(newDeviceData) ? "on" : "off"
         }`
       );
     }

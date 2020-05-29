@@ -1,10 +1,9 @@
 import React, { useRef, useEffect, useCallback } from "react";
-import { WEST_WALL, NORTH_WALL, MAIN_MENU_WIDTH, TEMPERATURE_OUTSIDE_LEFT } from "../constants";
+import { WEST_WALL, NORTH_WALL, MAIN_MENU_WIDTH } from "../constants";
 import { DeviceDataKind } from "models/devices";
 import { DictionaryOf } from "commons/dictionaryOf";
 import { drawFlooPlan } from "./floorPlan";
 import { drawDevices } from "./devices";
-import { drawWeatherOutsideLayer } from "./drawWeatherOutsideLayer";
 export interface MainCanvasProps {
   width: number;
   height: number;
@@ -23,16 +22,10 @@ export const MainCanvas = (props: MainCanvasProps) => {
     CanvasRenderingContext2D | undefined | null
   >();
 
-  const refCanvasOutsideTemperature = useRef<HTMLCanvasElement>(null);
-  const refContextOutsideTemperature = useRef<
-    CanvasRenderingContext2D | undefined | null
-  >();
-
   useEffect(
     () => {
       refContextFloorPlan.current = refCanvasFloorPlan.current?.getContext("2d")!;
       refContextDevices.current = refCanvasDevices.current?.getContext("2d")!;
-      refContextOutsideTemperature.current = refCanvasOutsideTemperature.current?.getContext("2d")!;
 
       drawFlooPlan(refContextFloorPlan.current);
     },
@@ -71,53 +64,10 @@ export const MainCanvas = (props: MainCanvasProps) => {
     };
   }, [drawDevicesOnCanvas]);
 
-  // ========================================== Temperature ===========================================
-
-  const temperatureOutsideRef = React.useRef<number>();
-  const drawTemperatureOutsideOnCanvas = useCallback(() => {
-    if (refContextOutsideTemperature !== undefined && refContextOutsideTemperature.current) {
-      refContextOutsideTemperature.current!.clearRect(0, 0, props.width, props.height);
-      drawWeatherOutsideLayer(
-        refContextOutsideTemperature.current!
-      );
-    }
-    temperatureOutsideRef.current = window.requestAnimationFrame(drawTemperatureOutsideOnCanvas);
-  }, [
-    props.height,
-    props.width,
-  ]);
-
-
-  useEffect(() => {
-    temperatureOutsideRef.current = requestAnimationFrame(drawTemperatureOutsideOnCanvas);
-    return () => {
-      if (temperatureOutsideRef.current !== undefined) {
-        cancelAnimationFrame(temperatureOutsideRef.current);
-      }
-    };
-  }, [drawTemperatureOutsideOnCanvas]);
 
   // ========================================== CANVAS ===========================================
   return (
     <>
-      <canvas
-        style={{
-          position: "absolute",
-          zIndex: 300,
-          left: MAIN_MENU_WIDTH + props.width - TEMPERATURE_OUTSIDE_LEFT,
-          top: 0,
-        }}
-        ref={refCanvasOutsideTemperature}
-        width={props.width - TEMPERATURE_OUTSIDE_LEFT - MAIN_MENU_WIDTH}
-        height={props.height}
-        onClick={(evt) => {
-          console.log(
-            `Temperature: ${evt.clientX - WEST_WALL - MAIN_MENU_WIDTH}, ${
-            evt.clientY - NORTH_WALL
-            }`
-          );
-        }}
-      ></canvas>
       <canvas
         style={{
           position: "absolute",

@@ -18,7 +18,8 @@ export interface WeatherDataPoint {
   clouds: number; // %
   wind_speed: number;
   wind_deg: number;
-  weather: WeatherImageData;
+  weather: WeatherImageData[];
+  
 }
 
 export interface WeatherCurrentDataPoint extends WeatherDataPoint {
@@ -36,11 +37,11 @@ export interface WeatherDaily {
   feels_like: WeatherDetailedFeelLikeTemperature;
   pressure: number;
   humidity: number; // %
-
+  rain: number | undefined; // mm rain
   dew_point: number;
   wind_speed: number;
   wind_deg: number;
-  weather: WeatherImageData;
+  weather: WeatherImageData[];
   cloud: number;
   uvi: number;
 }

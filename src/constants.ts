@@ -49,3 +49,7 @@ export const CLOSE_ANGLE = 0;
 export const TEXT_PADDING = 15;
 
 export const WASHING_MACHINE_WIDTH = 3;
+
+export const FETCHING_TIME_MS = 1000 * 60 * 5; // 5 minutes
+
+export const DAYS = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];
