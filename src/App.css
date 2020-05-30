@@ -141,8 +141,14 @@ html {
 }
 
 #outside-weather img {
-  width:40px;
-  height:40px;
+  width: 40px;
+  height: 40px;
+}
+
+#outside-weather .minmaxtemp {
+  font-size: 0.8em;
+  margin-left: 3px;
+  margin-right: 3px;
 }
 
 #outside-weather .MuiCardContent-root {
@@ -154,13 +160,119 @@ html {
     rgba(24, 33, 56, 1) 100%
   );
   box-shadow: #0c101d 1px 1px 5px;
+  height: 320px;
+  width: 250px;
 }
 
 #outside-weather .MuiTypography-colorTextPrimary {
   text-shadow: 2px 2px 4px black;
+  padding-bottom: 20px;
+  margin-left: -10px;
 }
 
-#outside-weather .MuiGrid-root.MuiGrid-item{
+#outside-weather .MuiGrid-root.MuiGrid-item {
   padding-top: 3px;
   padding-bottom: 3px;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+#outside-weather .temporaryinfo {
+  animation-name: rotate;
+  animation-duration: 20s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  margin-left: 10px;
+  transform: perspective(500px);
+  position: absolute;
+  font-size: 0.8em;
+  line-height: 26px;
+  color: #06b9d1;
+}
+
+#outside-weather .now:hover + .temporaryinfo {
+  animation-name: rotateHover;
+  animation-duration: 200ms;
+  animation-iteration-count: 1;
+}
+
+@keyframes rotate {
+  0%,
+  43% {
+    opacity: 0;
+    transform: translate3d(0, -20px, 0);
+  }
+
+  45%,
+  55% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  58%,
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -20px, 0);
+  }
+}
+
+@keyframes rotateHover {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -20px, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+#outside-weather .rotatedInfo {
+  animation-duration: 20s;
+  animation-iteration-count: infinite;
+}
+
+#outside-weather .rotated1 {
+  position: absolute;
+  animation-name: rotatewithdelay1;
+  opacity: 1;
+}
+#outside-weather .rotated2 {
+  position: absolute;
+  animation-name: rotatewithdelay2;
+  opacity: 0;
+}
+
+@keyframes rotatewithdelay1 {
+  0%,
+  40% {
+    opacity: 1;
+  }
+  50%,
+  90% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes rotatewithdelay2 {
+  0%,
+  40% {
+    opacity: 0;
+  }
+  50%,
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+#outside-weather .row-data {
+  padding: 0 10px 0 10px;
+  height: 50px;
+  line-height: 50px;
 }
