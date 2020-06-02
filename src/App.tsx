@@ -35,8 +35,9 @@ import {
   APP_HEIGHT,
   APP_WIDTH,
   DARK_THEME,
-  FETCHING_TIME_MS,
+  FETCHING_WEATHER_TIME_MS,
   MAIN_MENU_WIDTH,
+  FETCHING_ALL_DEVICES_TIME_MS,
 } from "./constants";
 import { useInterval } from "./hooks/useInterval";
 import { Weather } from "./models/weather";
@@ -50,7 +51,7 @@ const WEBSOCKET_ENABLED = process.env.REACT_APP_WEBSOCKET_ENABLED === "true";
 console.log(`Server  ${SERVER_IP}:${SERVER_PORT}, `);
 console.log(
   `WS ${
-    WEBSOCKET_ENABLED ? "Enabled" : "Disabled"
+  WEBSOCKET_ENABLED ? "Enabled" : "Disabled"
   } ${SERVER_IP}:${WEBSOCKET_PORT}, `
 );
 
@@ -189,8 +190,27 @@ function App() {
           setReadyWs(true);
         });
     },
-    FETCHING_TIME_MS,
+    FETCHING_WEATHER_TIME_MS,
     true
+  );
+
+  useInterval(
+    () => {
+      console.log("🌐 Fething all devices");
+      dag
+        .fetchFresh<DeviceDataKind[]>({
+          request: {
+            method: "GET",
+            url: `http://${SERVER_IP}:${SERVER_PORT}/api/getall`,
+          },
+        })
+        .then((value) => {
+          console.log("🌐 Saving all devices data from web");
+          saveState(value.result, dispatch);
+        });
+    },
+    FETCHING_ALL_DEVICES_TIME_MS,
+    false
   );
   return (
     <div
@@ -219,7 +239,7 @@ function App() {
         />
         <Drawer
           className={"app-drawer"}
-          anchor={"bottom"}
+          anchor={"left"}
           open={drawerOpen}
           onClose={toggleDrawer(false)}
         >
@@ -248,7 +268,7 @@ function App() {
             </Button>
           </Grid>
         </Drawer>
-        <WeatherPanel data={state.weather} />
+        {drawerOpen ? undefined : <WeatherPanel data={state.weather} />}
       </ThemeProvider>
     </div>
   );
@@ -290,7 +310,7 @@ function App() {
             }}
           />
         );
-      } else if (configuringDevice.kind === "AIRPURIFIER") {
+      } else if (configuringDevice.kind === "AIRPURIFIER" || configuringDevice.kind === "PROJECTING_LIGHT") {
         optionComponent = (
           <AirPurifierOptions
             switchName={configuringDevice.label}
@@ -348,7 +368,7 @@ function save(
       console.log("Saving Dimmer Light Level");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${
-          existingDeviceData.id
+        existingDeviceData.id
         }/setLevel/${getDimmerLightLevelAttribute(newDeviceData)}`
       );
     }
@@ -359,7 +379,7 @@ function save(
       console.log("Saving Dimmer Power");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-          getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+        getLightOnOffAttribute(newDeviceData) ? "on" : "off"
         }`
       );
     }
@@ -374,7 +394,7 @@ function save(
       console.log("Saving Switch Light Level");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-          getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+        getLightOnOffAttribute(newDeviceData) ? "on" : "off"
         }`
       );
     }

@@ -5,6 +5,13 @@ export enum TvDirection {
   South
 }
 
+export interface Coordinate {
+  x1: number;
+  y1: number;
+  x2: number;
+  y2: number;
+}
+
 export type DeviceType =
   | "UNKNOWN"
   | "DIMMER"
@@ -39,6 +46,7 @@ export interface DeviceData {
 
   note: string; // For me
   textPosition: [number, number];
+  clickingBox?: Coordinate;
 }
 export interface UnknownDevice extends DeviceData {
   kind: "UNKNOWN";

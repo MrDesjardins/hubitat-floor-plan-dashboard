@@ -8,7 +8,6 @@ export interface WeatherPanelProps {
 }
 
 export const WeatherPanel = (props: WeatherPanelProps) => {
-  console.log(props);
   useEffect(() => { }, [props]);
 
   if (props.data === undefined || props.data.current === undefined) {

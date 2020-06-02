@@ -50,6 +50,7 @@ export const TEXT_PADDING = 15;
 
 export const WASHING_MACHINE_WIDTH = 3;
 
-export const FETCHING_TIME_MS = 1000 * 60 * 5; // 5 minutes
+export const FETCHING_WEATHER_TIME_MS = 1000 * 60 * 5; // 5 minutes
+export const FETCHING_ALL_DEVICES_TIME_MS = 1000 * 60 * 30; // 30 minutes
 
 export const DAYS = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];

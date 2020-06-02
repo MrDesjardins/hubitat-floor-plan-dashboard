@@ -4,6 +4,7 @@ import { DeviceDataKind } from "models/devices";
 import { DictionaryOf } from "commons/dictionaryOf";
 import { drawFlooPlan } from "./floorPlan";
 import { drawDevices } from "./devices";
+import { isDeviceInBox } from "../logics/deviceDataLogics";
 export interface MainCanvasProps {
   width: number;
   height: number;
@@ -79,24 +80,29 @@ export const MainCanvas = (props: MainCanvasProps) => {
         width={props.width}
         height={props.height}
         onClick={(evt) => {
-          console.log(
-            `Devices: ${evt.clientX - WEST_WALL - MAIN_MENU_WIDTH}, ${
-            evt.clientY - NORTH_WALL
-            }`
-          );
+          const x = evt.clientX - WEST_WALL - MAIN_MENU_WIDTH;
+          const y = evt.clientY - NORTH_WALL
+          console.log(`Devices: ${x-WEST_WALL}, ${y-NORTH_WALL}`);
+          const allDevices = Object.values(props.devices);
+          for (let i = 0; i < allDevices.length; i++) {
+            if (isDeviceInBox(x, y, allDevices[i].clickingBox)) {
+              props.openConfiguration(allDevices[i], true);
+              break;
+            }
+          }
         }}
       ></canvas>
-      <canvas
-        style={{
-          position: "absolute",
-          zIndex: 100,
-          left: MAIN_MENU_WIDTH,
-          top: 0,
-        }}
-        ref={refCanvasFloorPlan}
-        width={props.width}
-        height={props.height}
-      ></canvas>
+    <canvas
+      style={{
+        position: "absolute",
+        zIndex: 100,
+        left: MAIN_MENU_WIDTH,
+        top: 0,
+      }}
+      ref={refCanvasFloorPlan}
+      width={props.width}
+      height={props.height}
+    ></canvas>
     </>
   );
 };
