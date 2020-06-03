@@ -1,10 +1,11 @@
 import { DeviceDataKind } from "./devices";
 import { DictionaryOf } from "commons/dictionaryOf";
 import { Weather } from "./weather";
+import { Mode } from "./mode";
 
 export interface ApplicationState {
   devices: DictionaryOf<DeviceDataKind>;
   dimmingDialogOpen: boolean;
-  isTemperatureModeOn: boolean;
+  mode: Mode;
   weather: Weather | undefined;
 }

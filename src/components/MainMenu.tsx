@@ -8,6 +8,7 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Button,
 } from "@material-ui/core";
 import { Icon } from "@iconify/react";
 import homeThermometer from "@iconify/icons-mdi/home-thermometer";
@@ -15,6 +16,7 @@ import homeThermometerOutline from "@iconify/icons-mdi/home-thermometer-outline"
 import React from "react";
 import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
 import { MAIN_MENU_WIDTH } from "../constants";
+import { Mode } from "../models/mode";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,8 +45,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export interface MainMenuProps {
-  temperatureMode: boolean;
-  onChangeTemperature: (isTemperatureOn: boolean) => void;
+  applicationMode: Mode;
+  onChangeMode: (mode: Mode) => void;
 }
 export const MainMenu = (props: MainMenuProps) => {
   const classes = useStyles();
@@ -57,44 +59,69 @@ export const MainMenu = (props: MainMenuProps) => {
       }}
       anchor="left"
     >
-      <List>
-        <ListItem button key={"ArmAway"}>
-          <ListItemIcon>
-            <AccessAlarmIcon />
-          </ListItemIcon>
-          <ListItemText primary="Arm Away" />
-        </ListItem>
-        <ListItem button key={"ArmSleep"}>
-          <ListItemIcon>
-            <AccessAlarmIcon />
-          </ListItemIcon>
-          <ListItemText primary="Arm Sleep" />
-        </ListItem>
-        <ListItem button key={"Disarm"}>
-          <ListItemIcon>
-            <AccessAlarmIcon />
-          </ListItemIcon>
-          <ListItemText primary="Disarm" />
-        </ListItem>
-      </List>
+      <div className="arm-menu">
+        <Button aria-label="Away" startIcon={<AccessAlarmIcon />}>
+          Away
+        </Button>
+        <Button aria-label="Sleep" startIcon={<AccessAlarmIcon />}>
+          Sleep
+        </Button>
+        <Button aria-label="Disarm" startIcon={<AccessAlarmIcon />}>
+          Disarm
+        </Button>
+      </div>
       <Divider />
       <List>
         <ListItem
           button
-          key={"temperatureMode"}
+          key={"deviceMode"}
           onClick={() => {
-            props.onChangeTemperature(!props.temperatureMode);
+            props.onChangeMode(Mode.DEVICES);
           }}
         >
           <ListItemIcon>
             <Icon
               className="MuiSvgIcon-root"
               icon={
-                props.temperatureMode ? homeThermometer : homeThermometerOutline
+                props.applicationMode === Mode.DEVICES ? homeThermometer : homeThermometerOutline
+              }
+            />
+          </ListItemIcon>
+          <ListItemText primary="Device Mode" />
+        </ListItem>
+        <ListItem
+          button
+          key={"temperatureMode"}
+          onClick={() => {
+            props.onChangeMode(Mode.TEMPERATURES);
+          }}
+        >
+          <ListItemIcon>
+            <Icon
+              className="MuiSvgIcon-root"
+              icon={
+                props.applicationMode === Mode.TEMPERATURES ? homeThermometer : homeThermometerOutline
               }
             />
           </ListItemIcon>
           <ListItemText primary="Temperature Mode" />
+        </ListItem>
+        <ListItem
+          button
+          key={"batterieMode"}
+          onClick={() => {
+            props.onChangeMode(Mode.BATTERIES);
+          }}
+        >
+          <ListItemIcon>
+            <Icon
+              className="MuiSvgIcon-root"
+              icon={
+                props.applicationMode === Mode.BATTERIES ? homeThermometer : homeThermometerOutline
+              }
+            />
+          </ListItemIcon>
+          <ListItemText primary="Battery Mode" />
         </ListItem>
       </List>
     </Drawer>

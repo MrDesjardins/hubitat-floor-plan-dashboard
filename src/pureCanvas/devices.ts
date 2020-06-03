@@ -6,14 +6,15 @@ import {
 } from "models/devices";
 import { drawTemperatureLayer } from "./temperatureLayer";
 import { drawDevicesLayer } from "./devicesLayer";
+import { Mode } from "../models/mode";
 
 export function drawDevices(
   ctx: CanvasRenderingContext2D,
   devices: DictionaryOf<DeviceDataKind>,
-  isTemperatureModeOn: boolean,
+  mode: Mode,
   openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void
 ): void {
-  if (isTemperatureModeOn) {
+  if (mode === Mode.TEMPERATURES) {
     const temperatureSensors = Object.values(devices).filter(
       (d) => d.kind === "THERMOSTAT" || d.kind === "MOTION"
     ) as (ThermostatDevice & MotionDevice)[];

@@ -44,6 +44,7 @@ import {
 import { useInterval } from "./hooks/useInterval";
 import { Weather } from "./models/weather";
 import { DeadboltOptions } from "./components/DeadboltOptions";
+import { Mode } from "./models/mode";
 
 const SERVER_IP = process.env.REACT_APP_SERVER_IP;
 const SERVER_PORT = process.env.REACT_APP_SERVER_PORT;
@@ -166,8 +167,8 @@ function App() {
 
   let optionComponent: JSX.Element | undefined = getOptionComponent();
   useEffect(() => {
-    console.log(`Temperature mode is ${state.isTemperatureModeOn}`);
-  }, [state.isTemperatureModeOn]);
+    console.log(`Temperature mode is ${state.mode}`);
+  }, [state.mode]);
 
   useInterval(
     () => {
@@ -225,16 +226,16 @@ function App() {
     >
       <ThemeProvider theme={DARK_THEME}>
         <MainMenu
-          temperatureMode={state.isTemperatureModeOn}
-          onChangeTemperature={(isTemperatureModeOn: boolean) => {
-            dispatch(AppActions.setTemperatureMode(isTemperatureModeOn));
+          applicationMode={state.mode}
+          onChangeMode={(mode: Mode) => {
+            dispatch(AppActions.setMode(mode));
           }}
         />
         <MainCanvas
           width={APP_WIDTH - MAIN_MENU_WIDTH}
           height={APP_HEIGHT}
           devices={state.devices}
-          isTemperatureModeOn={state.isTemperatureModeOn}
+          mode={state.mode}
           openConfiguration={(dev: DeviceDataKind, openDrawer: boolean) => {
             setConfiguringDevice(dev);
             setDrawerOpen(openDrawer);
@@ -358,7 +359,7 @@ function saveState(
   dispatch: React.Dispatch<
     | ActionsWithPayload<"ACTION_INIT_DEVICE", InitData>
     | ActionsWithPayload<"ACTION_SAVE_DEVICE", DeviceDataKind>
-    | ActionsWithPayload<"ACTION_SET_TEMPERATURE_MODE", boolean>
+    | ActionsWithPayload<"ACTION_SET_TEMPERATURE_MODE", Mode>
   >
 ) {
   const allDataWithConfigurationInAllDevices: DeviceDataKind[] = [];

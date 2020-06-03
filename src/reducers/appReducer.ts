@@ -7,11 +7,12 @@ import {
   ACTION_SET_OUTSIDE_WEATHER,
 } from "actions/appActions";
 import { getDeviceType } from "logics/attributeLogics";
+import { Mode } from "../models/mode";
 
 export const initialState: ApplicationState = {
   devices: {},
   dimmingDialogOpen: false,
-  isTemperatureModeOn: false,
+  mode: Mode.DEVICES,
   weather: undefined
 
 };
@@ -49,7 +50,7 @@ export function appReducer(
     }
     case ACTION_SET_TEMPERATURE_MODE: {
       const newState = { ...state };
-      newState.isTemperatureModeOn = action.payload;
+      newState.mode = action.payload;
       return newState;
     }
     case ACTION_SET_OUTSIDE_WEATHER: {

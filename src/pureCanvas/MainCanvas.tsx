@@ -5,11 +5,12 @@ import { DictionaryOf } from "commons/dictionaryOf";
 import { drawFlooPlan } from "./floorPlan";
 import { drawDevices } from "./devices";
 import { isDeviceInBox } from "../logics/deviceDataLogics";
+import { Mode } from "../models/mode";
 export interface MainCanvasProps {
   width: number;
   height: number;
   devices: DictionaryOf<DeviceDataKind>;
-  isTemperatureModeOn: boolean;
+  mode: Mode;
   openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void;
 }
 export const MainCanvas = (props: MainCanvasProps) => {
@@ -43,14 +44,14 @@ export const MainCanvas = (props: MainCanvasProps) => {
       drawDevices(
         refContextDevices.current!,
         props.devices,
-        props.isTemperatureModeOn,
+        props.mode,
         props.openConfiguration
       );
     }
     requestRef.current = window.requestAnimationFrame(drawDevicesOnCanvas);
   }, [
     props.devices,
-    props.isTemperatureModeOn,
+    props.mode,
     props.openConfiguration,
     props.height,
     props.width,
