@@ -46,14 +46,17 @@ html {
   background-color: rgb(5, 22, 29);
 }
 
-.TopMenu,
-.BottomMenu {
+.App .MuiPaper-root.MuiDrawer-paper {
   background: linear-gradient(
     45deg,
     rgba(40, 49, 77, 1) 0%,
     rgba(55, 72, 114, 0.81) 47%,
     rgba(24, 33, 56, 1) 100%
   );
+}
+
+.App .MuiDrawer-paperAnchorDockedLeft {
+  border: none;
 }
 
 .motion-person {
@@ -66,10 +69,10 @@ html {
 /********************************************/
 /*   OPTION FOR OPTION BOX   */
 /********************************************/
-.app-drawer .MuiDrawer-paperAnchorBottom {
+.app-drawer .MuiDrawer-paperAnchorLeft {
   right: unset;
   left: unset;
-  width: 580px;
+  width: 450px;
 }
 
 .app-drawer .MuiButton-containedPrimary {
@@ -84,7 +87,7 @@ html {
 
 /*Background of the option box*/
 .app-drawer
-  .MuiPaper-root.MuiDrawer-paper.MuiDrawer-paperAnchorBottom.MuiPaper-elevation16 {
+  .MuiPaper-root{
   background: linear-gradient(
     45deg,
     rgba(40, 49, 77, 1) 0%,
@@ -116,11 +119,160 @@ html {
   color: #5198ce;
 }
 
-
 .MuiButtonBase-root.MuiBottomNavigationAction-root.Mui-selected {
-  color:#36a8ff;
+  color: #36a8ff;
 }
 
-.MuiButtonBase-root.MuiBottomNavigationAction-root{
-  color:white;
+.MuiButtonBase-root.MuiBottomNavigationAction-root {
+  color: white;
+}
+
+/********************************************/
+/*   Outside Weather   */
+/********************************************/
+#outside-weather {
+  position: absolute;
+  top: 230px;
+  left: 10px;
+  width: 280px;
+  z-index: 5000;
+  text-align: left;
+  font-size: 0.9em;
+}
+
+#outside-weather img {
+  width: 40px;
+  height: 40px;
+}
+
+#outside-weather .minmaxtemp {
+  font-size: 0.8em;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+
+#outside-weather .MuiCardContent-root {
+  background-color: #006189;
+  background: linear-gradient(
+    45deg,
+    rgba(40, 49, 77, 1) 0%,
+    rgba(55, 72, 114, 0.81) 47%,
+    rgba(24, 33, 56, 1) 100%
+  );
+  box-shadow: #0c101d 1px 1px 5px;
+  height: 320px;
+  width: 250px;
+}
+
+#outside-weather .MuiTypography-colorTextPrimary {
+  text-shadow: 2px 2px 4px black;
+  padding-bottom: 20px;
+  margin-left: -10px;
+}
+
+#outside-weather .MuiGrid-root.MuiGrid-item {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+#outside-weather .temporaryinfo {
+  animation-name: rotate;
+  animation-duration: 20s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  margin-left: 10px;
+  transform: perspective(500px);
+  position: absolute;
+  font-size: 0.8em;
+  line-height: 26px;
+  color: #06b9d1;
+}
+
+#outside-weather .now:hover + .temporaryinfo {
+  animation-name: rotateHover;
+  animation-duration: 200ms;
+  animation-iteration-count: 1;
+}
+
+@keyframes rotate {
+  0%,
+  43% {
+    opacity: 0;
+    transform: translate3d(0, -20px, 0);
+  }
+
+  45%,
+  55% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  58%,
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -20px, 0);
+  }
+}
+
+@keyframes rotateHover {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -20px, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+#outside-weather .rotatedInfo {
+  animation-duration: 20s;
+  animation-iteration-count: infinite;
+}
+
+#outside-weather .rotated1 {
+  position: absolute;
+  animation-name: rotatewithdelay1;
+  opacity: 1;
+}
+#outside-weather .rotated2 {
+  position: absolute;
+  animation-name: rotatewithdelay2;
+  opacity: 0;
+}
+
+@keyframes rotatewithdelay1 {
+  0%,
+  40% {
+    opacity: 1;
+  }
+  50%,
+  90% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes rotatewithdelay2 {
+  0%,
+  40% {
+    opacity: 0;
+  }
+  50%,
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+#outside-weather .row-data {
+  padding: 0 10px 0 10px;
+  height: 50px;
+  line-height: 50px;
 }

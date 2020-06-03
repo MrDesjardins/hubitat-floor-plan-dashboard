@@ -15,6 +15,6 @@
         "noEmit": true,
         "jsx": "react"
     },
-    "include": ["src", "server/**/*"],
-    "exclude": ["server/**/*"]
+    "include": ["server/**/*"],
+    "exclude": ["src"]
 }

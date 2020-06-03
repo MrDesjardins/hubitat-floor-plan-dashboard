@@ -1,43 +1,64 @@
-import { Button, Divider, Drawer, Grid } from "@material-ui/core";
-import React, { useEffect, useReducer, useRef, useState } from "react";
-import { Layer, Stage } from "react-konva";
-import "typeface-roboto";
-import { AppActions } from "./actions/appActions";
-import "./App.css";
-import { DimmerLightOptions } from "./Components/DimmerLightOptions";
-import { LightSwitchOptions } from "./Components/LightSwitchOptions";
-import { TopMenu } from "./Components/TopMenu";
-import { FloorPlan } from "./FloorPlan";
+import {
+  Button,
+  Divider,
+  Drawer,
+  Grid,
+  ThemeProvider,
+} from "@material-ui/core";
+import { AppActions, InitData } from "actions/appActions";
+import { AirPurifierOptions } from "components/AirPurifierOptions";
+import { DimmerLightOptions } from "components/DimmerLightOptions";
+import { LightSwitchOptions } from "components/LightSwitchOptions";
+import { MainMenu } from "components/MainMenu";
+import DataAccessGateway from "dataaccessgateway";
+import { ActionsWithPayload } from "infrastructure/reducerActions";
 import {
   getDimmerLightLevelAttribute,
   getLightOnOffAttribute,
-} from "./Logics/AttributeLogics";
-import { allDevices } from "./Models/AllDevices";
+  getDeadboltAttribute,
+} from "logics/attributeLogics";
+import { allDevices } from "models/allDevices";
 import {
+  AirPurifierDevice,
   DeviceData,
   DeviceDataKind,
   DeviceWebsocket,
   DimmingLightDevice,
   LightSwitchDevice,
-  AirPurifierDevice,
-} from "./Models/Devices";
-import { appReducer, initialState } from "./reducers/appReducer";
-import { AirPurifierOptions } from "./Components/AirPurifierOptions";
-import DataAccessGateway from "dataaccessgateway";
-import { BottomMenu } from "./Components/BottomMenu";
-import { Devices } from "./Devices";
-import { WEST_WALL, NORTH_WALL } from "./constants";
+  DeadboltDevice,
+} from "models/devices";
+import { MainCanvas } from "pureCanvas/MainCanvas";
+import React, { useEffect, useReducer, useRef, useState } from "react";
+import { appReducer, initialState } from "reducers/appReducer";
+import "typeface-roboto";
+import "./App.css";
+import { WeatherPanel } from "./components/WeatherPanel";
+import {
+  APP_HEIGHT,
+  APP_WIDTH,
+  DARK_THEME,
+  FETCHING_WEATHER_TIME_MS,
+  MAIN_MENU_WIDTH,
+  FETCHING_ALL_DEVICES_TIME_MS,
+} from "./constants";
+import { useInterval } from "./hooks/useInterval";
+import { Weather } from "./models/weather";
+import { DeadboltOptions } from "./components/DeadboltOptions";
+
 const SERVER_IP = process.env.REACT_APP_SERVER_IP;
 const SERVER_PORT = process.env.REACT_APP_SERVER_PORT;
 const WEBSOCKET_IP = process.env.REACT_APP_WEBSOCKET_IP;
 const WEBSOCKET_PORT = process.env.REACT_APP_WEBSOCKET_PORT;
+const WEBSOCKET_ENABLED = process.env.REACT_APP_WEBSOCKET_ENABLED === "true";
 
 console.log(`Server  ${SERVER_IP}:${SERVER_PORT}, `);
-console.log(`WS  ${SERVER_IP}:${WEBSOCKET_PORT}, `);
+console.log(
+  `WS ${
+  WEBSOCKET_ENABLED ? "Enabled" : "Disabled"
+  } ${SERVER_IP}:${WEBSOCKET_PORT}, `
+);
 
 const webSocketUrl = `ws://${WEBSOCKET_IP}:${WEBSOCKET_PORT}`;
-const height = 1024;
-const width = 600;
 
 const dag = DataAccessGateway("HubitatDashboard");
 dag.setConfiguration({
@@ -67,56 +88,58 @@ function App() {
     setDrawerOpen(open);
   };
   useEffect(() => {
-    websocketRef.current = new WebSocket(webSocketUrl);
-    console.log("attempt connection to ", webSocketUrl);
-    websocketRef.current.onopen = function (e: Event) {
-      console.log(`connection to  ${webSocketUrl} established`);
-    };
+    if (WEBSOCKET_ENABLED) {
+      websocketRef.current = new WebSocket(webSocketUrl);
+      console.log("attempt connection to ", webSocketUrl);
+      websocketRef.current.onopen = function (e: Event) {
+        console.log(`connection to  ${webSocketUrl} established`);
+      };
 
-    websocketRef.current.onmessage = (e: MessageEvent) => {
-      if (readyWs) {
-        try {
-          console.log("OnMessage Data", e);
-          const objData = JSON.parse(e.data) as DeviceWebsocket;
-          const configuredData = allDevices[objData.deviceId];
-          if (configuredData !== undefined) {
-            const existingDevice = state.devices[objData.deviceId];
-            const copyExistingDevice = {
-              ...existingDevice,
-            };
-            copyExistingDevice.attributes = {
-              ...copyExistingDevice.attributes,
-            };
-            copyExistingDevice.attributes[objData.name] = objData.value;
-            dispatch(
-              AppActions.initDevice({
-                device: copyExistingDevice,
-              })
-            );
-          } else {
-            console.log(
-              `Does not save ${objData.displayName}: No device configured for id# ${objData.deviceId}`
-            );
+      websocketRef.current.onmessage = (e: MessageEvent) => {
+        if (readyWs) {
+          try {
+            console.log("OnMessage Data", e);
+            const objData = JSON.parse(e.data) as DeviceWebsocket;
+            const configuredData = allDevices[objData.deviceId];
+            if (configuredData !== undefined) {
+              const existingDevice = state.devices[objData.deviceId];
+              const copyExistingDevice = {
+                ...existingDevice,
+              };
+              copyExistingDevice.attributes = {
+                ...copyExistingDevice.attributes,
+              };
+              copyExistingDevice.attributes[objData.name] = objData.value;
+              dispatch(
+                AppActions.initDevice({
+                  devices: [copyExistingDevice],
+                })
+              );
+            } else {
+              console.log(
+                `Does not save ${objData.displayName}: No device configured for id# ${objData.deviceId}`
+              );
+            }
+          } catch (e) {
+            console.log("Invalid JSON data received from websocket", e);
+            return;
           }
-        } catch (e) {
-          console.log("Invalid JSON data received from websocket", e);
-          return;
         }
-      }
-    };
+      };
 
-    websocketRef.current.onclose = (e: CloseEvent) => {
-      console.log("onclose", e);
-      setTimeout(function () {
-        setReconnectWebsocket({}); // New reference of objet will force this useEffect to restart
-      }, 5000);
-    };
+      websocketRef.current.onclose = (e: CloseEvent) => {
+        console.log("onclose", e);
+        setTimeout(function () {
+          setReconnectWebsocket({}); // New reference of objet will force this useEffect to restart
+        }, 5000);
+      };
 
-    websocketRef.current.onerror = (event: Event) => {
-      console.log("onError", event);
-      websocketRef.current.close();
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+      websocketRef.current.onerror = (event: Event) => {
+        console.log("onError", event);
+        websocketRef.current.close();
+      };
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reconnectWebsocket, readyWs]);
 
   useEffect(() => {
@@ -130,33 +153,11 @@ function App() {
       })
       .then((value) => {
         console.log("🌐 Using Data From Cache");
-        const data: DeviceDataKind[] = value.result;
-        data.forEach((p) => {
-          const configData = allDevices[p.id];
-          if (configData !== undefined) {
-            const mergedData = { ...configData, ...p };
-            dispatch(
-              AppActions.initDevice({
-                device: mergedData,
-              })
-            );
-          }
-        });
-        if(value.webPromise!== undefined){
-          value.webPromise.then( (valueWeb )=>{
+        saveState(value.result, dispatch);
+        if (value.webPromise !== undefined) {
+          value.webPromise.then((valueWeb) => {
             console.log("🌐 Using Data From Hubitat Server");
-            const data: DeviceDataKind[] = valueWeb.result;
-            data.forEach((p) => {
-              const configData = allDevices[p.id];
-              if (configData !== undefined) {
-                const mergedData = { ...configData, ...p };
-                dispatch(
-                  AppActions.initDevice({
-                    device: mergedData,
-                  })
-                );
-              }
-            });
+            saveState(valueWeb.result, dispatch);
           });
         }
         setReadyWs(true);
@@ -164,74 +165,114 @@ function App() {
   }, []);
 
   let optionComponent: JSX.Element | undefined = getOptionComponent();
+  useEffect(() => {
+    console.log(`Temperature mode is ${state.isTemperatureModeOn}`);
+  }, [state.isTemperatureModeOn]);
 
+  useInterval(
+    () => {
+      console.log("🌐 Fething all outside weather");
+      dag
+        .fetchFastAndFresh<Weather>({
+          request: {
+            method: "GET",
+            url: `http://${SERVER_IP}:${SERVER_PORT}/api/weather`,
+          },
+          memoryCache: { lifespanInSeconds: 60 * 5 },
+          persistentCache: { lifespanInSeconds: 60 * 5 },
+        })
+        .then((value) => {
+          console.log("🌐 Using Weather Data From Cache");
+          dispatch(AppActions.setOutsideWeather(value.result));
+          if (value.webPromise !== undefined) {
+            value.webPromise.then((valueWeb) => {
+              console.log("🌐 Using Weather Data From Open Weather Server");
+              dispatch(AppActions.setOutsideWeather(valueWeb.result));
+            });
+          }
+          setReadyWs(true);
+        });
+    },
+    FETCHING_WEATHER_TIME_MS,
+    true
+  );
+
+  useInterval(
+    () => {
+      console.log("🌐 Fething all devices");
+      dag
+        .fetchFresh<DeviceDataKind[]>({
+          request: {
+            method: "GET",
+            url: `http://${SERVER_IP}:${SERVER_PORT}/api/getall`,
+          },
+        })
+        .then((value) => {
+          console.log("🌐 Saving all devices data from web");
+          saveState(value.result, dispatch);
+        });
+    },
+    FETCHING_ALL_DEVICES_TIME_MS,
+    false
+  );
   return (
     <div
       className="App"
       style={{
-        width: width,
-        height: height,
+        width: APP_WIDTH,
+        height: APP_HEIGHT,
       }}
     >
-      <TopMenu />
-      <Stage
-        width={width}
-        height={height - 120}
-        onClick={(evt) => {
-          console.log(
-            `${evt.evt.x - WEST_WALL}, ${evt.evt.y - NORTH_WALL - 50}`
-          );
-        }}
-      >
-        <Layer>
-          <FloorPlan />
-          <Devices
-            isTemperatureModeOn={state.isTemperatureModeOn}
-            devices={state.devices}
-            openConfiguration={(dev: DeviceDataKind, openDrawer: boolean) => {
-              setConfiguringDevice(dev);
-              setDrawerOpen(openDrawer);
-            }}
-          />
-        </Layer>
-      </Stage>
-      <BottomMenu
-        temperatureMode={state.isTemperatureModeOn}
-        onChangeTemperature={(isTemperatureModeOn: boolean) => {
-          dispatch(AppActions.setTemperatureMode(isTemperatureModeOn));
-        }}
-      />
-      <Drawer
-        className={"app-drawer"}
-        anchor={"bottom"}
-        open={drawerOpen}
-        onClose={toggleDrawer(false)}
-      >
-        <h1>
-          {configuringDevice === undefined
-            ? "Unknown"
-            : configuringDevice.label}
-        </h1>
-        {optionComponent}
-        <Divider />
-        <Grid
-          container={true}
-          alignContent={"flex-end"}
-          alignItems={"flex-end"}
-          direction={"column-reverse"}
+      <ThemeProvider theme={DARK_THEME}>
+        <MainMenu
+          temperatureMode={state.isTemperatureModeOn}
+          onChangeTemperature={(isTemperatureModeOn: boolean) => {
+            dispatch(AppActions.setTemperatureMode(isTemperatureModeOn));
+          }}
+        />
+        <MainCanvas
+          width={APP_WIDTH - MAIN_MENU_WIDTH}
+          height={APP_HEIGHT}
+          devices={state.devices}
+          isTemperatureModeOn={state.isTemperatureModeOn}
+          openConfiguration={(dev: DeviceDataKind, openDrawer: boolean) => {
+            setConfiguringDevice(dev);
+            setDrawerOpen(openDrawer);
+          }}
+        />
+        <Drawer
+          className={"app-drawer"}
+          anchor={"left"}
+          open={drawerOpen}
+          onClose={toggleDrawer(false)}
         >
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={(e) => {
-              setDrawerOpen(false);
-            }}
-            style={{ marginLeft: 10 }}
+          <h1>
+            {configuringDevice === undefined
+              ? "Unknown"
+              : configuringDevice.label}
+          </h1>
+          {optionComponent}
+          <Divider />
+          <Grid
+            container={true}
+            alignContent={"flex-end"}
+            alignItems={"flex-end"}
+            direction={"column-reverse"}
           >
-            Close
-          </Button>
-        </Grid>
-      </Drawer>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={(e) => {
+                setDrawerOpen(false);
+              }}
+              style={{ marginLeft: 10 }}
+            >
+              Close
+            </Button>
+          </Grid>
+        </Drawer>
+        {drawerOpen ? undefined : <WeatherPanel data={state.weather} />}
+      </ThemeProvider>
     </div>
   );
 
@@ -272,7 +313,7 @@ function App() {
             }}
           />
         );
-      } else if (configuringDevice.kind === "AIRPURIFIER") {
+      } else if (configuringDevice.kind === "AIRPURIFIER" || configuringDevice.kind === "PROJECTING_LIGHT") {
         optionComponent = (
           <AirPurifierOptions
             switchName={configuringDevice.label}
@@ -289,10 +330,50 @@ function App() {
             }}
           />
         );
+      } else if (configuringDevice.kind === "DEADBOLT") {
+        optionComponent = (
+          <DeadboltOptions
+            name={configuringDevice.label}
+            isDialogOpen={drawerOpen}
+            deviceData={{
+              ...(configuringDevice as DeadboltDevice),
+            }}
+            onClose={() => {
+              toggleDrawer(false);
+            }}
+            onSave={(deviceToSave: DeadboltDevice) => {
+              dispatch(AppActions.saveDevice(deviceToSave));
+              save(state.devices[deviceToSave.id], deviceToSave);
+            }}
+          />
+        );
       }
     }
     return optionComponent;
   }
+}
+
+function saveState(
+  value: DeviceDataKind[],
+  dispatch: React.Dispatch<
+    | ActionsWithPayload<"ACTION_INIT_DEVICE", InitData>
+    | ActionsWithPayload<"ACTION_SAVE_DEVICE", DeviceDataKind>
+    | ActionsWithPayload<"ACTION_SET_TEMPERATURE_MODE", boolean>
+  >
+) {
+  const allDataWithConfigurationInAllDevices: DeviceDataKind[] = [];
+  value.forEach((p) => {
+    const configData = allDevices[p.id];
+    if (configData !== undefined) {
+      const mergedData = { ...configData, ...p };
+      allDataWithConfigurationInAllDevices.push(mergedData);
+    }
+  });
+  dispatch(
+    AppActions.initDevice({
+      devices: allDataWithConfigurationInAllDevices,
+    })
+  );
 }
 
 function save(
@@ -307,7 +388,7 @@ function save(
       console.log("Saving Dimmer Light Level");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${
-          existingDeviceData.id
+        existingDeviceData.id
         }/setLevel/${getDimmerLightLevelAttribute(newDeviceData)}`
       );
     }
@@ -318,7 +399,7 @@ function save(
       console.log("Saving Dimmer Power");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-          getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+        getLightOnOffAttribute(newDeviceData) ? "on" : "off"
         }`
       );
     }
@@ -333,7 +414,22 @@ function save(
       console.log("Saving Switch Light Level");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-          getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+        getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+        }`
+      );
+    }
+  } else if (
+    existingDeviceData.kind === "DEADBOLT" &&
+    newDeviceData.kind === "DEADBOLT"
+  ) {
+    if (
+      getDeadboltAttribute(existingDeviceData) !==
+      getDeadboltAttribute(newDeviceData)
+    ) {
+      console.log("Saving Dead bolt Level");
+      fetch(
+        `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
+          getDeadboltAttribute(newDeviceData) ? "lock" : "unlock"
         }`
       );
     }

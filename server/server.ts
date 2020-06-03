@@ -3,8 +3,11 @@ import express from "express";
 import cors from "cors";
 import WebSocket from "ws";
 import fetch from "node-fetch";
+import cache from 'memory-cache';
 import dotenv from "dotenv";
 dotenv.config();
+
+
 
 const HUBITAT_IP = process.env.REACT_APP_HUBITAT_IP;
 
@@ -15,15 +18,19 @@ const SERVER_IP = process.env.REACT_APP_SERVER_IP;
 const SERVER_PORT = Number(process.env.REACT_APP_SERVER_PORT);
 
 const WEBSOCKET_PORT = Number(process.env.REACT_APP_WEBSOCKET_PORT);
+const WEBSOCKET_ENABLED = process.env.REACT_APP_WEBSOCKET_ENABLED === "true";
 export const APP_ID = process.env.REACT_APP_HUBITAT_APP_ID;
 export const API_TOKEN = process.env.REACT_APP_HUBITAT_API_TOKEN;
+export const WEATHER_API = process.env.OPEN_WEATHER_API_KEY;
 
-console.log(`Hubitat server on IP ${HUBITAT_IP}, `);
-console.log(`Server  ${SERVER_IP}:${SERVER_PORT}, `);
-console.log(`WS  ${SERVER_IP}:${WEBSOCKET_PORT}, `);
-console.log(`Website  ${WEB_IP}:${WEB_PORT}, `);
+console.log(`Hubitat server on IP ${HUBITAT_IP}`);
+console.log(`Server ${SERVER_IP}:${SERVER_PORT}`);
+console.log(`WS ${WEBSOCKET_ENABLED ? "Enabled" : "Disabled"} ${SERVER_IP}:${WEBSOCKET_PORT}`);
+console.log(`Website ${WEB_IP}:${WEB_PORT}`);
+console.log(`Weather API: ${WEATHER_API}`);
 
 const serverApp = express();
+const serverCache = new cache.Cache();
 // const corsOptions: cors.CorsOptions = {
 //     origin: [`//localhost:${WEB_PORT}`, `//${WEB_IP}:${WEB_PORT}`],
 //     optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
@@ -71,18 +78,34 @@ serverApp.get("/api/save/:deviceid/:key", async (req: any, res: any) => {
     res.send(jsonData);
 });
 
+serverApp.get("/api/weather", async (req: any, res: any) => {
+    const cachedData = serverCache.get(WEATHER_API);
+    if (cachedData === undefined || cachedData === null) {
+        const url = `https://api.openweathermap.org/data/2.5/onecall?lat=37.34&lon=-121.89&exclude=minutely&units=imperial&appid=${WEATHER_API}`;
+        const data = await fetch(url);
+        const jsonData = await data.json();
+        serverCache.put(WEATHER_API, jsonData, 1000 * 60 * 5);// 5 minutes
+        console.log("Weather by web");
+        res.send(jsonData);
+    } else {
+        console.log("Weather by cache");
+        res.send(cachedData);
+    }
+});
+
 /**
  *
  */
 serverApp.post("/refresh", (req: any, res: any) => {
     const data = JSON.stringify(req.body.content);
-    console.log(data);
-
-    wsApp.clients.forEach((client) => {
-        if (client.readyState === WebSocket.OPEN) {
-            client.send(data);
-        }
-    });
+    if (WEBSOCKET_ENABLED) {
+        console.log(data);
+        wsApp.clients.forEach((client) => {
+            if (client.readyState === WebSocket.OPEN) {
+                client.send(data);
+            }
+        });
+    }
 });
 
 serverApp.listen(SERVER_PORT, () =>
@@ -90,19 +113,22 @@ serverApp.listen(SERVER_PORT, () =>
 );
 
 const wsApp = new WebSocket.Server({ port: WEBSOCKET_PORT });
+if (WEBSOCKET_ENABLED) {
+    console.log("Setup connection");
+    wsApp.on("connection", function connection(ws, req) {
+        console.log(`Connection established ${new Date().toISOString()}`, req.socket.remoteAddress);
 
-wsApp.on("connection", function connection(ws, req) {
-    console.log(`Connection established ${new Date().toISOString()}`, req.socket.remoteAddress);
-
-    ws.on("message", function incoming(message) {
-        console.log("received: %s", message);
+        ws.on("message", function incoming(message) {
+            console.log("received: %s", message);
+        });
     });
-});
 
-wsApp.on("error", err => {
-    console.error(`Error ${err.name}: ${err.message}`);
-});
+    wsApp.on("error", err => {
+        console.error(`Error ${err.name}: ${err.message}`);
+    });
 
-// wsApp.on("message", function incoming(data) {
-//     console.log(data);
-// });
+    // wsApp.on("message", function incoming(data) {
+    //     console.log(data);
+    //});
+
+}

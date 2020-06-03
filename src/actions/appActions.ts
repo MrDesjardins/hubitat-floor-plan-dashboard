@@ -1,15 +1,17 @@
 import {
   createActionPayload,
   ActionsUnion,
-} from "../infrastructure/ReducerActions";
-import { DeviceDataKind } from "../Models/Devices";
+} from "infrastructure/reducerActions";
+import { DeviceDataKind } from "models/devices";
+import { Weather } from "../models/weather";
 
 export const ACTION_INIT_DEVICE = "ACTION_INIT_DEVICE";
 export const ACTION_SAVE_DEVICE = "ACTION_SAVE_DEVICE";
 export const ACTION_SET_TEMPERATURE_MODE = "ACTION_SET_TEMPERATURE_MODE";
+export const ACTION_SET_OUTSIDE_WEATHER = "ACTION_SET_OUTSIDE_WEATHER";
 
 export interface InitData {
-  device: DeviceDataKind;
+  devices: DeviceDataKind[];
 }
 export const AppActions = {
   initDevice: createActionPayload<typeof ACTION_INIT_DEVICE, InitData>(
@@ -22,5 +24,8 @@ export const AppActions = {
     typeof ACTION_SET_TEMPERATURE_MODE,
     boolean
   >(ACTION_SET_TEMPERATURE_MODE),
+  setOutsideWeather: createActionPayload<typeof ACTION_SET_OUTSIDE_WEATHER, Weather>(
+    ACTION_SET_OUTSIDE_WEATHER
+  ),
 };
 export type AcceptedActions = ActionsUnion<typeof AppActions>;
