@@ -107,3 +107,14 @@ export const getHumidityAtribute = (device: MotionDevice): number => {
 export const getThermostatMode = (device: ThermostatDevice): string => {
   return device.attributes["thermostatMode"];
 };
+
+export const setDeadboltAttribute = (
+  device: DeadboltDevice,
+  isLock: boolean
+): void => {
+  device.attributes["lock"] = isLock ? "lock" : "unlock";
+};
+
+export const getDeadboltAttribute = (device: DeadboltDevice): boolean => {
+  return device.attributes["lock"] === "lock";
+};

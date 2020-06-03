@@ -144,6 +144,7 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     attributes: {},
     label: "",
     name: "",
+    clickingBox: { x1: WEST_WALL + 226, y1: NORTH_WALL + 375, x2: WEST_WALL + 270, y2: NORTH_WALL + 410 }
   },
   "322": {
     id: "322",
@@ -153,6 +154,7 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     attributes: {},
     label: "",
     name: "",
+    clickingBox: { x1: WEST_WALL + 180, y1: NORTH_WALL + 298, x2: WEST_WALL + 223, y2: NORTH_WALL + 350 }
   },
   "46": {
     id: "46",
@@ -215,7 +217,7 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     attributes: {},
     label: "",
     name: "",
-    clickingBox: { x1: WEST_WALL + 225, y1: NORTH_WALL + 250, x2: WEST_WALL + 275, y2: NORTH_WALL + 3320 }
+    clickingBox: { x1: WEST_WALL + 225, y1: NORTH_WALL + 250, x2: WEST_WALL + 275, y2: NORTH_WALL + 332 }
   },
   "9": {
     id: "9",

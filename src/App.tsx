@@ -15,6 +15,7 @@ import { ActionsWithPayload } from "infrastructure/reducerActions";
 import {
   getDimmerLightLevelAttribute,
   getLightOnOffAttribute,
+  getDeadboltAttribute,
 } from "logics/attributeLogics";
 import { allDevices } from "models/allDevices";
 import {
@@ -24,6 +25,7 @@ import {
   DeviceWebsocket,
   DimmingLightDevice,
   LightSwitchDevice,
+  DeadboltDevice,
 } from "models/devices";
 import { MainCanvas } from "pureCanvas/MainCanvas";
 import React, { useEffect, useReducer, useRef, useState } from "react";
@@ -41,6 +43,7 @@ import {
 } from "./constants";
 import { useInterval } from "./hooks/useInterval";
 import { Weather } from "./models/weather";
+import { DeadboltOptions } from "./components/DeadboltOptions";
 
 const SERVER_IP = process.env.REACT_APP_SERVER_IP;
 const SERVER_PORT = process.env.REACT_APP_SERVER_PORT;
@@ -327,6 +330,23 @@ function App() {
             }}
           />
         );
+      } else if (configuringDevice.kind === "DEADBOLT") {
+        optionComponent = (
+          <DeadboltOptions
+            name={configuringDevice.label}
+            isDialogOpen={drawerOpen}
+            deviceData={{
+              ...(configuringDevice as DeadboltDevice),
+            }}
+            onClose={() => {
+              toggleDrawer(false);
+            }}
+            onSave={(deviceToSave: DeadboltDevice) => {
+              dispatch(AppActions.saveDevice(deviceToSave));
+              save(state.devices[deviceToSave.id], deviceToSave);
+            }}
+          />
+        );
       }
     }
     return optionComponent;
@@ -395,6 +415,21 @@ function save(
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
         getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+        }`
+      );
+    }
+  } else if (
+    existingDeviceData.kind === "DEADBOLT" &&
+    newDeviceData.kind === "DEADBOLT"
+  ) {
+    if (
+      getDeadboltAttribute(existingDeviceData) !==
+      getDeadboltAttribute(newDeviceData)
+    ) {
+      console.log("Saving Dead bolt Level");
+      fetch(
+        `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
+          getDeadboltAttribute(newDeviceData) ? "lock" : "unlock"
         }`
       );
     }
