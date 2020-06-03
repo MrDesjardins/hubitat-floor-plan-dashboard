@@ -150,7 +150,7 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     id: "322",
     kind: "DEADBOLT",
     note: "Garage Indoor Deadbolt",
-    textPosition: [WEST_WALL + 225, NORTH_WALL + 335],
+    textPosition: [WEST_WALL + 225, NORTH_WALL + 320],
     attributes: {},
     label: "",
     name: "",

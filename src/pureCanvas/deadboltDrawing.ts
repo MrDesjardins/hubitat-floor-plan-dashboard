@@ -1,6 +1,6 @@
 import { DeadboltDevice, DeviceDataKind } from "models/devices";
 import { getDeadboltLockStatus } from "logics/attributeLogics";
-import { TEXT_SIZE, TEXT_COLOR, TEXT_PADDING } from "../constants";
+import { TEXT_SIZE, TEXT_COLOR, TEXT_PADDING, COLOR_MACHINE2 } from "../constants";
 import { getDeadlockText } from "commons/textbuilder";
 import { drawPath2D } from "./commonDrawing";
 
@@ -50,6 +50,7 @@ export function drawDeadbolt(
       "M35.028 51.319L28.454 60.689M43.028 51.319L36.454 60.689M51.028 51.319L44.454 60.689M59.028 51.319L52.454 60.689M67.028 51.319L60.454 60.689M75.028 51.319L68.454 60.689M83.028 51.319L76.454 60.689"
     ),
   ];
+
   drawPath2D(
     ctx,
     isLock ? lockImagePath : unlockImagePath,
@@ -58,8 +59,8 @@ export function drawDeadbolt(
         x: device.textPosition[0] - TEXT_PADDING / 2,
         y: device.textPosition[1],
       },
-      lineWidth: 2,
-      fillStyle: "none",
+      lineWidth: 1,
+      strokeStyle: COLOR_MACHINE2,
       scale: 0.4,
     },
     false

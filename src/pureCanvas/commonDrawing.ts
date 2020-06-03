@@ -8,6 +8,7 @@ export interface DrawOptions {
   offset?: number;
   fillStyle?: string;
   stroke?: string;
+  strokeStyle?: string;
   lineWidth?: number;
   location: Coordinate;
 }
@@ -17,14 +18,16 @@ export function drawPath2D(
   options: DrawOptions,
   isFilled: boolean = true
 ): void {
+  ctx.save();
   if (options.fillStyle !== undefined) {
     ctx.fillStyle = options.fillStyle;
   }
   if (options.lineWidth !== undefined) {
     ctx.lineWidth = options.lineWidth;
   }
-
-  ctx.save();
+  if (options.strokeStyle !== undefined) {
+    ctx.strokeStyle = options.strokeStyle;
+  }
   if (options.scale !== undefined) {
     ctx.scale(options.scale, options.scale);
   }
