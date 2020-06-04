@@ -1,4 +1,4 @@
-import { LightSwitchDevice, DeviceDataKind } from "models/devices";
+import { LightSwitchDevice } from "models/devices";
 import { getLightOnOffAttribute } from "logics/attributeLogics";
 import { TEXT_SIZE, TEXT_COLOR, TEXT_PADDING, LIGHT_ON_COLOR, LIGHT_OFF_COLOR } from "../constants";
 import { drawPath2D } from "./commonDrawing";
@@ -7,7 +7,6 @@ import { drawPath2D } from "./commonDrawing";
 export function drawLightSwitch(
   ctx: CanvasRenderingContext2D,
   device: LightSwitchDevice,
-  openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void
 ): void {
 
   const isOn = getLightOnOffAttribute(device);

@@ -1,7 +1,7 @@
 import { getTVText } from "commons/textbuilder";
 import { TEXT_COLOR, TEXT_SIZE } from "../constants";
 import { getPowerOnAttribute } from "logics/attributeLogics";
-import { DeviceDataKind, TvDevice } from "models/devices";
+import { TvDevice } from "models/devices";
 import { degreeToRadian } from "commons/mathematic";
 import { DictionaryOf } from "commons/dictionaryOf";
 import { delayedDeviceAnimation } from "commons/animation";
@@ -12,7 +12,6 @@ const devicseDirection: DictionaryOf<number> = {};
 export function drawTV(
   ctx: CanvasRenderingContext2D,
   device: TvDevice,
-  openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void
 ): void {
 
   delayedDeviceAnimation(device.id, (update: boolean) => {

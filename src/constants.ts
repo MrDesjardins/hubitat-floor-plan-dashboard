@@ -25,6 +25,9 @@ export const COLOR_MACHINE1 = "#00bcd4";
 export const COLOR_MACHINE2 = "#00bcd4";
 export const COLOR_MACHINE3 = "#b2ebf2";
 
+export const WARNING_COLOR = "#F2B705";
+export const ERROR_COLOR = "#e53935";
+
 export const NORTH_WALL = 23;
 export const WEST_WALL = 41;
 
@@ -54,3 +57,7 @@ export const FETCHING_WEATHER_TIME_MS = 1000 * 60 * 5; // 5 minutes
 export const FETCHING_ALL_DEVICES_TIME_MS = 1000 * 60 * 30; // 30 minutes
 
 export const DAYS = ['Sun', 'Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat'];
+
+export const BATTERY_HIGH = 90;
+export const BATTERY_MEDIUM = 50;
+export const BATTERY_LOW = 25;

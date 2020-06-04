@@ -1,4 +1,4 @@
-import { DeviceDataKind, DimmingLightDevice } from "models/devices";
+import { DimmingLightDevice } from "models/devices";
 import { getLightOnOffAttribute, getDimmerLightLevelAttribute } from "logics/attributeLogics";
 import { TEXT_SIZE, TEXT_COLOR, TEXT_PADDING, LIGHT_ON_COLOR, LIGHT_OFF_COLOR } from "../constants";
 import { drawPath2D } from "./commonDrawing";
@@ -6,8 +6,7 @@ import { drawPath2D } from "./commonDrawing";
 
 export function drawDimmerSwitch(
   ctx: CanvasRenderingContext2D,
-  device: DimmingLightDevice,
-  openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void
+  device: DimmingLightDevice
 ): void {
 
   const isOn = getLightOnOffAttribute(device);

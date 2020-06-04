@@ -1,4 +1,4 @@
-import { ProjectingLightDevice, DeviceDataKind } from "models/devices";
+import { ProjectingLightDevice } from "models/devices";
 import { getLightOnOffAttribute } from "logics/attributeLogics";
 import { delayedDeviceAnimation } from "commons/animation";
 import { TEXT_SIZE, TEXT_COLOR } from "../constants";
@@ -17,8 +17,7 @@ const stars: DictionaryOf<Star[]> = {};
 
 export function drawProjectingLight(
   ctx: CanvasRenderingContext2D,
-  device: ProjectingLightDevice,
-  openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void
+  device: ProjectingLightDevice
 ): void {
   const isOn = getLightOnOffAttribute(device);
 

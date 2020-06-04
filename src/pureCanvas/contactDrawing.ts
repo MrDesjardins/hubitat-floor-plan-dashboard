@@ -12,15 +12,14 @@ import {
   TEXT_SIZE,
 } from "../constants";
 import { getContactOnOffAttribute } from "logics/attributeLogics";
-import { ContactDevice, DeviceDataKind, ContactDirection } from "models/devices";
+import { ContactDevice, ContactDirection } from "models/devices";
 import { delayedDeviceAnimation } from "commons/animation";
 
 const contactsAngle: DictionaryOf<number> = {};
 const contactsTranslation: DictionaryOf<[number, number]> = {};
 export function drawContact(
   ctx: CanvasRenderingContext2D,
-  device: ContactDevice,
-  openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void
+  device: ContactDevice
 ) {
 
   delayedDeviceAnimation(device.id, (update: boolean) => {

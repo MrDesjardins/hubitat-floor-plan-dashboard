@@ -4,7 +4,7 @@ import { degreeToRadian } from "commons/mathematic";
 import { getMotionText } from "commons/textbuilder";
 import { MOTION_COLOR, TEXT_COLOR, TEXT_SIZE } from "../constants";
 import { getMotionOnOffAttribute } from "logics/attributeLogics";
-import { DeviceDataKind, MotionDevice } from "models/devices";
+import { MotionDevice } from "models/devices";
 
 const deviceRadiusDirection: DictionaryOf<number> = {};
 const deviceRadiusDimension: DictionaryOf<number> = {};
@@ -14,8 +14,7 @@ const devicePathLocation: DictionaryOf<[number, number]> = {};
 
 export function drawMotion(
   ctx: CanvasRenderingContext2D,
-  device: MotionDevice,
-  openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void
+  device: MotionDevice
 ): void {
 
   const isInMotion = getMotionOnOffAttribute(device);

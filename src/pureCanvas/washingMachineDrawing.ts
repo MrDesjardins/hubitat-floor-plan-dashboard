@@ -4,14 +4,13 @@ import { degreeToRadian } from "commons/mathematic";
 import { getWashingMachineText } from "commons/textbuilder";
 import { COLOR_MACHINE1, TEXT_COLOR, TEXT_SIZE, WASHING_MACHINE_WIDTH } from "../constants";
 import { getPowerAttribute } from "logics/attributeLogics";
-import { DeviceDataKind, WashingMachineDevice } from "models/devices";
+import {  WashingMachineDevice } from "models/devices";
 
 const deviceAngle: DictionaryOf<number> = {};
 
 export function drawWashingMachine(
   ctx: CanvasRenderingContext2D,
-  device: WashingMachineDevice,
-  openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void
+  device: WashingMachineDevice
 ): void {
 
   const powerNumber = getPowerAttribute(device);

@@ -7,6 +7,7 @@ import {
 import { drawTemperatureLayer } from "./temperatureLayer";
 import { drawDevicesLayer } from "./devicesLayer";
 import { Mode } from "../models/mode";
+import { drawBatteriesLayer } from "./drawBatteriesLayer";
 
 export function drawDevices(
   ctx: CanvasRenderingContext2D,
@@ -18,8 +19,10 @@ export function drawDevices(
     const temperatureSensors = Object.values(devices).filter(
       (d) => d.kind === "THERMOSTAT" || d.kind === "MOTION"
     ) as (ThermostatDevice & MotionDevice)[];
-    drawTemperatureLayer(ctx, temperatureSensors, openConfiguration);
-  } else {
-    drawDevicesLayer(ctx, Object.values(devices), openConfiguration);
+    drawTemperatureLayer(ctx, temperatureSensors);
+  } else if(mode ===Mode.DEVICES) {
+    drawDevicesLayer(ctx, Object.values(devices));
+  } else if(mode ===Mode.BATTERIES) {
+    drawBatteriesLayer(ctx, Object.values(devices));
   }
 }

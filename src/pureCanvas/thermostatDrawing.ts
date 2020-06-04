@@ -1,13 +1,12 @@
 import { getTemperatureAtribute, getThermostatMode } from "logics/attributeLogics";
-import { DeviceDataKind, ThermostatDevice } from "models/devices";
+import { ThermostatDevice } from "models/devices";
 import { TEXT_SIZE, TEXT_COLOR, TEXT_PADDING, COLOR_MACHINE1 } from "../constants";
 import { drawPath2D } from "./commonDrawing";
 
 
 export function drawThermostat(
   ctx: CanvasRenderingContext2D,
-  device: ThermostatDevice,
-  openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void
+  device: ThermostatDevice
 ): void {
   const temperature = getTemperatureAtribute(device);
   const mode = getThermostatMode(device);

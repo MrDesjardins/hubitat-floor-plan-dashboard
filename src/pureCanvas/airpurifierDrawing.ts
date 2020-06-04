@@ -1,7 +1,7 @@
 import { getAirPurifierText } from "commons/textbuilder";
 import { COLOR_MACHINE1, COLOR_MACHINE2, TEXT_COLOR, TEXT_SIZE, COLOR_MACHINE3 } from "../constants";
 import { getLightOnOffAttribute } from "logics/attributeLogics";
-import { AirPurifierDevice, DeviceDataKind } from "models/devices";
+import { AirPurifierDevice } from "models/devices";
 import { drawPath2D } from "./commonDrawing";
 import { delayedDeviceAnimation } from "commons/animation";
 import { DictionaryOf } from "commons/dictionaryOf";
@@ -22,8 +22,7 @@ const frequency = 0.25;
 
 export function drawAirPurifier(
   ctx: CanvasRenderingContext2D,
-  device: AirPurifierDevice,
-  openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void
+  device: AirPurifierDevice
 ): void {
   const isInPower = getLightOnOffAttribute(device);
 

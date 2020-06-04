@@ -1,4 +1,4 @@
-import { DeadboltDevice, DeviceDataKind } from "models/devices";
+import { DeadboltDevice } from "models/devices";
 import { getDeadboltLockStatus } from "logics/attributeLogics";
 import { TEXT_SIZE, TEXT_COLOR, TEXT_PADDING, COLOR_MACHINE2 } from "../constants";
 import { getDeadlockText } from "commons/textbuilder";
@@ -7,7 +7,6 @@ import { drawPath2D } from "./commonDrawing";
 export function drawDeadbolt(
   ctx: CanvasRenderingContext2D,
   device: DeadboltDevice,
-  openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void
 ): void {
   const isLock = getDeadboltLockStatus(device);
   ctx.beginPath();

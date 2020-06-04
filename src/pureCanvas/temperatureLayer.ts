@@ -1,23 +1,15 @@
-import {
-  ThermostatDevice,
-  MotionDevice,
-  DeviceDataKind,
-} from "models/devices";
-import {
-  getTemperatureAtribute,
-  getHumidityAtribute,
-} from "logics/attributeLogics";
+import { ThermostatDevice, MotionDevice } from "../models/devices";
+import { DictionaryOf } from "../commons/dictionaryOf";
+import { delayedDeviceAnimation } from "../commons/animation";
+import { getTemperatureAtribute, getHumidityAtribute } from "../logics/attributeLogics";
 import { TEXT_SIZE, TEXT_COLOR } from "../constants";
-import { DictionaryOf } from "commons/dictionaryOf";
-import { delayedDeviceAnimation } from "commons/animation";
 
 type TemperatureDevice = ThermostatDevice | MotionDevice;
 let deviceRadius: DictionaryOf<number> = {};
 let deviceDirection: DictionaryOf<number> = {};
 export function drawTemperatureLayer(
   ctx: CanvasRenderingContext2D,
-  devices: TemperatureDevice[],
-  openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void
+  devices: TemperatureDevice[]
 ) {
 
   delayedDeviceAnimation("temperature", (update: boolean) => {
@@ -25,10 +17,7 @@ export function drawTemperatureLayer(
       drawTemperatureSensor(
         ctx,
         singleDevice,
-        update,
-        (dev: DeviceDataKind, openDrawer: boolean) => {
-          openConfiguration(dev, openDrawer);
-        }
+        update
       );
     });
 
@@ -41,8 +30,7 @@ const minRadius = 50;
 export function drawTemperatureSensor(
   ctx: CanvasRenderingContext2D,
   device: TemperatureDevice,
-  update: boolean,
-  openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void
+  update: boolean
 ) {
   const temperature = getTemperatureAtribute(device);
   const humidity = device.kind === "MOTION" ? getHumidityAtribute(device) : -1;

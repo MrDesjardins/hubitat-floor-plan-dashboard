@@ -10,6 +10,7 @@ import {
   AirPurifierDevice,
   DeadboltDevice,
   ThermostatDevice,
+  DeviceData,
 } from "models/devices";
 import { allDevices } from "models/allDevices";
 
@@ -117,4 +118,8 @@ export const setDeadboltAttribute = (
 
 export const getDeadboltAttribute = (device: DeadboltDevice): boolean => {
   return device.attributes["lock"] === "lock";
+};
+
+export const getBattery = (device: DeviceData): number => {
+  return Number(device.attributes["battery"]);
 };
