@@ -33,7 +33,7 @@ export const KeyPad = (props: KeyPadProps) => {
     }
   }
   } >
-    <div className="keypad-entered-numbers">{code.length}</div>
+    <div className="keypad-entered-numbers">{code}</div>
     <div className="keypad-button-1">1</div>
     <div className="keypad-button-2">2</div>
     <div className="keypad-button-3">3</div>
