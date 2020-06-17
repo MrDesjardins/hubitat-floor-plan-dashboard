@@ -492,4 +492,13 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     amount: 12,
     clickingBox: { x1: WEST_WALL - 40, y1: NORTH_WALL + 60, x2: WEST_WALL + 30, y2: NORTH_WALL + 90 }
   },
+  "513": {
+    id: "513",
+    kind: "VIRTUALKEYPAD",
+    note: "Alarm System",
+    textPosition: [-100, -100],
+    label: "",
+    name: "",
+    attributes: {}
+  }
 };

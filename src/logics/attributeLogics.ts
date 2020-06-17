@@ -11,6 +11,7 @@ import {
   DeadboltDevice,
   ThermostatDevice,
   DeviceData,
+  VirtualKeyPadDevice,
 } from "models/devices";
 import { allDevices } from "models/allDevices";
 
@@ -122,4 +123,14 @@ export const getDeadboltAttribute = (device: DeadboltDevice): boolean => {
 
 export const getBattery = (device: DeviceData): number => {
   return Number(device.attributes["battery"]);
+};
+
+export const getAlarmCodes = (device: VirtualKeyPadDevice): string[] => {
+  if (device === undefined) {
+    return ["no"];
+  } else {
+    const objLockCodes = JSON.parse(device.attributes["lockCodes"]) as { [id: number]: { code: string } };
+    const arrLockCodes = Object.values(objLockCodes).map(d => d.code) ?? [];
+    return arrLockCodes;
+  }
 };

@@ -66,6 +66,29 @@ serverApp.get("/api/save/:deviceid/:key/:value", async (req: any, res: any) => {
         console.error(e);
     }
 });
+serverApp.get("/api/command/:deviceid/:command", async (req: any, res: any) => {
+    const id = req.params.deviceid;
+    const command = req.params.command;
+
+    console.log("Command /api/command/:deviceid/:command");
+    const data = await fetch(
+        `http://${HUBITAT_IP}/apps/api/${APP_ID}/devices/${id}/${command}?access_token=${API_TOKEN}`
+    );
+    const jsonData = await data.json();
+    res.send(jsonData);
+});
+
+serverApp.get("/api/command/:deviceid/:command/:val", async (req: any, res: any) => {
+    const id = req.params.deviceid;
+    const command = req.params.command;
+    const val = req.params.val ?? "";
+    console.log("Command /api/command/:deviceid/:command/:val");
+    const data = await fetch(
+        `http://${HUBITAT_IP}/apps/api/${APP_ID}/devices/${id}/${command}/${val}?access_token=${API_TOKEN}`
+    );
+    const jsonData = await data.json();
+    res.send(jsonData);
+});
 
 serverApp.get("/api/save/:deviceid/:key", async (req: any, res: any) => {
     const id = req.params.deviceid;
@@ -77,6 +100,7 @@ serverApp.get("/api/save/:deviceid/:key", async (req: any, res: any) => {
     const jsonData = await data.json();
     res.send(jsonData);
 });
+
 
 serverApp.get("/api/weather", async (req: any, res: any) => {
     const cachedData = serverCache.get(WEATHER_API);

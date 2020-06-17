@@ -17,6 +17,7 @@ import React from "react";
 import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
 import { MAIN_MENU_WIDTH } from "../constants";
 import { Mode } from "../models/mode";
+import { AlarmAction } from "../models/alarm";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -46,7 +47,9 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface MainMenuProps {
   applicationMode: Mode;
+  alarmState: AlarmAction;
   onChangeMode: (mode: Mode) => void;
+  onAlarm: (action: AlarmAction) => void;
 }
 export const MainMenu = (props: MainMenuProps) => {
   const classes = useStyles();
@@ -60,13 +63,19 @@ export const MainMenu = (props: MainMenuProps) => {
       anchor="left"
     >
       <div className="arm-menu">
-        <Button aria-label="Away" startIcon={<AccessAlarmIcon />}>
+        <Button aria-label="Away" startIcon={<AccessAlarmIcon />} disabled={props.alarmState === AlarmAction.Away} onClick={(event) => {
+          props.onAlarm(AlarmAction.Away);
+        }}>
           Away
         </Button>
-        <Button aria-label="Sleep" startIcon={<AccessAlarmIcon />}>
+        <Button aria-label="Sleep" startIcon={<AccessAlarmIcon />} disabled={props.alarmState === AlarmAction.Sleep} onClick={(event) => {
+          props.onAlarm(AlarmAction.Sleep);
+        }}>
           Sleep
         </Button>
-        <Button aria-label="Disarm" startIcon={<AccessAlarmIcon />}>
+        <Button aria-label="Disarm" startIcon={<AccessAlarmIcon />} disabled={props.alarmState === AlarmAction.Disarmed || props.alarmState === AlarmAction.Disarming} onClick={(event) => {
+          props.onAlarm(AlarmAction.Disarming);
+        }}>
           Disarm
         </Button>
       </div>

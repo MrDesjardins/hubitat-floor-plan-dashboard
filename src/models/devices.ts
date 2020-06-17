@@ -23,7 +23,8 @@ export type DeviceType =
   | "AIRPURIFIER"
   | "WASHINGMACHINE"
   | "DEADBOLT"
-  | "THERMOSTAT";
+  | "THERMOSTAT"
+  | "VIRTUALKEYPAD";
 
 export type DeviceDataKind =
   | UnknownDevice
@@ -36,7 +37,8 @@ export type DeviceDataKind =
   | AirPurifierDevice
   | WashingMachineDevice
   | ThermostatDevice
-  | DeadboltDevice;
+  | DeadboltDevice
+  | VirtualKeyPadDevice
 export interface DeviceData {
   kind: DeviceType;
   id: string;
@@ -61,6 +63,9 @@ export interface ThermostatDevice extends DeviceData {
   kind: "THERMOSTAT";
 }
 
+export interface VirtualKeyPadDevice extends DeviceData {
+  kind: "VIRTUALKEYPAD";
+}
 export interface TemperatureDevice extends ThermostatDevice { }
 
 export interface ContactDevice extends DeviceData {

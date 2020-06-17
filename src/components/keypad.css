@@ -1,0 +1,110 @@
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  grid-auto-rows: 1fr;
+  height: 500px;
+  width: 500px;
+  position: absolute;
+  left: 320px;
+  top: 50px;
+  background: linear-gradient(
+    45deg,
+    rgba(40, 49, 77, 1) 0%,
+    rgba(55, 72, 114, 1) 47%,
+    rgba(24, 33, 56, 1) 100%
+  );
+  z-index: 6000;
+  font-size: 40px;
+  padding: 10px;
+  color: white;
+}
+.keypad > * {
+  border: solid 1px black;
+  display: grid; /* new */
+  align-items: center; /* new */
+  justify-items: center; /* new */
+  border-radius: 6px;
+  box-shadow: #05161d 1px 1px 5px;
+  background: linear-gradient(
+      10deg,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(83, 85, 1, 0) 80%,
+      rgba(255, 255, 255, 0.4) 100%
+    ),
+    linear-gradient(
+      13deg,
+      rgba(40, 49, 53, 0.7) 0%,
+      rgba(136, 137, 76, 0) 20%,
+      rgba(255, 255, 255, 0) 100%
+    );
+}
+
+.keypad > *:active {
+  background-color: #02263d4a;
+  color: #195e68;
+  box-shadow: #05161d 1px 1px 1px;
+  text-shadow: black 1px 1px 3px;
+}
+
+.keypad-entered-numbers {
+  grid-row: 1;
+  grid-column: 1/4;
+  background-color: #042034;
+  filter: blur(10px);
+  letter-spacing: 10px;
+}
+
+.keypad-button-1 {
+  grid-row: 2;
+  grid-column: 1;
+}
+.keypad-button-2 {
+  grid-row: 2;
+  grid-column: 2;
+}
+.keypad-button-3 {
+  grid-row: 2;
+  grid-column: 3;
+}
+.keypad-button-4 {
+  grid-row: 3;
+  grid-column: 1;
+}
+.keypad-button-5 {
+  grid-row: 3;
+  grid-column: 2;
+}
+.keypad-button-6 {
+  grid-row: 3;
+  grid-column: 3;
+}
+.keypad-button-7 {
+  grid-row: 4;
+  grid-column: 1;
+}
+.keypad-button-8 {
+  grid-row: 4;
+  grid-column: 2;
+}
+.keypad-button-9 {
+  grid-row: 4;
+  grid-column: 3;
+}
+.keypad-button-erase {
+  grid-row: 5;
+  grid-column: 1;
+}
+
+.keypad-button-0 {
+  grid-row: 5;
+  grid-column: 2;
+}
+.keypad-button-enter {
+  grid-row: 5;
+  grid-column: 3;
+}
+.keypad-button-cancel {
+  grid-row: 6;
+  grid-column: 1/4;
+}

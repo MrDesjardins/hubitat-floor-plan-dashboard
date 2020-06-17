@@ -10,12 +10,13 @@ import { AirPurifierOptions } from "components/AirPurifierOptions";
 import { DimmerLightOptions } from "components/DimmerLightOptions";
 import { LightSwitchOptions } from "components/LightSwitchOptions";
 import { MainMenu } from "components/MainMenu";
-import DataAccessGateway from "dataaccessgateway";
+import DataAccessGateway, { AjaxRequestExecute } from "dataaccessgateway";
 import { ActionsWithPayload } from "infrastructure/reducerActions";
 import {
   getDimmerLightLevelAttribute,
   getLightOnOffAttribute,
   getDeadboltAttribute,
+  getAlarmCodes,
 } from "logics/attributeLogics";
 import { allDevices } from "models/allDevices";
 import {
@@ -26,6 +27,7 @@ import {
   DimmingLightDevice,
   LightSwitchDevice,
   DeadboltDevice,
+  VirtualKeyPadDevice,
 } from "models/devices";
 import { MainCanvas } from "pureCanvas/MainCanvas";
 import React, { useEffect, useReducer, useRef, useState } from "react";
@@ -45,6 +47,8 @@ import { useInterval } from "./hooks/useInterval";
 import { Weather } from "./models/weather";
 import { DeadboltOptions } from "./components/DeadboltOptions";
 import { Mode } from "./models/mode";
+import { AlarmAction } from "./models/alarm";
+import { KeyPad } from "./components/KeyPad";
 
 const SERVER_IP = process.env.REACT_APP_SERVER_IP;
 const SERVER_PORT = process.env.REACT_APP_SERVER_PORT;
@@ -55,7 +59,7 @@ const WEBSOCKET_ENABLED = process.env.REACT_APP_WEBSOCKET_ENABLED === "true";
 console.log(`Server  ${SERVER_IP}:${SERVER_PORT}, `);
 console.log(
   `WS ${
-  WEBSOCKET_ENABLED ? "Enabled" : "Disabled"
+    WEBSOCKET_ENABLED ? "Enabled" : "Disabled"
   } ${SERVER_IP}:${WEBSOCKET_PORT}, `
 );
 
@@ -227,10 +231,37 @@ function App() {
       <ThemeProvider theme={DARK_THEME}>
         <MainMenu
           applicationMode={state.mode}
+          alarmState={state.alarmAction}
           onChangeMode={(mode: Mode) => {
             dispatch(AppActions.setMode(mode));
           }}
+          onAlarm={(action: AlarmAction) => {
+            dispatch(AppActions.setAlarmAction(action));
+            if (action !== AlarmAction.Disarming) {
+              const command =
+                action === AlarmAction.Away
+                  ? "armAway"
+                  : action === AlarmAction.Disarmed
+                  ? "disarm"
+                  : "armNight";
+              const request: AjaxRequestExecute = {
+                request: {
+                  method: "GET",
+                  url: `http://${SERVER_IP}:${SERVER_PORT}/api/command/513/${command}`,
+                },
+              };
+              dag.execute(request);
+            }
+          }}
         />
+        {state.alarmAction === AlarmAction.Disarming ? (
+          <KeyPad
+            goodCodes={getAlarmCodes(state.devices[513] as VirtualKeyPadDevice)}
+            disarm={() => {
+              dispatch(AppActions.setAlarmAction(AlarmAction.Disarmed));
+            }}
+          />
+        ) : undefined}
         <MainCanvas
           width={APP_WIDTH - MAIN_MENU_WIDTH}
           height={APP_HEIGHT}
@@ -314,7 +345,10 @@ function App() {
             }}
           />
         );
-      } else if (configuringDevice.kind === "AIRPURIFIER" || configuringDevice.kind === "PROJECTING_LIGHT") {
+      } else if (
+        configuringDevice.kind === "AIRPURIFIER" ||
+        configuringDevice.kind === "PROJECTING_LIGHT"
+      ) {
         optionComponent = (
           <AirPurifierOptions
             switchName={configuringDevice.label}
@@ -389,7 +423,7 @@ function save(
       console.log("Saving Dimmer Light Level");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${
-        existingDeviceData.id
+          existingDeviceData.id
         }/setLevel/${getDimmerLightLevelAttribute(newDeviceData)}`
       );
     }
@@ -400,7 +434,7 @@ function save(
       console.log("Saving Dimmer Power");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-        getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+          getLightOnOffAttribute(newDeviceData) ? "on" : "off"
         }`
       );
     }
@@ -415,7 +449,7 @@ function save(
       console.log("Saving Switch Light Level");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-        getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+          getLightOnOffAttribute(newDeviceData) ? "on" : "off"
         }`
       );
     }
