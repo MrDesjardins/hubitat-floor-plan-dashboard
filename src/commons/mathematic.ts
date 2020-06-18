@@ -13,6 +13,6 @@ export function rotateFromCentralPoint(
   return [nx, ny];
 }
 
-export function degreeToRadian(angle: number):number{
+export function degreeToRadian(angle: number): number {
   return (Math.PI / 180) * angle;
 }

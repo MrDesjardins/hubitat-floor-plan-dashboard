@@ -11,12 +11,10 @@ import { drawAirPurifier } from "./airpurifierDrawing";
 import { drawProjectingLight } from "./projectionLightDrawing";
 import { drawLeakSensor } from "./drawLeakSensor";
 
-
 export function drawDevicesLayer(
   ctx: CanvasRenderingContext2D,
   devices: DeviceDataKind[]
 ) {
-
   devices.forEach((singleDevice) => {
     switch (singleDevice.kind) {
       case "CONTACT":

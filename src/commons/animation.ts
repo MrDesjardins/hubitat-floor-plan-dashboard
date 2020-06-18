@@ -4,7 +4,7 @@ export const delayedDeviceAnimation = (function () {
   const lastFrames: DictionaryOf<number> = {};
   return (deviceId: string, draw: (update: boolean) => void, delay: number) => {
     if (lastFrames[deviceId] === undefined) {
-      lastFrames[deviceId] = 0
+      lastFrames[deviceId] = 0;
     }
     const currentFrame = Date.now();
     const diff = currentFrame - lastFrames[deviceId];
@@ -18,10 +18,13 @@ export const delayedDeviceAnimation = (function () {
   };
 })();
 
-
 export const delayedDeviceMultiAnimations = (function () {
   const lastFrames: DictionaryOf<number[]> = {};
-  return (deviceId: string, draw: (update: boolean[]) => void, delay: number[]) => {
+  return (
+    deviceId: string,
+    draw: (update: boolean[]) => void,
+    delay: number[]
+  ) => {
     const currentFrame = Date.now();
     const updates: boolean[] = [];
     delay.forEach((valueDelay: number, index: number) => {

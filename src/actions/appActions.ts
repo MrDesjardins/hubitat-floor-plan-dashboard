@@ -23,15 +23,16 @@ export const AppActions = {
   saveDevice: createActionPayload<typeof ACTION_SAVE_DEVICE, DeviceDataKind>(
     ACTION_SAVE_DEVICE
   ),
-  setMode: createActionPayload<
-    typeof ACTION_SET_TEMPERATURE_MODE,
-    Mode
-  >(ACTION_SET_TEMPERATURE_MODE),
-  setOutsideWeather: createActionPayload<typeof ACTION_SET_OUTSIDE_WEATHER, Weather>(
-    ACTION_SET_OUTSIDE_WEATHER
+  setMode: createActionPayload<typeof ACTION_SET_TEMPERATURE_MODE, Mode>(
+    ACTION_SET_TEMPERATURE_MODE
   ),
-  setAlarmAction: createActionPayload<typeof ACTION_SET_ALARM_ACTION, AlarmAction>(
-    ACTION_SET_ALARM_ACTION
-  ),
+  setOutsideWeather: createActionPayload<
+    typeof ACTION_SET_OUTSIDE_WEATHER,
+    Weather
+  >(ACTION_SET_OUTSIDE_WEATHER),
+  setAlarmAction: createActionPayload<
+    typeof ACTION_SET_ALARM_ACTION,
+    AlarmAction
+  >(ACTION_SET_ALARM_ACTION),
 };
 export type AcceptedActions = ActionsUnion<typeof AppActions>;

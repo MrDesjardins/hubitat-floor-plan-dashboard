@@ -2,7 +2,7 @@ import { Switch, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import {
   getDeadboltAttribute,
-  setDeadboltAttribute
+  setDeadboltAttribute,
 } from "logics/attributeLogics";
 import { DeadboltDevice } from "models/devices";
 

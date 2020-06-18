@@ -1,9 +1,5 @@
 import { DictionaryOf } from "commons/dictionaryOf";
-import {
-  DeviceDataKind,
-  ThermostatDevice,
-  MotionDevice,
-} from "models/devices";
+import { DeviceDataKind, ThermostatDevice, MotionDevice } from "models/devices";
 import { drawTemperatureLayer } from "./temperatureLayer";
 import { drawDevicesLayer } from "./devicesLayer";
 import { Mode } from "../models/mode";
@@ -20,9 +16,9 @@ export function drawDevices(
       (d) => d.kind === "THERMOSTAT" || d.kind === "MOTION"
     ) as (ThermostatDevice & MotionDevice)[];
     drawTemperatureLayer(ctx, temperatureSensors);
-  } else if(mode ===Mode.DEVICES) {
+  } else if (mode === Mode.DEVICES) {
     drawDevicesLayer(ctx, Object.values(devices));
-  } else if(mode ===Mode.BATTERIES) {
+  } else if (mode === Mode.BATTERIES) {
     drawBatteriesLayer(ctx, Object.values(devices));
   }
 }

@@ -2,7 +2,7 @@ export enum TvDirection {
   East,
   West,
   North,
-  South
+  South,
 }
 
 export interface Coordinate {
@@ -72,7 +72,7 @@ export interface VirtualKeyPadDevice extends DeviceData {
 export interface LearkSensorDevice extends DeviceData {
   kind: "LEAK_SENSOR";
 }
-export interface TemperatureDevice extends ThermostatDevice { }
+export interface TemperatureDevice extends ThermostatDevice {}
 
 export interface ContactDevice extends DeviceData {
   kind: "CONTACT";

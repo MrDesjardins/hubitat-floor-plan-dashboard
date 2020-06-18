@@ -100,7 +100,9 @@ export const getDeadboltLockStatus = (device: DeadboltDevice): boolean => {
   return attr === "locked";
 };
 
-export const getTemperatureAtribute = (device: ThermostatDevice | MotionDevice): number => {
+export const getTemperatureAtribute = (
+  device: ThermostatDevice | MotionDevice
+): number => {
   return Number(device.attributes["temperature"]);
 };
 
@@ -131,8 +133,10 @@ export const getAlarmCodes = (device: VirtualKeyPadDevice): string[] => {
   if (device === undefined) {
     return ["no"];
   } else {
-    const objLockCodes = JSON.parse(device.attributes["lockCodes"]) as { [id: number]: { code: string } };
-    const arrLockCodes = Object.values(objLockCodes).map(d => d.code) ?? [];
+    const objLockCodes = JSON.parse(device.attributes["lockCodes"]) as {
+      [id: number]: { code: string };
+    };
+    const arrLockCodes = Object.values(objLockCodes).map((d) => d.code) ?? [];
     return arrLockCodes;
   }
 };

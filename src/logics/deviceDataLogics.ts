@@ -1,5 +1,9 @@
 import { Coordinate } from "../models/devices";
-export const isDeviceInBox = (x: number, y: number, coord: Coordinate | undefined): boolean => {
+export const isDeviceInBox = (
+  x: number,
+  y: number,
+  coord: Coordinate | undefined
+): boolean => {
   if (coord === undefined) {
     return false;
   }

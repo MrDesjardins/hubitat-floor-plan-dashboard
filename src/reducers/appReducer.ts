@@ -17,7 +17,7 @@ export const initialState: ApplicationState = {
   mode: Mode.DEVICES,
   weather: undefined,
   alarmAction: AlarmAction.Disarmed,
-  previousAlarmAction: AlarmAction.Disarmed
+  previousAlarmAction: AlarmAction.Disarmed,
 };
 export function appReducer(
   state: ApplicationState,

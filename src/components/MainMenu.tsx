@@ -18,7 +18,7 @@ import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
 import { MAIN_MENU_WIDTH } from "../constants";
 import { Mode } from "../models/mode";
 import { AlarmAction } from "../models/alarm";
-import clsx from 'clsx';
+import clsx from "clsx";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     hidelittle: {
       opacity: 0.2,
-      transition: "opacity 300ms linear"
+      transition: "opacity 300ms linear",
     },
   })
 );
@@ -60,7 +60,9 @@ export const MainMenu = (props: MainMenuProps) => {
   const classes = useStyles();
   return (
     <Drawer
-      className={clsx(classes.drawer, { [classes.hidelittle]: props.alarmState === AlarmAction.Disarming })}
+      className={clsx(classes.drawer, {
+        [classes.hidelittle]: props.alarmState === AlarmAction.Disarming,
+      })}
       variant="permanent"
       classes={{
         paper: classes.drawerPaper,
@@ -68,19 +70,37 @@ export const MainMenu = (props: MainMenuProps) => {
       anchor="left"
     >
       <div className="arm-menu">
-        <Button aria-label="Away" startIcon={<AccessAlarmIcon />} disabled={props.alarmState === AlarmAction.Away} onClick={(event) => {
-          props.onAlarm(AlarmAction.Away);
-        }}>
+        <Button
+          aria-label="Away"
+          startIcon={<AccessAlarmIcon />}
+          disabled={props.alarmState === AlarmAction.Away}
+          onClick={(event) => {
+            props.onAlarm(AlarmAction.Away);
+          }}
+        >
           Away
         </Button>
-        <Button aria-label="Sleep" startIcon={<AccessAlarmIcon />} disabled={props.alarmState === AlarmAction.Sleep} onClick={(event) => {
-          props.onAlarm(AlarmAction.Sleep);
-        }}>
+        <Button
+          aria-label="Sleep"
+          startIcon={<AccessAlarmIcon />}
+          disabled={props.alarmState === AlarmAction.Sleep}
+          onClick={(event) => {
+            props.onAlarm(AlarmAction.Sleep);
+          }}
+        >
           Sleep
         </Button>
-        <Button aria-label="Disarm" startIcon={<AccessAlarmIcon />} disabled={props.alarmState === AlarmAction.Disarmed || props.alarmState === AlarmAction.Disarming} onClick={(event) => {
-          props.onAlarm(AlarmAction.Disarming);
-        }}>
+        <Button
+          aria-label="Disarm"
+          startIcon={<AccessAlarmIcon />}
+          disabled={
+            props.alarmState === AlarmAction.Disarmed ||
+            props.alarmState === AlarmAction.Disarming
+          }
+          onClick={(event) => {
+            props.onAlarm(AlarmAction.Disarming);
+          }}
+        >
           Disarm
         </Button>
       </div>
@@ -97,7 +117,9 @@ export const MainMenu = (props: MainMenuProps) => {
             <Icon
               className="MuiSvgIcon-root"
               icon={
-                props.applicationMode === Mode.DEVICES ? homeThermometer : homeThermometerOutline
+                props.applicationMode === Mode.DEVICES
+                  ? homeThermometer
+                  : homeThermometerOutline
               }
             />
           </ListItemIcon>
@@ -114,7 +136,9 @@ export const MainMenu = (props: MainMenuProps) => {
             <Icon
               className="MuiSvgIcon-root"
               icon={
-                props.applicationMode === Mode.TEMPERATURES ? homeThermometer : homeThermometerOutline
+                props.applicationMode === Mode.TEMPERATURES
+                  ? homeThermometer
+                  : homeThermometerOutline
               }
             />
           </ListItemIcon>
@@ -131,7 +155,9 @@ export const MainMenu = (props: MainMenuProps) => {
             <Icon
               className="MuiSvgIcon-root"
               icon={
-                props.applicationMode === Mode.BATTERIES ? homeThermometer : homeThermometerOutline
+                props.applicationMode === Mode.BATTERIES
+                  ? homeThermometer
+                  : homeThermometerOutline
               }
             />
           </ListItemIcon>

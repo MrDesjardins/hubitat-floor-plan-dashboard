@@ -2,9 +2,14 @@ import { delayedDeviceAnimation } from "commons/animation";
 import { DictionaryOf } from "commons/dictionaryOf";
 import { degreeToRadian } from "commons/mathematic";
 import { getWashingMachineText } from "commons/textbuilder";
-import { COLOR_MACHINE1, TEXT_COLOR, TEXT_SIZE, WASHING_MACHINE_WIDTH } from "../constants";
+import {
+  COLOR_MACHINE1,
+  TEXT_COLOR,
+  TEXT_SIZE,
+  WASHING_MACHINE_WIDTH,
+} from "../constants";
 import { getPowerAttribute } from "logics/attributeLogics";
-import {  WashingMachineDevice } from "models/devices";
+import { WashingMachineDevice } from "models/devices";
 
 const deviceAngle: DictionaryOf<number> = {};
 
@@ -12,56 +17,68 @@ export function drawWashingMachine(
   ctx: CanvasRenderingContext2D,
   device: WashingMachineDevice
 ): void {
-
   const powerNumber = getPowerAttribute(device);
   const isInPower = powerNumber > 5;
 
-  delayedDeviceAnimation(device.id, (update: boolean) => {
+  delayedDeviceAnimation(
+    device.id,
+    (update: boolean) => {
+      if (deviceAngle[device.id] === undefined) {
+        deviceAngle[device.id] = 0;
+      }
 
-    if (deviceAngle[device.id] === undefined) {
-      deviceAngle[device.id] = 0;
-    }
+      const x = device.textPosition[0];
+      const y = device.textPosition[1];
+      const xMachine = x + device.width / 3;
+      const yMachine = y - device.width;
 
-    const x = device.textPosition[0];
-    const y = device.textPosition[1];
-    const xMachine = x + device.width / 3;
-    const yMachine = y - device.width;
+      const length =
+        Math.pow(Math.pow(device.width, 2) + Math.pow(device.width, 2), 0.5) /
+        2;
+      const angleRadian = degreeToRadian(deviceAngle[device.id]);
+      const cosAngle = Math.cos(angleRadian); // Only need cos(angle) once.
+      const sinAngle = Math.sin(angleRadian); // Only need sin(angle) once.
 
-    const length = (Math.pow(Math.pow(device.width, 2) + Math.pow(device.width, 2), 0.5)) / 2;
-    const angleRadian = degreeToRadian(deviceAngle[device.id]);
-    const cosAngle = Math.cos(angleRadian); // Only need cos(angle) once.
-    const sinAngle = Math.sin(angleRadian); // Only need sin(angle) once.
+      const endXPos = xMachine + cosAngle * length;
+      const endYPos = yMachine + sinAngle * length;
 
-    const endXPos = xMachine + cosAngle * length;
-    const endYPos = yMachine + sinAngle * length;
-
-    ctx.beginPath();
-    ctx.font = `${TEXT_SIZE}px Arial`;
-    ctx.fillStyle = TEXT_COLOR;
-    ctx.fillText(
-      getWashingMachineText(isInPower),
-      x,
-      y
-    );
-
-    ctx.lineWidth = WASHING_MACHINE_WIDTH;
-    ctx.strokeStyle = COLOR_MACHINE1;
-    ctx.rect(xMachine - device.width / 2, yMachine - device.width / 2, device.width, device.width);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(xMachine, yMachine, device.width / 3, degreeToRadian(0), degreeToRadian(360), true);
-    ctx.stroke();
-
-    if (isInPower) {
       ctx.beginPath();
-      ctx.fillStyle = COLOR_MACHINE1;
-      ctx.moveTo(xMachine, yMachine);
-      ctx.lineTo(endXPos, endYPos);
+      ctx.font = `${TEXT_SIZE}px Arial`;
+      ctx.fillStyle = TEXT_COLOR;
+      ctx.fillText(getWashingMachineText(isInPower), x, y);
+
+      ctx.lineWidth = WASHING_MACHINE_WIDTH;
+      ctx.strokeStyle = COLOR_MACHINE1;
+      ctx.rect(
+        xMachine - device.width / 2,
+        yMachine - device.width / 2,
+        device.width,
+        device.width
+      );
       ctx.stroke();
-      const speed = getSpeedWashingMachineFromPower(powerNumber);
-      deviceAngle[device.id] += speed;
-    }
-  }, 500);
+      ctx.beginPath();
+      ctx.arc(
+        xMachine,
+        yMachine,
+        device.width / 3,
+        degreeToRadian(0),
+        degreeToRadian(360),
+        true
+      );
+      ctx.stroke();
+
+      if (isInPower) {
+        ctx.beginPath();
+        ctx.fillStyle = COLOR_MACHINE1;
+        ctx.moveTo(xMachine, yMachine);
+        ctx.lineTo(endXPos, endYPos);
+        ctx.stroke();
+        const speed = getSpeedWashingMachineFromPower(powerNumber);
+        deviceAngle[device.id] += speed;
+      }
+    },
+    500
+  );
 }
 
 const getSpeedWashingMachineFromPower = (power: number) => {

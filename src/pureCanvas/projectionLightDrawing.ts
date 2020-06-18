@@ -21,7 +21,6 @@ export function drawProjectingLight(
 ): void {
   const isOn = getLightOnOffAttribute(device);
 
-
   ctx.beginPath();
   ctx.font = `${TEXT_SIZE}px Arial`;
   ctx.fillStyle = TEXT_COLOR;
@@ -36,42 +35,48 @@ export function drawProjectingLight(
       stars[device.id] = createNewStars(device);
     }
 
-    delayedDeviceAnimation(device.id, (update: boolean) => {
-      const starsPath = new Path2D("M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z");
-      if (update) {
-        for (let i = 0; i < stars[device.id].length; i++) {
-          const s = stars[device.id][i];
-          if (Math.random() * 10 <= s.fadingSpeed) {
-            s.opacity *= 0.95;
-            if (s.opacity < 0.05) {
-              stars[device.id][i] = createNewStar(device);
+    delayedDeviceAnimation(
+      device.id,
+      (update: boolean) => {
+        const starsPath = new Path2D(
+          "M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"
+        );
+        if (update) {
+          for (let i = 0; i < stars[device.id].length; i++) {
+            const s = stars[device.id][i];
+            if (Math.random() * 10 <= s.fadingSpeed) {
+              s.opacity *= 0.95;
+              if (s.opacity < 0.05) {
+                stars[device.id][i] = createNewStar(device);
+              }
             }
           }
         }
-      }
-      stars[device.id].forEach(s => {
-        drawPath2D(
-          ctx,
-          [starsPath],
-          {
-            location: {
-              x: s.x,
-              y: s.y,
+        stars[device.id].forEach((s) => {
+          drawPath2D(
+            ctx,
+            [starsPath],
+            {
+              location: {
+                x: s.x,
+                y: s.y,
+              },
+              lineWidth: 1,
+              fillStyle: `rgba(255,228,122, ${s.opacity})`,
+              stroke: `rgba(194,107,0, ${s.opacity})`,
+              scale: s.size,
             },
-            lineWidth: 1,
-            fillStyle: `rgba(255,228,122, ${s.opacity})`,
-            stroke: `rgba(194,107,0, ${s.opacity})`,
-            scale: s.size,
-          },
-          true
-        );
-      });
-    }, 50);
+            true
+          );
+        });
+      },
+      50
+    );
   }
 }
 
 export function createNewStars(device: ProjectingLightDevice): Star[] {
-  const newStars: Star[] = []
+  const newStars: Star[] = [];
   for (let i = 0; i < device.amount; i++) {
     newStars.push(createNewStar(device));
   }
@@ -84,6 +89,6 @@ export function createNewStar(device: ProjectingLightDevice): Star {
     y: (device.box[3] - device.box[1]) * Math.random() + device.box[1],
     size: 0.4 + Math.random() * 0.6,
     fadingSpeed: Math.random() * 10,
-    opacity: 0.5 + Math.random() * 0.5
+    opacity: 0.5 + Math.random() * 0.5,
   };
 }

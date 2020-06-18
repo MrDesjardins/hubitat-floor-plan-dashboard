@@ -1,7 +1,10 @@
 import { ThermostatDevice, MotionDevice } from "../models/devices";
 import { DictionaryOf } from "../commons/dictionaryOf";
 import { delayedDeviceAnimation } from "../commons/animation";
-import { getTemperatureAtribute, getHumidityAtribute } from "../logics/attributeLogics";
+import {
+  getTemperatureAtribute,
+  getHumidityAtribute,
+} from "../logics/attributeLogics";
 import { TEXT_SIZE, TEXT_COLOR } from "../constants";
 
 type TemperatureDevice = ThermostatDevice | MotionDevice;
@@ -11,18 +14,15 @@ export function drawTemperatureLayer(
   ctx: CanvasRenderingContext2D,
   devices: TemperatureDevice[]
 ) {
-
-  delayedDeviceAnimation("temperature", (update: boolean) => {
-    devices.forEach((singleDevice) => {
-      drawTemperatureSensor(
-        ctx,
-        singleDevice,
-        update
-      );
-    });
-
-  }, 120);
-
+  delayedDeviceAnimation(
+    "temperature",
+    (update: boolean) => {
+      devices.forEach((singleDevice) => {
+        drawTemperatureSensor(ctx, singleDevice, update);
+      });
+    },
+    120
+  );
 }
 const maxRadius = 65;
 const minRadius = 50;

@@ -1,7 +1,7 @@
 export enum Mode {
   DEVICES,
   TEMPERATURES,
-  BATTERIES
+  BATTERIES,
 }
 
 export type LEAK_TYPE = "wet" | "dry";

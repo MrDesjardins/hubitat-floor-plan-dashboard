@@ -1,16 +1,23 @@
 import { Weather, WeatherDataPoint, WeatherDaily } from "../models/weather";
 import React, { useEffect } from "react";
-import { Card, CardContent, Typography, Grid, makeStyles, Theme, createStyles } from "@material-ui/core";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Grid,
+  makeStyles,
+  Theme,
+  createStyles,
+} from "@material-ui/core";
 import { DAYS } from "../constants";
 import clsx from "clsx";
 import { AlarmAction } from "../models/alarm";
-
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     hidelittle: {
       opacity: 0.2,
-      transition: "opacity 300ms linear"
+      transition: "opacity 300ms linear",
     },
   })
 );
@@ -20,8 +27,10 @@ export interface WeatherPanelProps {
   alarmState: AlarmAction;
 }
 
-export const WeatherPanel: React.FC<WeatherPanelProps> = (props: WeatherPanelProps) => {
-  useEffect(() => { }, [props]);
+export const WeatherPanel: React.FC<WeatherPanelProps> = (
+  props: WeatherPanelProps
+) => {
+  useEffect(() => {}, [props]);
   const classes = useStyles();
   if (props.data === undefined || props.data.current === undefined) {
     return <p>No data</p>;
@@ -29,19 +38,22 @@ export const WeatherPanel: React.FC<WeatherPanelProps> = (props: WeatherPanelPro
     const current = props.data.current;
     const weather = current.weather[0];
     const today = props.data.hourly;
-    const todays = [today[3],
-    today[6],
-    today[9],
-    today[12]];
+    const todays = [today[3], today[6], today[9], today[12]];
     const tomorrows = [
       props.data.daily[1],
       props.data.daily[2],
       props.data.daily[3],
       props.data.daily[4],
-      props.data.daily[5]];
+      props.data.daily[5],
+    ];
 
     return (
-      <div id="outside-weather" className={clsx({ [classes.hidelittle]: props.alarmState === AlarmAction.Disarming })}>
+      <div
+        id="outside-weather"
+        className={clsx({
+          [classes.hidelittle]: props.alarmState === AlarmAction.Disarming,
+        })}
+      >
         <Card>
           <CardContent>
             <Typography color="textPrimary" gutterBottom>
@@ -68,13 +80,13 @@ export const WeatherPanel: React.FC<WeatherPanelProps> = (props: WeatherPanelPro
               <Typography color="textPrimary" gutterBottom>
                 Today Forecast
               </Typography>
-              {todays.map(t => printHourly(t))}
+              {todays.map((t) => printHourly(t))}
             </div>
             <div className="rotatedInfo rotated2">
               <Typography color="textPrimary" gutterBottom>
                 Next Days Forecast
               </Typography>
-              {tomorrows.map(t => printDaily(t))}
+              {tomorrows.map((t) => printDaily(t))}
             </div>
           </CardContent>
         </Card>
@@ -84,7 +96,7 @@ export const WeatherPanel: React.FC<WeatherPanelProps> = (props: WeatherPanelPro
 };
 
 function printHourly(data: WeatherDataPoint): JSX.Element {
-  const timespan = data.dt - Date.now() / 1000
+  const timespan = data.dt - Date.now() / 1000;
   const title = "+" + Math.round(timespan / 6000) + "h";
   return (
     <Grid container justify="flex-start" spacing={4} className="row-data">

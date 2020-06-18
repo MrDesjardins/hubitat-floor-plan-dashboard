@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useCallback } from "react";
-import { WEST_WALL, NORTH_WALL, MAIN_MENU_WIDTH } from "../constants";
+import { MAIN_MENU_WIDTH } from "../constants";
 import { DeviceDataKind } from "models/devices";
 import { DictionaryOf } from "commons/dictionaryOf";
 import { drawFlooPlan } from "./floorPlan";
@@ -26,7 +26,9 @@ export const MainCanvas = (props: MainCanvasProps) => {
 
   useEffect(
     () => {
-      refContextFloorPlan.current = refCanvasFloorPlan.current?.getContext("2d")!;
+      refContextFloorPlan.current = refCanvasFloorPlan.current?.getContext(
+        "2d"
+      )!;
       refContextDevices.current = refCanvasDevices.current?.getContext("2d")!;
 
       drawFlooPlan(refContextFloorPlan.current);
@@ -66,7 +68,6 @@ export const MainCanvas = (props: MainCanvasProps) => {
     };
   }, [drawDevicesOnCanvas]);
 
-
   // ========================================== CANVAS ===========================================
   return (
     <>
@@ -82,7 +83,7 @@ export const MainCanvas = (props: MainCanvasProps) => {
         height={props.height}
         onClick={(evt) => {
           const x = evt.clientX - MAIN_MENU_WIDTH;
-          const y = evt.clientY
+          const y = evt.clientY;
           console.log(`Devices: ${x}, ${y}`);
           const allDevices = Object.values(props.devices);
           for (let i = 0; i < allDevices.length; i++) {

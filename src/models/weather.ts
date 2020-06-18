@@ -19,7 +19,6 @@ export interface WeatherDataPoint {
   wind_speed: number;
   wind_deg: number;
   weather: WeatherImageData[];
-  
 }
 
 export interface WeatherCurrentDataPoint extends WeatherDataPoint {
@@ -27,7 +26,6 @@ export interface WeatherCurrentDataPoint extends WeatherDataPoint {
   sunset: number;
   dew_point: number;
   uvi: number;
-
 }
 export interface WeatherDaily {
   dt: number;
@@ -46,7 +44,8 @@ export interface WeatherDaily {
   uvi: number;
 }
 
-export interface WeatherDetailedTemperature extends WeatherDetailedFeelLikeTemperature {
+export interface WeatherDetailedTemperature
+  extends WeatherDetailedFeelLikeTemperature {
   min: number;
   max: number;
 }
@@ -57,7 +56,6 @@ export interface WeatherDetailedFeelLikeTemperature {
   eve: number;
   morn: number;
 }
-
 
 export interface WeatherImageData {
   id: number;
