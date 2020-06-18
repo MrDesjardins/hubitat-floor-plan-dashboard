@@ -500,5 +500,41 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     label: "",
     name: "",
     attributes: {}
-  }
+  },
+  "165": {
+    id: "165",
+    kind: "LEAK_SENSOR",
+    note: "Dishwasher Leak Sensor",
+    textPosition: [500, 35],
+    label: "",
+    name: "",
+    attributes: {}
+  },
+  "163": {
+    id: "163",
+    kind: "LEAK_SENSOR",
+    note: "Garage Leak Sensor",
+    textPosition: [100, 350],
+    label: "",
+    name: "",
+    attributes: {}
+  },
+  "164": {
+    id: "164",
+    kind: "LEAK_SENSOR",
+    note: "Kitchen Sink Leak Sensor",
+    textPosition: [430, 35],
+    label: "",
+    name: "",
+    attributes: {}
+  },
+  "166": {
+    id: "166",
+    kind: "LEAK_SENSOR",
+    note: "Master Bathroom Leak Sensor",
+    textPosition: [50, 180],
+    label: "",
+    name: "",
+    attributes: {}
+  },
 };

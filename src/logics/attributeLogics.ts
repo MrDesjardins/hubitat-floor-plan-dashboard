@@ -12,8 +12,10 @@ import {
   ThermostatDevice,
   DeviceData,
   VirtualKeyPadDevice,
+  LearkSensorDevice,
 } from "models/devices";
 import { allDevices } from "models/allDevices";
+import { LEAK_TYPE } from "../models/mode";
 
 export const getDimmerLightLevelAttribute = (
   device: DimmingLightDevice
@@ -133,4 +135,8 @@ export const getAlarmCodes = (device: VirtualKeyPadDevice): string[] => {
     const arrLockCodes = Object.values(objLockCodes).map(d => d.code) ?? [];
     return arrLockCodes;
   }
+};
+
+export const getLeakAttribute = (device: LearkSensorDevice): LEAK_TYPE => {
+  return device.attributes["water"] === "wet" ? "wet" : "dry";
 };

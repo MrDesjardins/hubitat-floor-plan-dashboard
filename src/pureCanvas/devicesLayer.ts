@@ -9,6 +9,7 @@ import { drawWashingMachine } from "./washingMachineDrawing";
 import { drawThermostat } from "./thermostatDrawing";
 import { drawAirPurifier } from "./airpurifierDrawing";
 import { drawProjectingLight } from "./projectionLightDrawing";
+import { drawLeakSensor } from "./drawLeakSensor";
 
 
 export function drawDevicesLayer(
@@ -47,6 +48,9 @@ export function drawDevicesLayer(
         break;
       case "PROJECTING_LIGHT":
         drawProjectingLight(ctx, singleDevice);
+        break;
+      case "LEAK_SENSOR":
+        drawLeakSensor(ctx, singleDevice);
         break;
     }
   });

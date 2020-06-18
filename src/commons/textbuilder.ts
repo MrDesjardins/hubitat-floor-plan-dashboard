@@ -1,3 +1,5 @@
+import { LEAK_TYPE } from "../models/mode";
+
 export function getOpenCloseText(isContactOpen: boolean): string {
   return `${isContactOpen ? "Open" : "Close"}`;
 }
@@ -24,4 +26,8 @@ export function getAirPurifierText(isInPower: boolean): string {
 
 export function getProjectionText(isOn: boolean): string {
   return `${isOn ? "On" : "Stars Off"}`;
+}
+
+export function getLeakStatusText(status: LEAK_TYPE): string {
+  return `${status === "wet" ? "Leak" : "No Leak"}`;
 }

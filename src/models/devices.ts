@@ -24,7 +24,8 @@ export type DeviceType =
   | "WASHINGMACHINE"
   | "DEADBOLT"
   | "THERMOSTAT"
-  | "VIRTUALKEYPAD";
+  | "VIRTUALKEYPAD"
+  | "LEAK_SENSOR";
 
 export type DeviceDataKind =
   | UnknownDevice
@@ -39,6 +40,8 @@ export type DeviceDataKind =
   | ThermostatDevice
   | DeadboltDevice
   | VirtualKeyPadDevice
+  | LearkSensorDevice;
+
 export interface DeviceData {
   kind: DeviceType;
   id: string;
@@ -65,6 +68,9 @@ export interface ThermostatDevice extends DeviceData {
 
 export interface VirtualKeyPadDevice extends DeviceData {
   kind: "VIRTUALKEYPAD";
+}
+export interface LearkSensorDevice extends DeviceData {
+  kind: "LEAK_SENSOR";
 }
 export interface TemperatureDevice extends ThermostatDevice { }
 
