@@ -59,7 +59,7 @@ const WEBSOCKET_ENABLED = process.env.REACT_APP_WEBSOCKET_ENABLED === "true";
 console.log(`Server  ${SERVER_IP}:${SERVER_PORT}, `);
 console.log(
   `WS ${
-    WEBSOCKET_ENABLED ? "Enabled" : "Disabled"
+  WEBSOCKET_ENABLED ? "Enabled" : "Disabled"
   } ${SERVER_IP}:${WEBSOCKET_PORT}, `
 );
 
@@ -242,8 +242,8 @@ function App() {
                 action === AlarmAction.Away
                   ? "armAway"
                   : action === AlarmAction.Disarmed
-                  ? "disarm"
-                  : "armNight";
+                    ? "disarm"
+                    : "armNight";
               const request: AjaxRequestExecute = {
                 request: {
                   method: "GET",
@@ -303,7 +303,7 @@ function App() {
             </Button>
           </Grid>
         </Drawer>
-        {drawerOpen ? undefined : <WeatherPanel data={state.weather} />}
+        {drawerOpen ? undefined : <WeatherPanel data={state.weather} alarmState={state.alarmAction} />}
       </ThemeProvider>
     </div>
   );
@@ -423,7 +423,7 @@ function save(
       console.log("Saving Dimmer Light Level");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${
-          existingDeviceData.id
+        existingDeviceData.id
         }/setLevel/${getDimmerLightLevelAttribute(newDeviceData)}`
       );
     }
@@ -434,7 +434,7 @@ function save(
       console.log("Saving Dimmer Power");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-          getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+        getLightOnOffAttribute(newDeviceData) ? "on" : "off"
         }`
       );
     }
@@ -449,7 +449,7 @@ function save(
       console.log("Saving Switch Light Level");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-          getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+        getLightOnOffAttribute(newDeviceData) ? "on" : "off"
         }`
       );
     }
@@ -464,7 +464,7 @@ function save(
       console.log("Saving Dead bolt Level");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-          getDeadboltAttribute(newDeviceData) ? "lock" : "unlock"
+        getDeadboltAttribute(newDeviceData) ? "lock" : "unlock"
         }`
       );
     }

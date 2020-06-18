@@ -49,3 +49,8 @@ export const KeyPad = (props: KeyPadProps) => {
     <div className="keypad-button-cancel">Cancel</div>
   </div >;
 };
+
+// 1) Set the menu and temperature opacity to 15%
+// 2) Cancel need to set back the previous state
+// 3) Test that we are changing state properly on the backend
+// 4) Create Hubitat app rule to adjust the HSM depending on the VirtualKeyPad changed value

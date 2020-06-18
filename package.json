@@ -15,6 +15,7 @@
         "@types/react": "^16.9.25",
         "@types/react-dom": "^16.9.5",
         "body-parser": "^1.19.0",
+        "clsx": "^1.1.1",
         "connect-timeout": "^1.9.0",
         "cors": "^2.8.5",
         "dataaccessgateway": "0.0.56",

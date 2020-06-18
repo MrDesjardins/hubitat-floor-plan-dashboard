@@ -18,6 +18,7 @@ import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
 import { MAIN_MENU_WIDTH } from "../constants";
 import { Mode } from "../models/mode";
 import { AlarmAction } from "../models/alarm";
+import clsx from 'clsx';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -42,6 +43,10 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: theme.palette.background.default,
       padding: theme.spacing(3),
     },
+    hidelittle: {
+      opacity: 0.2,
+      transition: "opacity 300ms linear"
+    },
   })
 );
 
@@ -55,7 +60,7 @@ export const MainMenu = (props: MainMenuProps) => {
   const classes = useStyles();
   return (
     <Drawer
-      className={classes.drawer}
+      className={clsx(classes.drawer, { [classes.hidelittle]: props.alarmState === AlarmAction.Disarming })}
       variant="permanent"
       classes={{
         paper: classes.drawerPaper,

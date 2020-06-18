@@ -86,8 +86,7 @@ html {
 }
 
 /*Background of the option box*/
-.app-drawer
-  .MuiPaper-root{
+.app-drawer .MuiPaper-root {
   background: linear-gradient(
     45deg,
     rgba(40, 49, 77, 1) 0%,

@@ -18,6 +18,7 @@
   font-size: 40px;
   padding: 10px;
   color: white;
+  box-shadow: #97c4e1a3 0px 0 40px 20px;
 }
 .keypad > * {
   border: solid 1px black;
@@ -38,6 +39,7 @@
       rgba(136, 137, 76, 0) 20%,
       rgba(255, 255, 255, 0) 100%
     );
+  cursor: pointer;
 }
 
 .keypad > *:active {
@@ -45,6 +47,7 @@
   color: #195e68;
   box-shadow: #05161d 1px 1px 1px;
   text-shadow: black 1px 1px 3px;
+  user-select: none;
 }
 
 .keypad-entered-numbers {

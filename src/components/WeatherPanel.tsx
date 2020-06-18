@@ -1,15 +1,28 @@
 import { Weather, WeatherDataPoint, WeatherDaily } from "../models/weather";
 import React, { useEffect } from "react";
-import { Card, CardContent, Typography, Grid } from "@material-ui/core";
+import { Card, CardContent, Typography, Grid, makeStyles, Theme, createStyles } from "@material-ui/core";
 import { DAYS } from "../constants";
+import clsx from "clsx";
+import { AlarmAction } from "../models/alarm";
+
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    hidelittle: {
+      opacity: 0.2,
+      transition: "opacity 300ms linear"
+    },
+  })
+);
 
 export interface WeatherPanelProps {
   data: Weather | undefined;
+  alarmState: AlarmAction;
 }
 
-export const WeatherPanel = (props: WeatherPanelProps) => {
+export const WeatherPanel: React.FC<WeatherPanelProps> = (props: WeatherPanelProps) => {
   useEffect(() => { }, [props]);
-
+  const classes = useStyles();
   if (props.data === undefined || props.data.current === undefined) {
     return <p>No data</p>;
   } else {
@@ -28,7 +41,7 @@ export const WeatherPanel = (props: WeatherPanelProps) => {
       props.data.daily[5]];
 
     return (
-      <div id="outside-weather">
+      <div id="outside-weather" className={clsx({ [classes.hidelittle]: props.alarmState === AlarmAction.Disarming })}>
         <Card>
           <CardContent>
             <Typography color="textPrimary" gutterBottom>
