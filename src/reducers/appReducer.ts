@@ -17,7 +17,7 @@ export const initialState: ApplicationState = {
   mode: Mode.DEVICES,
   weather: undefined,
   alarmAction: AlarmAction.Disarmed,
-
+  previousAlarmAction: AlarmAction.Disarmed
 };
 export function appReducer(
   state: ApplicationState,
@@ -63,6 +63,7 @@ export function appReducer(
     }
     case ACTION_SET_ALARM_ACTION: {
       const newState = { ...state };
+      newState.previousAlarmAction = state.alarmAction;
       newState.alarmAction = action.payload;
       return newState;
     }

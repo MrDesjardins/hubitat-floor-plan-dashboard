@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import "./keypad.css";
+import { AlarmAction } from "../models/alarm";
 export interface KeyPadProps {
   goodCodes: string[]
   disarm: () => void;
+  rollback: () => void;
+  alarmState: AlarmAction;
 }
 export const KeyPad = (props: KeyPadProps) => {
   const [code, setCode] = useState("");
@@ -22,7 +25,7 @@ export const KeyPad = (props: KeyPadProps) => {
       }
     }
     else if (classButton === "keypad-button-cancel") {
-
+      props.rollback();
     }
     else if (classButton === "keypad-entered-numbers") {
 

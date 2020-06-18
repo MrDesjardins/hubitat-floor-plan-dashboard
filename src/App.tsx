@@ -260,6 +260,8 @@ function App() {
             disarm={() => {
               dispatch(AppActions.setAlarmAction(AlarmAction.Disarmed));
             }}
+            alarmState={state.alarmAction}
+            rollback={() => { dispatch(AppActions.setAlarmAction(state.previousAlarmAction)); }}
           />
         ) : undefined}
         <MainCanvas

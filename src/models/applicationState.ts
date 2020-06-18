@@ -10,4 +10,5 @@ export interface ApplicationState {
   mode: Mode;
   weather: Weather | undefined;
   alarmAction: AlarmAction;
+  previousAlarmAction: AlarmAction;
 }
