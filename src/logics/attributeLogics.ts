@@ -144,3 +144,7 @@ export const getAlarmCodes = (device: VirtualKeyPadDevice): string[] => {
 export const getLeakAttribute = (device: LearkSensorDevice): LEAK_TYPE => {
   return device.attributes["water"] === "wet" ? "wet" : "dry";
 };
+
+export const getLuxAtribute = (device: MotionDevice): number => {
+  return Number(device.attributes["illuminance"]);
+};

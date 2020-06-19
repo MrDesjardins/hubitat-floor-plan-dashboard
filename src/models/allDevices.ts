@@ -224,7 +224,7 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     id: "7",
     kind: "SWITCH",
     note: "Garage Light",
-    textPosition: [WEST_WALL + 165, NORTH_WALL + 540],
+    textPosition: [WEST_WALL + 165, NORTH_WALL + 450],
     attributes: {},
     label: "",
     name: "",

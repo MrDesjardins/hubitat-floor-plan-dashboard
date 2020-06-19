@@ -4,6 +4,7 @@ import { delayedDeviceAnimation } from "../commons/animation";
 import {
   getTemperatureAtribute,
   getHumidityAtribute,
+  getLuxAtribute,
 } from "../logics/attributeLogics";
 import { TEXT_SIZE, TEXT_COLOR } from "../constants";
 
@@ -34,6 +35,7 @@ export function drawTemperatureSensor(
 ) {
   const temperature = getTemperatureAtribute(device);
   const humidity = device.kind === "MOTION" ? getHumidityAtribute(device) : -1;
+  const lux = device.kind === "MOTION" ? getLuxAtribute(device) : -1;
   const [x, y] = device.textPosition;
   const color1 = getColorFromTemperature(temperature);
   const color2 = getColorFromTemperature(temperature - 3, 0.15);
@@ -66,6 +68,10 @@ export function drawTemperatureSensor(
   if (!isNaN(humidity) && humidity !== -1) {
     ctx.beginPath();
     ctx.fillText(`${humidity.toFixed(1)}%`, x, y + 15);
+  }
+  if (!isNaN(lux) && lux !== -1) {
+    ctx.beginPath();
+    ctx.fillText(`${lux} lux`, x, y + 30);
   }
   deviceRadius[device.id] = radius;
 }
