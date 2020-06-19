@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useCallback } from "react";
-import { MAIN_MENU_WIDTH } from "../constants";
+import { MAIN_MENU_WIDTH, WEST_WALL, NORTH_WALL } from "../constants";
 import { DeviceDataKind } from "models/devices";
 import { DictionaryOf } from "commons/dictionaryOf";
 import { drawFlooPlan } from "./floorPlan";
@@ -82,8 +82,8 @@ export const MainCanvas = (props: MainCanvasProps) => {
         width={props.width}
         height={props.height}
         onClick={(evt) => {
-          const x = evt.clientX - MAIN_MENU_WIDTH;
-          const y = evt.clientY;
+          const x = evt.clientX - WEST_WALL - MAIN_MENU_WIDTH;
+          const y = evt.clientY - NORTH_WALL
           console.log(`Devices: ${x}, ${y}`);
           const allDevices = Object.values(props.devices);
           for (let i = 0; i < allDevices.length; i++) {
