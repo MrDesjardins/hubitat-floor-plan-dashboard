@@ -1,5 +1,5 @@
 import { LearkSensorDevice } from "models/devices";
-import { TEXT_COLOR, TEXT_SIZE, COLOR_MACHINE1 } from "../constants";
+import { TEXT_COLOR, TEXT_SIZE, COLOR_MACHINE1, ERROR_COLOR } from "../constants";
 import { getLeakAttribute } from "../logics/attributeLogics";
 import { getLeakStatusText } from "../commons/textbuilder";
 import { delayedDeviceAnimation } from "../commons/animation";
@@ -70,21 +70,21 @@ export function drawLeakSensor(
         }
       }
 
-      drawPath2D(
-        ctx,
-        pathCloud,
-        {
-          location: {
-            x: device.textPosition[0] + 10,
-            y: device.textPosition[1] + 10,
+      if (leakStatus === "wet") {
+        drawPath2D(
+          ctx,
+          pathCloud,
+          {
+            location: {
+              x: device.textPosition[0] + 10,
+              y: device.textPosition[1] + 10,
+            },
+            lineWidth: 2,
+            fillStyle: ERROR_COLOR,
+            scale: 0.05,
           },
-          lineWidth: 2,
-          fillStyle: COLOR_MACHINE1,
-          scale: 0.05,
-        },
-        true
-      );
-      if (leakStatus === "dry") {
+          true
+        );
         droplets.forEach((d, i) => {
           drawPath2D(
             ctx,
@@ -101,7 +101,7 @@ export function drawLeakSensor(
             true
           );
         });
-      }
+      } 
     },
     100
   );

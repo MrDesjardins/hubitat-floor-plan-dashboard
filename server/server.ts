@@ -24,6 +24,8 @@ export const API_TOKEN = process.env.REACT_APP_HUBITAT_API_TOKEN;
 export const WEATHER_API = process.env.OPEN_WEATHER_API_KEY;
 
 console.log(`Hubitat server on IP ${HUBITAT_IP}`);
+console.log(`Hubitat App ID ${APP_ID}`);
+console.log(`Hubitat API token ${API_TOKEN}`);
 console.log(`Server ${SERVER_IP}:${SERVER_PORT}`);
 console.log(`WS ${WEBSOCKET_ENABLED ? "Enabled" : "Disabled"} ${SERVER_IP}:${WEBSOCKET_PORT}`);
 console.log(`Website ${WEB_IP}:${WEB_PORT}`);
