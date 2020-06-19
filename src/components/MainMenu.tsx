@@ -71,6 +71,16 @@ export const MainMenu = (props: MainMenuProps) => {
     >
       <div className="arm-menu">
         <Button
+          aria-label="Home"
+          startIcon={<AccessAlarmIcon />}
+          disabled={props.alarmState === AlarmAction.Home}
+          onClick={(event) => {
+            props.onAlarm(AlarmAction.Home);
+          }}
+        >
+          Home
+        </Button>
+        <Button
           aria-label="Away"
           startIcon={<AccessAlarmIcon />}
           disabled={props.alarmState === AlarmAction.Away}

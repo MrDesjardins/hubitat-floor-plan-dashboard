@@ -59,7 +59,7 @@ const WEBSOCKET_ENABLED = process.env.REACT_APP_WEBSOCKET_ENABLED === "true";
 console.log(`Server  ${SERVER_IP}:${SERVER_PORT}, `);
 console.log(
   `WS ${
-    WEBSOCKET_ENABLED ? "Enabled" : "Disabled"
+  WEBSOCKET_ENABLED ? "Enabled" : "Disabled"
   } ${SERVER_IP}:${WEBSOCKET_PORT}, `
 );
 
@@ -238,12 +238,21 @@ function App() {
           onAlarm={(action: AlarmAction) => {
             dispatch(AppActions.setAlarmAction(action));
             if (action !== AlarmAction.Disarming) {
-              const command =
-                action === AlarmAction.Away
-                  ? "armAway"
-                  : action === AlarmAction.Disarmed
-                  ? "disarm"
-                  : "armNight";
+              let command: string;
+              switch (action) {
+                case AlarmAction.Away:
+                  command = "armAway";
+                  break;
+                case AlarmAction.Disarmed:
+                  command = "disarm";
+                  break;
+                case AlarmAction.Sleep:
+                  command = "armNight";
+                  break;
+                case AlarmAction.Home:
+                  command = "armHome";
+                  break;
+              }
               const request: AjaxRequestExecute = {
                 request: {
                   method: "GET",
@@ -259,6 +268,14 @@ function App() {
             goodCodes={getAlarmCodes(state.devices[513] as VirtualKeyPadDevice)}
             disarm={() => {
               dispatch(AppActions.setAlarmAction(AlarmAction.Disarmed));
+              const command: string = "disarm";
+              const request: AjaxRequestExecute = {
+                request: {
+                  method: "GET",
+                  url: `http://${SERVER_IP}:${SERVER_PORT}/api/command/513/${command}`,
+                },
+              };
+              dag.execute(request);
             }}
             alarmState={state.alarmAction}
             rollback={() => {
@@ -429,7 +446,7 @@ function save(
       console.log("Saving Dimmer Light Level");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${
-          existingDeviceData.id
+        existingDeviceData.id
         }/setLevel/${getDimmerLightLevelAttribute(newDeviceData)}`
       );
     }
@@ -440,7 +457,7 @@ function save(
       console.log("Saving Dimmer Power");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-          getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+        getLightOnOffAttribute(newDeviceData) ? "on" : "off"
         }`
       );
     }
@@ -455,7 +472,7 @@ function save(
       console.log("Saving Switch Light Level");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-          getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+        getLightOnOffAttribute(newDeviceData) ? "on" : "off"
         }`
       );
     }
@@ -470,7 +487,7 @@ function save(
       console.log("Saving Dead bolt Level");
       fetch(
         `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-          getDeadboltAttribute(newDeviceData) ? "lock" : "unlock"
+        getDeadboltAttribute(newDeviceData) ? "lock" : "unlock"
         }`
       );
     }
