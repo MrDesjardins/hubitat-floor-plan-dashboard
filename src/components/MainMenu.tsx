@@ -13,12 +13,14 @@ import {
 import { Icon } from "@iconify/react";
 import homeThermometer from "@iconify/icons-mdi/home-thermometer";
 import homeThermometerOutline from "@iconify/icons-mdi/home-thermometer-outline";
-import React from "react";
+import React, { useState } from "react";
 import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
-import { MAIN_MENU_WIDTH } from "../constants";
+import CancelIcon from "@material-ui/icons/Cancel";
+import { MAIN_MENU_WIDTH, ERROR_COLOR } from "../constants";
 import { Mode } from "../models/mode";
 import { AlarmAction } from "../models/alarm";
 import clsx from "clsx";
+import { useInterval } from "../hooks/useInterval";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,6 +49,9 @@ const useStyles = makeStyles((theme: Theme) =>
       opacity: 0.2,
       transition: "opacity 300ms linear",
     },
+    numberDown: {
+      color: ERROR_COLOR
+    }
   })
 );
 
@@ -57,6 +62,12 @@ export interface MainMenuProps {
   onAlarm: (action: AlarmAction) => void;
 }
 export const MainMenu = (props: MainMenuProps) => {
+  const [countDown, setCountdown] = useState(0);
+  useInterval(() => {
+    if (countDown > 0) {
+      setCountdown(countDown - 1);
+    }
+  }, 1000, false);
   const classes = useStyles();
   return (
     <Drawer
@@ -76,6 +87,7 @@ export const MainMenu = (props: MainMenuProps) => {
           disabled={props.alarmState === AlarmAction.Home}
           onClick={(event) => {
             props.onAlarm(AlarmAction.Home);
+            setCountdown(10);
           }}
         >
           Home
@@ -86,6 +98,7 @@ export const MainMenu = (props: MainMenuProps) => {
           disabled={props.alarmState === AlarmAction.Away}
           onClick={(event) => {
             props.onAlarm(AlarmAction.Away);
+            setCountdown(60);
           }}
         >
           Away
@@ -96,6 +109,7 @@ export const MainMenu = (props: MainMenuProps) => {
           disabled={props.alarmState === AlarmAction.Sleep}
           onClick={(event) => {
             props.onAlarm(AlarmAction.Sleep);
+            setCountdown(10);
           }}
         >
           Sleep
@@ -113,6 +127,16 @@ export const MainMenu = (props: MainMenuProps) => {
         >
           Disarm
         </Button>
+        {countDown > 0 ? <div className="count-down"><span className={classes.numberDown}>{`${countDown} sec`}</span> <Button
+          aria-label="Cancell"
+          startIcon={<CancelIcon />}
+          onClick={(event) => {
+            setCountdown(0);
+            props.onAlarm(AlarmAction.Disarmed);
+          }}
+        >
+          Cancel
+        </Button></div> : undefined}
       </div>
       <Divider />
       <List>
