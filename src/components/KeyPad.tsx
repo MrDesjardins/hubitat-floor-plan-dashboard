@@ -7,6 +7,7 @@ export interface KeyPadProps {
   rollback: () => void;
   alarmState: AlarmAction;
 }
+const audioPush = new Audio("push.mp3");
 export const KeyPad = (props: KeyPadProps) => {
   const [code, setCode] = useState("");
   return (
@@ -16,6 +17,7 @@ export const KeyPad = (props: KeyPadProps) => {
         const val = (e.target as any).innerText;
         const classButton = (e.target as any).classList[0];
         const valNumber = Number(val);
+        audioPush.play();
         if (classButton === "keypad-button-enter") {
           if (props.goodCodes.indexOf(code) >= 0) {
             props.disarm();

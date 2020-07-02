@@ -11,10 +11,18 @@ import {
   Button,
 } from "@material-ui/core";
 import { Icon } from "@iconify/react";
+import fireAlarm from '@iconify/icons-si-glyph/fire-alarm';
 import homeThermometer from "@iconify/icons-mdi/home-thermometer";
+import shieldHomeOutline from '@iconify/icons-mdi/shield-home-outline';
+import homeLock from '@iconify/icons-mdi/home-lock';
+import homeExportOutline from '@iconify/icons-mdi/home-export-outline';
+import bxsHomeHeart from '@iconify/icons-bx/bxs-home-heart';
+import bxHomeHeart from '@iconify/icons-bx/bx-home-heart';
+import homeLightbulb from '@iconify/icons-mdi/home-lightbulb';
+import homeLightbulbOutline from '@iconify/icons-mdi/home-lightbulb-outline';
 import homeThermometerOutline from "@iconify/icons-mdi/home-thermometer-outline";
 import React, { useState } from "react";
-import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
+// import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
 import CancelIcon from "@material-ui/icons/Cancel";
 import { MAIN_MENU_WIDTH, ERROR_COLOR } from "../constants";
 import { Mode } from "../models/mode";
@@ -55,6 +63,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+
 export interface MainMenuProps {
   applicationMode: Mode;
   alarmState: AlarmAction;
@@ -82,8 +91,9 @@ export const MainMenu = (props: MainMenuProps) => {
     >
       <div className="arm-menu">
         <Button
+          size="large"
           aria-label="Home"
-          startIcon={<AccessAlarmIcon />}
+          startIcon={<Icon icon={shieldHomeOutline} />}
           disabled={props.alarmState === AlarmAction.Home}
           onClick={(event) => {
             props.onAlarm(AlarmAction.Home);
@@ -93,8 +103,9 @@ export const MainMenu = (props: MainMenuProps) => {
           Home
         </Button>
         <Button
+          size="large"
           aria-label="Away"
-          startIcon={<AccessAlarmIcon />}
+          startIcon={<Icon icon={homeExportOutline} />}
           disabled={props.alarmState === AlarmAction.Away}
           onClick={(event) => {
             props.onAlarm(AlarmAction.Away);
@@ -104,8 +115,9 @@ export const MainMenu = (props: MainMenuProps) => {
           Away
         </Button>
         <Button
+          size="large"
           aria-label="Sleep"
-          startIcon={<AccessAlarmIcon />}
+          startIcon={<Icon icon={homeLock} />}
           disabled={props.alarmState === AlarmAction.Sleep}
           onClick={(event) => {
             props.onAlarm(AlarmAction.Sleep);
@@ -115,8 +127,9 @@ export const MainMenu = (props: MainMenuProps) => {
           Sleep
         </Button>
         <Button
+          size="large"
           aria-label="Disarm"
-          startIcon={<AccessAlarmIcon />}
+          startIcon={<Icon icon={fireAlarm} />}
           disabled={
             props.alarmState === AlarmAction.Disarmed ||
             props.alarmState === AlarmAction.Disarming
@@ -127,15 +140,17 @@ export const MainMenu = (props: MainMenuProps) => {
         >
           Disarm
         </Button>
-        {countDown > 0 ? <div className="count-down"><span className={classes.numberDown}>{`${countDown} sec`}</span> <Button
-          aria-label="Cancell"
-          startIcon={<CancelIcon />}
-          onClick={(event) => {
-            setCountdown(0);
-            props.onAlarm(AlarmAction.Disarmed);
-          }}
-        >
-          Cancel
+        {countDown > 0 ? <div className="count-down"><span className={classes.numberDown}>{`${countDown} sec`}</span>
+          <Button
+            size="large"
+            aria-label="Cancell"
+            startIcon={<CancelIcon />}
+            onClick={(event) => {
+              setCountdown(0);
+              props.onAlarm(AlarmAction.Disarmed);
+            }}
+          >
+            Cancel
         </Button></div> : undefined}
       </div>
       <Divider />
@@ -152,8 +167,8 @@ export const MainMenu = (props: MainMenuProps) => {
               className="MuiSvgIcon-root"
               icon={
                 props.applicationMode === Mode.DEVICES
-                  ? homeThermometer
-                  : homeThermometerOutline
+                  ? homeLightbulb
+                  : homeLightbulbOutline
               }
             />
           </ListItemIcon>
@@ -190,8 +205,8 @@ export const MainMenu = (props: MainMenuProps) => {
               className="MuiSvgIcon-root"
               icon={
                 props.applicationMode === Mode.BATTERIES
-                  ? homeThermometer
-                  : homeThermometerOutline
+                  ? bxsHomeHeart
+                  : bxHomeHeart
               }
             />
           </ListItemIcon>

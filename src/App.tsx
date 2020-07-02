@@ -111,7 +111,7 @@ function App() {
       websocketRef.current.onmessage = (e: MessageEvent) => {
         if (readyWs) {
           try {
-            console.log("OnMessage Data", e);
+            // console.log("OnMessage Data", e);
             const objData = JSON.parse(e.data) as DeviceWebsocket;
             const configuredData = allDevices[objData.deviceId];
             if (configuredData !== undefined) {
@@ -136,10 +136,20 @@ function App() {
                 if (objData.name === "hsmAlert") {
                   setAudio(objData.value === "intrusion-delay"); //""intrusion" is when reached
                 }
+                if (objData.name === "hsmStatus") {
+                  if (objData.value === "armingHome") {
+                    dispatch(AppActions.setAlarmAction(AlarmAction.Home));
+                  } else if (objData.value === "armingAway") {
+                    dispatch(AppActions.setAlarmAction(AlarmAction.Away));
+                  }
+                  else if (objData.value === "armingNight") {
+                    dispatch(AppActions.setAlarmAction(AlarmAction.Sleep));
+                  }
+                }
               } else {
-                console.log(
-                  `Does not save ${objData.displayName}: No device configured for id# ${objData.deviceId} `
-                );
+                // console.log(
+                //   `Does not save ${objData.displayName}: No device configured for id# ${objData.deviceId} `
+                // );
               }
             }
           } catch (e) {
@@ -347,6 +357,7 @@ function App() {
             direction={"column-reverse"}
           >
             <Button
+              size="large"
               variant="contained"
               color="primary"
               onClick={(e) => {
