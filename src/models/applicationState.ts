@@ -3,6 +3,7 @@ import { DictionaryOf } from "commons/dictionaryOf";
 import { Weather } from "./weather";
 import { Mode } from "./mode";
 import { AlarmAction } from "./alarm";
+import { Feedback } from "./feedback";
 
 export interface ApplicationState {
   devices: DictionaryOf<DeviceDataKind>;
@@ -11,4 +12,5 @@ export interface ApplicationState {
   weather: Weather | undefined;
   alarmAction: AlarmAction;
   previousAlarmAction: AlarmAction;
+  feedback: Feedback | undefined;
 }

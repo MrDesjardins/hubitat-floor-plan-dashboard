@@ -6,6 +6,7 @@ import {
   ACTION_SET_TEMPERATURE_MODE,
   ACTION_SET_OUTSIDE_WEATHER,
   ACTION_SET_ALARM_ACTION,
+  ACTION_NOTIFY,
 } from "actions/appActions";
 import { getDeviceType } from "logics/attributeLogics";
 import { Mode } from "../models/mode";
@@ -18,6 +19,7 @@ export const initialState: ApplicationState = {
   weather: undefined,
   alarmAction: AlarmAction.Disarmed,
   previousAlarmAction: AlarmAction.Disarmed,
+  feedback: undefined
 };
 export function appReducer(
   state: ApplicationState,
@@ -65,6 +67,11 @@ export function appReducer(
       const newState = { ...state };
       newState.previousAlarmAction = state.alarmAction;
       newState.alarmAction = action.payload;
+      return newState;
+    }
+    case ACTION_NOTIFY : {
+      const newState = { ...state };
+      newState.feedback = action.payload;
       return newState;
     }
     default:

@@ -30,7 +30,7 @@ export interface WeatherPanelProps {
 export const WeatherPanel: React.FC<WeatherPanelProps> = (
   props: WeatherPanelProps
 ) => {
-  useEffect(() => {}, [props]);
+  useEffect(() => { }, [props]);
   const classes = useStyles();
   if (props.data === undefined || props.data.current === undefined) {
     return <p>No data</p>;
@@ -80,13 +80,13 @@ export const WeatherPanel: React.FC<WeatherPanelProps> = (
               <Typography color="textPrimary" gutterBottom>
                 Today Forecast
               </Typography>
-              {todays.map((t) => printHourly(t))}
+              {todays.map((t, i) => printHourly(t, i))}
             </div>
             <div className="rotatedInfo rotated2">
               <Typography color="textPrimary" gutterBottom>
                 Next Days Forecast
               </Typography>
-              {tomorrows.map((t) => printDaily(t))}
+              {tomorrows.map((t, i) => printDaily(t, i))}
             </div>
           </CardContent>
         </Card>
@@ -95,11 +95,11 @@ export const WeatherPanel: React.FC<WeatherPanelProps> = (
   }
 };
 
-function printHourly(data: WeatherDataPoint): JSX.Element {
+function printHourly(data: WeatherDataPoint, index: number): JSX.Element {
   const timespan = data.dt - Date.now() / 1000;
   const title = "+" + Math.round(timespan / 6000) + "h";
   return (
-    <Grid container justify="flex-start" spacing={4} className="row-data">
+    <Grid container justify="flex-start" spacing={4} className="row-data" key={index}>
       <Grid item={true}>
         <span title={printDateTime(data.dt)}>{title}</span>
       </Grid>
@@ -119,12 +119,12 @@ function printHourly(data: WeatherDataPoint): JSX.Element {
   );
 }
 
-function printDaily(data: WeatherDaily): JSX.Element {
+function printDaily(data: WeatherDaily, index: number): JSX.Element {
   const fullDateTime = new Date(0);
   fullDateTime.setUTCSeconds(data.dt);
   const dayOfWeek = DAYS[fullDateTime.getDay()];
   return (
-    <Grid container justify="flex-start" spacing={5} className="row-data">
+    <Grid container justify="flex-start" spacing={5} className="row-data" key={index}>
       <Grid item={true}>
         <span title={printDateTime(data.dt)}>{dayOfWeek}</span>
       </Grid>

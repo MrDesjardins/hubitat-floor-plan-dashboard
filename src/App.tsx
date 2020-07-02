@@ -4,6 +4,7 @@ import {
   Drawer,
   Grid,
   ThemeProvider,
+  Snackbar,
 } from "@material-ui/core";
 import { AppActions, InitData } from "actions/appActions";
 import { AirPurifierOptions } from "components/AirPurifierOptions";
@@ -49,6 +50,7 @@ import { DeadboltOptions } from "./components/DeadboltOptions";
 import { Mode } from "./models/mode";
 import { AlarmAction } from "./models/alarm";
 import { KeyPad } from "./components/KeyPad";
+import { Alert, AlertTitle } from '@material-ui/lab';
 
 const SERVER_IP = process.env.REACT_APP_SERVER_IP;
 const SERVER_PORT = process.env.REACT_APP_SERVER_PORT;
@@ -69,7 +71,7 @@ const dag = DataAccessGateway("HubitatDashboard");
 dag.setConfiguration({
   defaultLifeSpanInSeconds: 30,
 });
-
+const audioBeep = new Audio("beep.mp3");
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);
   const [readyWs, setReadyWs] = useState(false);
@@ -79,6 +81,7 @@ function App() {
   const [configuringDevice, setConfiguringDevice] = useState<
     DeviceData | undefined
   >(undefined);
+  const [audio, setAudio] = useState(false);
   const toggleDrawer = (open: boolean) => (
     event: React.KeyboardEvent | React.MouseEvent
   ) => {
@@ -92,6 +95,11 @@ function App() {
 
     setDrawerOpen(open);
   };
+  useInterval(() => {
+    if (audio) {
+      audioBeep.play();
+    }
+  }, 1000);
   useEffect(() => {
     if (WEBSOCKET_ENABLED) {
       websocketRef.current = new WebSocket(webSocketUrl);
@@ -121,9 +129,18 @@ function App() {
                 })
               );
             } else {
-              console.log(
-                `Does not save ${objData.displayName}: No device configured for id# ${objData.deviceId}`
-              );
+              if (objData.name === "hsmStatus" || objData.name === "hsmAlert") {
+                console.log(objData);
+                dispatch(AppActions.notify({ type: objData.name, value: objData.value }));
+
+                if (objData.name === "hsmAlert") {
+                  setAudio(objData.value === "intrusion-delay"); //""intrusion" is when reached
+                }
+              } else {
+                console.log(
+                  `Does not save ${objData.displayName}: No device configured for id# ${objData.deviceId} `
+                );
+              }
             }
           } catch (e) {
             console.log("Invalid JSON data received from websocket", e);
@@ -220,6 +237,16 @@ function App() {
     FETCHING_ALL_DEVICES_TIME_MS,
     false
   );
+
+
+
+  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    dispatch(AppActions.notify(undefined));
+  };
   return (
     <div
       className="App"
@@ -229,6 +256,13 @@ function App() {
       }}
     >
       <ThemeProvider theme={DARK_THEME}>
+        <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={state.feedback !== undefined} autoHideDuration={4000} onClose={handleClose}>
+
+          <Alert variant="filled" onClose={handleClose} severity={state.feedback?.type === "intrusion-home" ? "error" : "info"} >
+            <AlertTitle>Alarm State Changed</AlertTitle>
+            {state.feedback?.value}
+          </Alert>
+        </Snackbar>
         <MainMenu
           applicationMode={state.mode}
           alarmState={state.alarmAction}
@@ -493,5 +527,4 @@ function save(
     }
   }
 }
-
 export default App;
