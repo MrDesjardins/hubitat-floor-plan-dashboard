@@ -178,12 +178,12 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     name: "",
     wattThreashold: 10,
   },
-  "44": {
-    id: "44",
+  "43": {
+    id: "43",
     kind: "TV",
     note: "Computer Monitor",
     textPosition: [WEST_WALL + 370, NORTH_WALL + 350],
-    direction: TvDirection.West,
+    direction: TvDirection.South,
     radius: [10, 15],
     attributes: {},
     label: "",

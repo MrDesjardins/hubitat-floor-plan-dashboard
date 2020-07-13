@@ -125,7 +125,7 @@ serverApp.get("/api/weather", async (req: any, res: any) => {
 serverApp.post("/refresh", (req: any, res: any) => {
     const data = JSON.stringify(req.body.content);
     if (WEBSOCKET_ENABLED) {
-        console.log(data);
+        console.log(`Hubitat Received:${new Date().toLocaleTimeString()}`, data);
         wsApp.clients.forEach((client) => {
             if (client.readyState === WebSocket.OPEN) {
                 client.send(data);
