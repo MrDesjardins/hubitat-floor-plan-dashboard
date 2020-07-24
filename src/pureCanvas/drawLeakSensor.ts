@@ -1,5 +1,10 @@
 import { LearkSensorDevice } from "models/devices";
-import { TEXT_COLOR, TEXT_SIZE, COLOR_MACHINE1, ERROR_COLOR } from "../constants";
+import {
+  TEXT_COLOR,
+  TEXT_SIZE,
+  COLOR_MACHINE1,
+  ERROR_COLOR,
+} from "../constants";
 import { getLeakAttribute } from "../logics/attributeLogics";
 import { getLeakStatusText } from "../commons/textbuilder";
 import { delayedDeviceAnimation } from "../commons/animation";
@@ -9,7 +14,8 @@ import { drawPath2D } from "./commonDrawing";
 const waterDropOffset: DictionaryOf<number[]> = {};
 export function drawLeakSensor(
   ctx: CanvasRenderingContext2D,
-  device: LearkSensorDevice
+  device: LearkSensorDevice,
+  animationEnabled: boolean
 ): void {
   const leakStatus = getLeakAttribute(device);
 
@@ -101,8 +107,8 @@ export function drawLeakSensor(
             true
           );
         });
-      } 
+      }
     },
-    100
+    animationEnabled ? 100 : 5000
   );
 }

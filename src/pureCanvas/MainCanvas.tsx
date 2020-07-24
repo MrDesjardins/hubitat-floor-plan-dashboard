@@ -12,8 +12,10 @@ export interface MainCanvasProps {
   devices: DictionaryOf<DeviceDataKind>;
   mode: Mode;
   openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void;
+  animationEnabled: boolean;
 }
 export const MainCanvas = (props: MainCanvasProps) => {
+  const lastUpdated = useRef<number>(Date.now());
   const refCanvasFloorPlan = useRef<HTMLCanvasElement>(null);
   const refContextFloorPlan = useRef<
     CanvasRenderingContext2D | undefined | null
@@ -24,12 +26,25 @@ export const MainCanvas = (props: MainCanvasProps) => {
     CanvasRenderingContext2D | undefined | null
   >();
 
+  const refCanvasDevicesBuffer = useRef<HTMLCanvasElement>(
+    document.createElement("canvas")
+  );
+  const refContextDevicesBuffer = useRef<
+    CanvasRenderingContext2D | undefined | null
+  >();
+
   useEffect(
     () => {
       refContextFloorPlan.current = refCanvasFloorPlan.current?.getContext(
         "2d"
       )!;
       refContextDevices.current = refCanvasDevices.current?.getContext("2d")!;
+      refContextDevicesBuffer.current = refCanvasDevicesBuffer.current?.getContext(
+        "2d"
+      )!;
+
+      refCanvasDevicesBuffer.current.width = props.width;
+      refCanvasDevicesBuffer.current.height = props.height;;
 
       drawFlooPlan(refContextFloorPlan.current);
     },
@@ -42,13 +57,21 @@ export const MainCanvas = (props: MainCanvasProps) => {
   const requestRef = React.useRef<number>();
   const drawDevicesOnCanvas = useCallback(() => {
     if (refContextDevices !== undefined && refContextDevices.current) {
-      refContextDevices.current!.clearRect(0, 0, props.width, props.height);
       drawDevices(
-        refContextDevices.current!,
+        refContextDevicesBuffer.current!,
         props.devices,
         props.mode,
-        props.openConfiguration
+        props.openConfiguration,
+        props.animationEnabled
       );
+      const timeElapsed = Date.now() - lastUpdated.current;
+      if (timeElapsed >= 1000 / 60) {
+        window.requestAnimationFrame(() => {
+          refContextDevices.current!.clearRect(0, 0, props.width, props.height);
+          refContextDevices.current?.drawImage(refCanvasDevicesBuffer.current, 0, 0);
+        });
+        lastUpdated.current = Date.now();
+      }
     }
     requestRef.current = window.requestAnimationFrame(drawDevicesOnCanvas);
   }, [
@@ -57,6 +80,7 @@ export const MainCanvas = (props: MainCanvasProps) => {
     props.openConfiguration,
     props.height,
     props.width,
+    props.animationEnabled,
   ]);
 
   useEffect(() => {
@@ -83,7 +107,7 @@ export const MainCanvas = (props: MainCanvasProps) => {
         height={props.height}
         onClick={(evt) => {
           const x = evt.clientX - WEST_WALL - MAIN_MENU_WIDTH;
-          const y = evt.clientY - NORTH_WALL
+          const y = evt.clientY - NORTH_WALL;
           console.log(`Devices: ${x}, ${y}`);
           const allDevices = Object.values(props.devices);
           for (let i = 0; i < allDevices.length; i++) {

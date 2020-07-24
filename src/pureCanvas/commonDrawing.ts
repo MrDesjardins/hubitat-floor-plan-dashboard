@@ -46,3 +46,21 @@ export function drawPath2D(
   });
   ctx.restore();
 }
+
+export function clearRectangle(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  drawRectangleInstead?: boolean
+): void {
+  ctx.clearRect(x, y, w, h);
+  if (drawRectangleInstead) {
+    ctx.beginPath();
+    ctx.rect(x, y, w, h);
+    ctx.stroke();
+  } else {
+    
+  }
+}

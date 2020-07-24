@@ -9,16 +9,17 @@ export function drawDevices(
   ctx: CanvasRenderingContext2D,
   devices: DictionaryOf<DeviceDataKind>,
   mode: Mode,
-  openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void
+  openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void,
+  animationEnabled: boolean
 ): void {
   if (mode === Mode.TEMPERATURES) {
     const temperatureSensors = Object.values(devices).filter(
       (d) => d.kind === "THERMOSTAT" || d.kind === "MOTION"
     ) as (ThermostatDevice & MotionDevice)[];
-    drawTemperatureLayer(ctx, temperatureSensors);
+    drawTemperatureLayer(ctx, temperatureSensors, animationEnabled);
   } else if (mode === Mode.DEVICES) {
-    drawDevicesLayer(ctx, Object.values(devices));
+    drawDevicesLayer(ctx, Object.values(devices), animationEnabled);
   } else if (mode === Mode.BATTERIES) {
-    drawBatteriesLayer(ctx, Object.values(devices));
+    drawBatteriesLayer(ctx, Object.values(devices), animationEnabled);
   }
 }

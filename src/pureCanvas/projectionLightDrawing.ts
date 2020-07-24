@@ -17,7 +17,8 @@ const stars: DictionaryOf<Star[]> = {};
 
 export function drawProjectingLight(
   ctx: CanvasRenderingContext2D,
-  device: ProjectingLightDevice
+  device: ProjectingLightDevice,
+  animationEnabled: boolean
 ): void {
   const isOn = getLightOnOffAttribute(device);
 
@@ -41,7 +42,7 @@ export function drawProjectingLight(
         const starsPath = new Path2D(
           "M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"
         );
-        if (update) {
+        if (update && animationEnabled) {
           for (let i = 0; i < stars[device.id].length; i++) {
             const s = stars[device.id][i];
             if (Math.random() * 10 <= s.fadingSpeed) {
@@ -70,7 +71,7 @@ export function drawProjectingLight(
           );
         });
       },
-      50
+      animationEnabled ? 50 : 5000
     );
   }
 }

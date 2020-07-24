@@ -52,6 +52,7 @@ import { AlarmAction } from "./models/alarm";
 import { KeyPad } from "./components/KeyPad";
 import { Alert, AlertTitle } from '@material-ui/lab';
 
+const ANIMATION_ENABLED: boolean = true;
 const SERVER_IP = process.env.REACT_APP_SERVER_IP;
 const SERVER_PORT = process.env.REACT_APP_SERVER_PORT;
 const WEBSOCKET_IP = process.env.REACT_APP_WEBSOCKET_IP;
@@ -106,6 +107,12 @@ function App() {
       console.log("attempt connection to ", webSocketUrl);
       websocketRef.current.onopen = function (e: Event) {
         console.log(`connection to  ${webSocketUrl} established`);
+        dispatch(AppActions.notify({
+          type: "Connection",
+          title: "Connection",
+          value: "Websocket up"
+        }));
+
       };
 
       websocketRef.current.onmessage = (e: MessageEvent) => {
@@ -269,7 +276,7 @@ function App() {
         <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={state.feedback !== undefined} autoHideDuration={4000} onClose={handleClose}>
 
           <Alert variant="filled" onClose={handleClose} severity={state.feedback?.type === "intrusion-home" ? "error" : "info"} >
-            <AlertTitle>Alarm State Changed</AlertTitle>
+            <AlertTitle>{state.feedback?.title === undefined ? "Alarm State Changed" : state.feedback.title}</AlertTitle>
             {state.feedback?.value}
           </Alert>
         </Snackbar>
@@ -328,6 +335,7 @@ function App() {
           />
         ) : undefined}
         <MainCanvas
+          animationEnabled={ANIMATION_ENABLED}
           width={APP_WIDTH - MAIN_MENU_WIDTH}
           height={APP_HEIGHT}
           devices={state.devices}
@@ -370,7 +378,7 @@ function App() {
           </Grid>
         </Drawer>
         {drawerOpen ? undefined : (
-          <WeatherPanel data={state.weather} alarmState={state.alarmAction} />
+          <WeatherPanel data={state.weather} alarmState={state.alarmAction} animationEnabled={ANIMATION_ENABLED} />
         )}
       </ThemeProvider>
     </div>

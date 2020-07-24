@@ -14,27 +14,34 @@ import {
 import { getContactOnOffAttribute } from "logics/attributeLogics";
 import { ContactDevice, ContactDirection } from "models/devices";
 import { delayedDeviceAnimation } from "commons/animation";
+import { clearRectangle } from "./commonDrawing";
 
 const contactsAngle: DictionaryOf<number> = {};
 const contactsTranslation: DictionaryOf<[number, number]> = {};
+
+const lastValue: DictionaryOf<boolean | undefined> = {};
+const lastValue2: DictionaryOf<number | undefined> = {};
+
 export function drawContact(
   ctx: CanvasRenderingContext2D,
-  device: ContactDevice
+  device: ContactDevice,
+  animationEnabled: boolean
 ) {
   delayedDeviceAnimation(
     device.id,
     (update: boolean) => {
-      drawRotativePhysicalContact(ctx, device, update);
-      drawSlidingPhysicalContact(ctx, device, update);
+      drawRotativePhysicalContact(ctx, device, update, animationEnabled);
+      drawSlidingPhysicalContact(ctx, device, update, animationEnabled);
     },
-    20
+    animationEnabled ? 20 : 5000
   );
 }
 
 function drawRotativePhysicalContact(
   ctx: CanvasRenderingContext2D,
   device: ContactDevice,
-  update: boolean
+  update: boolean,
+  animationEnabled: boolean
 ): void {
   if (
     device.direction === ContactDirection.East ||
@@ -45,8 +52,44 @@ function drawRotativePhysicalContact(
     const isContactOpen = getContactOnOffAttribute(device);
     const openAngle = getOpenAngle(device, true);
     const closeAngle = getOpenAngle(device, false);
+
+    // if (
+    //   lastValue[device.id] === undefined ||
+    //   lastValue[device.id] !== isContactOpen ||
+    //   lastValue2[device.id] === undefined ||
+    //   lastValue2[device.id] !== contactsAngle[device.id]
+    // ) {
+    // clearRectangle(
+    //   ctx,
+    //   device.textPosition[0],
+    //   device.textPosition[1] - 16,
+    //   35,
+    //   20,
+    //   false
+    // );
+
+    // // Old coordinate
+    // const previousCoord = getCoordinateWithAngle(
+    //   device.textPosition[0] - TEXT_PADDING,
+    //   device.textPosition[1] - TEXT_PADDING,
+    //   CONTACT_SIZE,
+    //   contactsAngle[device.id],
+    //   device.direction
+    // );
+    // clearRectangle(
+    //   ctx,
+    //   device.textPosition[0] - TEXT_PADDING,
+    //   device.textPosition[1] - TEXT_PADDING,
+    //   device.textPosition[0] - TEXT_PADDING - previousCoord[0],
+    //   device.textPosition[1] - TEXT_PADDING - previousCoord[1],
+    //   true
+    // );
+
     if (contactsAngle[device.id] === undefined) {
-      contactsAngle[device.id] = getOpenAngle(device, !isContactOpen); // Reverse because of the animation to go to the desire position
+      contactsAngle[device.id] = getOpenAngle(
+        device,
+        animationEnabled ? !isContactOpen : isContactOpen
+      ); // Reverse because of the animation to go to the desire position
     }
     if (update) {
       if (isContactOpen && contactsAngle[device.id] !== openAngle) {
@@ -90,13 +133,17 @@ function drawRotativePhysicalContact(
         ctx.stroke();
         break;
     }
+    //   lastValue[device.id] = isContactOpen;
+    //   lastValue2[device.id] = contactsAngle[device.id];
+    // }
   }
 }
 
 function drawSlidingPhysicalContact(
   ctx: CanvasRenderingContext2D,
   device: ContactDevice,
-  update: boolean
+  update: boolean,
+  animationEnabled: boolean
 ): void {
   if (
     device.direction === ContactDirection.SlideDown ||

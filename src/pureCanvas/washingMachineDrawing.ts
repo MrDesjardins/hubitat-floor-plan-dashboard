@@ -15,7 +15,8 @@ const deviceAngle: DictionaryOf<number> = {};
 
 export function drawWashingMachine(
   ctx: CanvasRenderingContext2D,
-  device: WashingMachineDevice
+  device: WashingMachineDevice,
+  animationEnabled: boolean
 ): void {
   const powerNumber = getPowerAttribute(device);
   const isInPower = powerNumber > 5;

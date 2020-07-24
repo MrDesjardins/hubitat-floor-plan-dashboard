@@ -13,16 +13,17 @@ let deviceRadius: DictionaryOf<number> = {};
 let deviceDirection: DictionaryOf<number> = {};
 export function drawTemperatureLayer(
   ctx: CanvasRenderingContext2D,
-  devices: TemperatureDevice[]
+  devices: TemperatureDevice[],
+  animationEnabled: boolean
 ) {
   delayedDeviceAnimation(
     "temperature",
     (update: boolean) => {
       devices.forEach((singleDevice) => {
-        drawTemperatureSensor(ctx, singleDevice, update);
+        drawTemperatureSensor(ctx, singleDevice, update, animationEnabled);
       });
     },
-    120
+    animationEnabled ? 120 : 5000
   );
 }
 const maxRadius = 65;
@@ -31,7 +32,8 @@ const minRadius = 50;
 export function drawTemperatureSensor(
   ctx: CanvasRenderingContext2D,
   device: TemperatureDevice,
-  update: boolean
+  update: boolean,
+  animationEnabled: boolean
 ) {
   const temperature = getTemperatureAtribute(device);
   const humidity = device.kind === "MOTION" ? getHumidityAtribute(device) : -1;
@@ -42,15 +44,17 @@ export function drawTemperatureSensor(
   const text = `${temperature.toFixed(1)}°F`;
 
   let radius = deviceRadius[device.id];
-  if (radius === undefined) {
-    radius = minRadius;
-    deviceRadius[device.id] = radius + 1;
-  }
-  if (update) {
-    if (radius >= maxRadius || radius <= minRadius) {
-      deviceDirection[device.id] = (deviceDirection[device.id] ?? -1) * -1;
+  if (animationEnabled) {
+    if (radius === undefined) {
+      radius = minRadius;
+      deviceRadius[device.id] = radius + 1;
     }
-    radius += deviceDirection[device.id];
+    if (update) {
+      if (radius >= maxRadius || radius <= minRadius) {
+        deviceDirection[device.id] = (deviceDirection[device.id] ?? -1) * -1;
+      }
+      radius += deviceDirection[device.id];
+    }
   }
 
   ctx.beginPath();

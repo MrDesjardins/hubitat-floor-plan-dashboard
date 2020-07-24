@@ -13,7 +13,8 @@ import { drawPath2D } from "./commonDrawing";
 
 export function drawThermostat(
   ctx: CanvasRenderingContext2D,
-  device: ThermostatDevice
+  device: ThermostatDevice,
+  animationEnabled: boolean
 ): void {
   const temperature = getTemperatureAtribute(device);
   const mode = getThermostatMode(device);

@@ -45,7 +45,8 @@ const fullBattery = [
 
 export function drawBatteriesLayer(
   ctx: CanvasRenderingContext2D,
-  devices: DeviceDataKind[]
+  devices: DeviceDataKind[],
+  animationEnabled: boolean
 ): void {
   devices.forEach((singleDevice) => {
     drawBatteries(ctx, singleDevice);

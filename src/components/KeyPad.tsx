@@ -8,6 +8,7 @@ export interface KeyPadProps {
   alarmState: AlarmAction;
 }
 const audioPush = new Audio("push.mp3");
+audioPush.volume = 0.2;
 export const KeyPad = (props: KeyPadProps) => {
   const [code, setCode] = useState("");
   return (

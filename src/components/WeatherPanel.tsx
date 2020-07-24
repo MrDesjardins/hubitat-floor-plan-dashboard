@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export interface WeatherPanelProps {
   data: Weather | undefined;
   alarmState: AlarmAction;
+  animationEnabled: boolean;
 }
 
 export const WeatherPanel: React.FC<WeatherPanelProps> = (

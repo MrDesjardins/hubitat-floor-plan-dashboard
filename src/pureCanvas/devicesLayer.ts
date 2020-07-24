@@ -13,42 +13,43 @@ import { drawLeakSensor } from "./drawLeakSensor";
 
 export function drawDevicesLayer(
   ctx: CanvasRenderingContext2D,
-  devices: DeviceDataKind[]
+  devices: DeviceDataKind[],
+  animationEnabled: boolean
 ) {
   devices.forEach((singleDevice) => {
     switch (singleDevice.kind) {
       case "CONTACT":
-        drawContact(ctx, singleDevice);
+        drawContact(ctx, singleDevice, animationEnabled);
         break;
       case "DEADBOLT":
-        drawDeadbolt(ctx, singleDevice);
+        drawDeadbolt(ctx, singleDevice, animationEnabled);
         break;
       case "TV":
-        drawTV(ctx, singleDevice);
+        drawTV(ctx, singleDevice, animationEnabled);
         break;
       case "SWITCH":
-        drawLightSwitch(ctx, singleDevice);
+        drawLightSwitch(ctx, singleDevice, animationEnabled);
         break;
       case "DIMMER":
-        drawDimmerSwitch(ctx, singleDevice);
+        drawDimmerSwitch(ctx, singleDevice, animationEnabled);
         break;
       case "MOTION":
-        drawMotion(ctx, singleDevice);
+        drawMotion(ctx, singleDevice, animationEnabled);
         break;
       case "WASHINGMACHINE":
-        drawWashingMachine(ctx, singleDevice);
+        drawWashingMachine(ctx, singleDevice, animationEnabled);
         break;
       case "THERMOSTAT":
-        drawThermostat(ctx, singleDevice);
+        drawThermostat(ctx, singleDevice, animationEnabled);
         break;
       case "AIRPURIFIER":
-        drawAirPurifier(ctx, singleDevice);
+        drawAirPurifier(ctx, singleDevice, animationEnabled);
         break;
       case "PROJECTING_LIGHT":
-        drawProjectingLight(ctx, singleDevice);
+        drawProjectingLight(ctx, singleDevice, animationEnabled);
         break;
       case "LEAK_SENSOR":
-        drawLeakSensor(ctx, singleDevice);
+        drawLeakSensor(ctx, singleDevice, animationEnabled);
         break;
     }
   });

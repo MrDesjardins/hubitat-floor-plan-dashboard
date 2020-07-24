@@ -14,7 +14,8 @@ const devicePathLocation: DictionaryOf<[number, number]> = {};
 
 export function drawMotion(
   ctx: CanvasRenderingContext2D,
-  device: MotionDevice
+  device: MotionDevice,
+  animationEnabled: boolean
 ): void {
   const isInMotion = getMotionOnOffAttribute(device);
   delayedDeviceMultiAnimations(
@@ -33,7 +34,7 @@ export function drawMotion(
       }
 
       // Radius
-      if (update[0]) {
+      if (update[0] && animationEnabled) {
         if (deviceRadiusDimension[device.id] === 10) {
           deviceRadiusDirection[device.id] = -1;
         } else {
@@ -43,7 +44,7 @@ export function drawMotion(
       }
 
       // Position
-      if (update[1]) {
+      if (update[1] && animationEnabled) {
         const indexNext =
           devicePathIndex[device.id] + 1 >= device.path.length
             ? 0
@@ -86,7 +87,7 @@ export function drawMotion(
       ctx.fillText(getMotionText(isInMotion), x, y);
 
       // const angle = getAngleFromDirection(device.direction);
-      if (isInMotion) {
+      if (isInMotion && animationEnabled) {
         ctx.beginPath();
         ctx.fillStyle = MOTION_COLOR;
         ctx.arc(
