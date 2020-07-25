@@ -4,7 +4,7 @@ import { delayedDeviceAnimation } from "commons/animation";
 import { TEXT_SIZE, TEXT_COLOR } from "../constants";
 import { getProjectionText } from "commons/textbuilder";
 import { DictionaryOf } from "commons/dictionaryOf";
-import { drawPath2D } from "./commonDrawing";
+import { drawPath2D, clearRectangle } from "./commonDrawing";
 
 export interface Star {
   x: number;
@@ -15,6 +15,8 @@ export interface Star {
 }
 const stars: DictionaryOf<Star[]> = {};
 
+const lastValue: DictionaryOf<boolean | undefined> = {};
+
 export function drawProjectingLight(
   ctx: CanvasRenderingContext2D,
   device: ProjectingLightDevice,
@@ -22,14 +24,25 @@ export function drawProjectingLight(
 ): void {
   const isOn = getLightOnOffAttribute(device);
 
-  ctx.beginPath();
-  ctx.font = `${TEXT_SIZE}px Arial`;
-  ctx.fillStyle = TEXT_COLOR;
-  ctx.fillText(
-    getProjectionText(isOn),
-    device.textPosition[0],
-    device.textPosition[1]
-  );
+  if (lastValue[device.id] === undefined || lastValue[device.id] !== isOn) {
+    clearRectangle(
+      ctx,
+      device.textPosition[0],
+      device.textPosition[1] - 20,
+      55,
+      25,
+      false
+    );
+    ctx.beginPath();
+    ctx.font = `${TEXT_SIZE}px Arial`;
+    ctx.fillStyle = TEXT_COLOR;
+    ctx.fillText(
+      getProjectionText(isOn),
+      device.textPosition[0],
+      device.textPosition[1]
+    );
+    lastValue[device.id] = isOn;
+  }
 
   if (isOn) {
     if (stars[device.id] === undefined) {
@@ -43,33 +56,44 @@ export function drawProjectingLight(
           "M12 .587l3.668 7.568 8.332 1.151-6.064 5.828 1.48 8.279-7.416-3.967-7.417 3.967 1.481-8.279-6.064-5.828 8.332-1.151z"
         );
         if (update && animationEnabled) {
+          clearRectangle(
+            ctx,
+            device.box[0],
+            device.box[1],
+            device.box[2] - device.box[0] + 20,
+            device.box[3] - device.box[1] + 20,
+            false
+          );
           for (let i = 0; i < stars[device.id].length; i++) {
             const s = stars[device.id][i];
             if (Math.random() * 10 <= s.fadingSpeed) {
               s.opacity *= 0.95;
               if (s.opacity < 0.05) {
+                if (stars[device.id][i] !== undefined) {
+                }
                 stars[device.id][i] = createNewStar(device);
               }
             }
           }
-        }
-        stars[device.id].forEach((s) => {
-          drawPath2D(
-            ctx,
-            [starsPath],
-            {
-              location: {
-                x: s.x,
-                y: s.y,
+
+          stars[device.id].forEach((s) => {
+            drawPath2D(
+              ctx,
+              [starsPath],
+              {
+                location: {
+                  x: s.x,
+                  y: s.y,
+                },
+                lineWidth: 1,
+                fillStyle: `rgba(255,228,122, ${s.opacity})`,
+                stroke: `rgba(194,107,0, ${s.opacity})`,
+                scale: s.size,
               },
-              lineWidth: 1,
-              fillStyle: `rgba(255,228,122, ${s.opacity})`,
-              stroke: `rgba(194,107,0, ${s.opacity})`,
-              scale: s.size,
-            },
-            true
-          );
-        });
+              true
+            );
+          });
+        }
       },
       animationEnabled ? 50 : 5000
     );

@@ -10,8 +10,12 @@ import {
 } from "../constants";
 import { getPowerAttribute } from "logics/attributeLogics";
 import { WashingMachineDevice } from "models/devices";
+import { clearRectangle } from "./commonDrawing";
 
 const deviceAngle: DictionaryOf<number> = {};
+
+const lastValue: DictionaryOf<boolean | undefined> = {};
+const lastValue2: DictionaryOf<number | undefined> = {};
 
 export function drawWashingMachine(
   ctx: CanvasRenderingContext2D,
@@ -24,58 +28,81 @@ export function drawWashingMachine(
   delayedDeviceAnimation(
     device.id,
     (update: boolean) => {
-      if (deviceAngle[device.id] === undefined) {
-        deviceAngle[device.id] = 0;
-      }
-
       const x = device.textPosition[0];
       const y = device.textPosition[1];
       const xMachine = x + device.width / 3;
       const yMachine = y - device.width;
 
-      const length =
-        Math.pow(Math.pow(device.width, 2) + Math.pow(device.width, 2), 0.5) /
-        2;
-      const angleRadian = degreeToRadian(deviceAngle[device.id]);
-      const cosAngle = Math.cos(angleRadian); // Only need cos(angle) once.
-      const sinAngle = Math.sin(angleRadian); // Only need sin(angle) once.
+      if (deviceAngle[device.id] === undefined) {
+        deviceAngle[device.id] = 0;
+      }
 
-      const endXPos = xMachine + cosAngle * length;
-      const endYPos = yMachine + sinAngle * length;
+      // Clear text
+      if (
+        lastValue[device.id] === undefined &&
+        lastValue[device.id] !== isInPower
+      ) {
+        clearRectangle(ctx, x, y - 15, 20, 20, false);
+        lastValue[device.id] = isInPower;
+      }
+      // Clear washing machine
+      if (
+        lastValue2[device.id] === undefined &&
+        lastValue2[device.id] !== powerNumber
+      ) {
+        clearRectangle(
+          ctx,
+          xMachine - device.width / 2,
+          yMachine - device.width / 2,
+          device.width,
+          device.width,
+          true
+        );
+        lastValue2[device.id] = powerNumber;
 
-      ctx.beginPath();
-      ctx.font = `${TEXT_SIZE}px Arial`;
-      ctx.fillStyle = TEXT_COLOR;
-      ctx.fillText(getWashingMachineText(isInPower), x, y);
+        const length =
+          Math.pow(Math.pow(device.width, 2) + Math.pow(device.width, 2), 0.5) /
+          2;
+        const angleRadian = degreeToRadian(deviceAngle[device.id]);
+        const cosAngle = Math.cos(angleRadian); // Only need cos(angle) once.
+        const sinAngle = Math.sin(angleRadian); // Only need sin(angle) once.
 
-      ctx.lineWidth = WASHING_MACHINE_WIDTH;
-      ctx.strokeStyle = COLOR_MACHINE1;
-      ctx.rect(
-        xMachine - device.width / 2,
-        yMachine - device.width / 2,
-        device.width,
-        device.width
-      );
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.arc(
-        xMachine,
-        yMachine,
-        device.width / 3,
-        degreeToRadian(0),
-        degreeToRadian(360),
-        true
-      );
-      ctx.stroke();
+        const endXPos = xMachine + cosAngle * length;
+        const endYPos = yMachine + sinAngle * length;
 
-      if (isInPower) {
         ctx.beginPath();
-        ctx.fillStyle = COLOR_MACHINE1;
-        ctx.moveTo(xMachine, yMachine);
-        ctx.lineTo(endXPos, endYPos);
+        ctx.font = `${TEXT_SIZE}px Arial`;
+        ctx.fillStyle = TEXT_COLOR;
+        ctx.fillText(getWashingMachineText(isInPower), x, y);
+
+        ctx.lineWidth = WASHING_MACHINE_WIDTH;
+        ctx.strokeStyle = COLOR_MACHINE1;
+        ctx.rect(
+          xMachine - device.width / 2,
+          yMachine - device.width / 2,
+          device.width,
+          device.width
+        );
         ctx.stroke();
-        const speed = getSpeedWashingMachineFromPower(powerNumber);
-        deviceAngle[device.id] += speed;
+        ctx.beginPath();
+        ctx.arc(
+          xMachine,
+          yMachine,
+          device.width / 3,
+          degreeToRadian(0),
+          degreeToRadian(360),
+          true
+        );
+        ctx.stroke();
+        if (isInPower) {
+          ctx.beginPath();
+          ctx.fillStyle = COLOR_MACHINE1;
+          ctx.moveTo(xMachine, yMachine);
+          ctx.lineTo(endXPos, endYPos);
+          ctx.stroke();
+          const speed = getSpeedWashingMachineFromPower(powerNumber);
+          deviceAngle[device.id] += speed;
+        }
       }
     },
     500

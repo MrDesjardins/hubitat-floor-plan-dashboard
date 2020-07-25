@@ -1,3 +1,5 @@
+import { ERROR_COLOR } from "../constants";
+
 export interface Coordinate {
   x: number;
   y: number;
@@ -56,11 +58,13 @@ export function clearRectangle(
   drawRectangleInstead?: boolean
 ): void {
   ctx.clearRect(x, y, w, h);
+
   if (drawRectangleInstead) {
+    ctx.save();
+    ctx.strokeStyle = ERROR_COLOR;
     ctx.beginPath();
     ctx.rect(x, y, w, h);
     ctx.stroke();
-  } else {
-    
+    ctx.restore();
   }
 }

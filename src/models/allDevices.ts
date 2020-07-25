@@ -467,7 +467,7 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     id: "30",
     kind: "MOTION",
     note: "Bathroom Motion",
-    textPosition: [WEST_WALL + 180, NORTH_WALL + 200],
+    textPosition: [WEST_WALL + 180, NORTH_WALL + 220],
     path: [
       [WEST_WALL + 221, NORTH_WALL + 140],
       [WEST_WALL + 200, NORTH_WALL + 215],
@@ -578,7 +578,7 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     attributes: {},
     label: "",
     name: "",
-    box: [WEST_WALL + 10, NORTH_WALL + 20, WEST_WALL + 80, NORTH_WALL + 80],
+    box: [WEST_WALL + 10, NORTH_WALL + 20, WEST_WALL + 50, NORTH_WALL + 50],
     type: "stars",
     amount: 12,
     clickingBox: {
