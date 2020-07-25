@@ -107,6 +107,14 @@ function drawRotativePhysicalContact(
       case ContactDirection.West:
       case ContactDirection.North:
       case ContactDirection.South:
+        clearRectangle(
+          ctx,
+          device.textPosition[0] - 43,
+          device.textPosition[1] - 20,
+          75,
+          42,
+          false
+        );
         ctx.beginPath();
         ctx.font = `${TEXT_SIZE}px Arial`;
         ctx.fillStyle = TEXT_COLOR;

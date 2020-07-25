@@ -10,6 +10,7 @@ import { getLeakStatusText } from "../commons/textbuilder";
 import { delayedDeviceAnimation } from "../commons/animation";
 import { DictionaryOf } from "../commons/dictionaryOf";
 import { drawPath2D } from "./commonDrawing";
+import { LEAK_TYPE } from "../models/mode";
 
 const waterDropOffset: DictionaryOf<number[]> = {};
 const pathCloud = [
@@ -41,6 +42,8 @@ const droplets = [
     "m421.532,432.733c-4.143,0 -7.5,3.358 -7.5,7.5l0,66.267c0,4.142 3.357,7.5 7.5,7.5s7.5,-3.358 7.5,-7.5l0,-66.267c0,-4.142 -3.357,-7.5 -7.5,-7.5z"
   ),
 ];
+
+const lastValue: DictionaryOf<LEAK_TYPE | undefined> = {};
 export function drawLeakSensor(
   ctx: CanvasRenderingContext2D,
   device: LearkSensorDevice,
@@ -48,15 +51,20 @@ export function drawLeakSensor(
 ): void {
   const leakStatus = getLeakAttribute(device);
 
-  ctx.beginPath();
-  ctx.font = `${TEXT_SIZE}px Arial`;
-  ctx.fillStyle = TEXT_COLOR;
-  ctx.fillText(
-    getLeakStatusText(leakStatus),
-    device.textPosition[0],
-    device.textPosition[1]
-  );
-
+  if (
+    lastValue[device.id] === undefined ||
+    lastValue[device.id] !== leakStatus
+  ) {
+    ctx.beginPath();
+    ctx.font = `${TEXT_SIZE}px Arial`;
+    ctx.fillStyle = TEXT_COLOR;
+    ctx.fillText(
+      getLeakStatusText(leakStatus),
+      device.textPosition[0],
+      device.textPosition[1]
+    );
+    lastValue[device.id] = leakStatus;
+  }
   delayedDeviceAnimation(
     device.id,
     (update: boolean) => {
@@ -65,16 +73,16 @@ export function drawLeakSensor(
       }
 
       if (update) {
-        for (let i = 0; i < waterDropOffset[device.id].length; i++) {
-          const drop = waterDropOffset[device.id][i];
-          if (drop > 10) {
-            waterDropOffset[device.id][i] = 0;
-          } else {
-            waterDropOffset[device.id][i] += Math.ceil(Math.random() * 2);
-          }
-        }
-
         if (leakStatus === "wet") {
+          for (let i = 0; i < waterDropOffset[device.id].length; i++) {
+            const drop = waterDropOffset[device.id][i];
+            if (drop > 10) {
+              waterDropOffset[device.id][i] = 0;
+            } else {
+              waterDropOffset[device.id][i] += Math.ceil(Math.random() * 2);
+            }
+          }
+
           drawPath2D(
             ctx,
             pathCloud,
