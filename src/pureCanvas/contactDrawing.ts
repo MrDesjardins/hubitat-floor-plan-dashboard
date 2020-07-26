@@ -20,7 +20,6 @@ const contactsAngle: DictionaryOf<number> = {};
 const contactsTranslation: DictionaryOf<[number, number]> = {};
 
 const lastValue: DictionaryOf<boolean | undefined> = {};
-const lastValue2: DictionaryOf<number | undefined> = {};
 
 export function drawContact(
   ctx: CanvasRenderingContext2D,
@@ -162,6 +161,7 @@ function drawSlidingPhysicalContact(
     const isContactOpen = getContactOnOffAttribute(device);
     const openCoordinate = getOpenCoordinate(device, true);
     const closeCoordinate = getOpenCoordinate(device, false);
+
     if (contactsTranslation[device.id] === undefined) {
       contactsTranslation[device.id] = getOpenCoordinate(
         device,
@@ -197,6 +197,17 @@ function drawSlidingPhysicalContact(
           contactsTranslation[device.id][1] +=
             contactsTranslation[device.id][1] - closeCoordinate[1] > 0 ? -1 : 1;
         }
+
+        if (
+          lastValue[device.id] === undefined ||
+          (lastValue[device.id] !== isContactOpen &&
+            contactsTranslation[device.id][1] === openCoordinate[0]) ||
+          (!isContactOpen &&
+            contactsTranslation[device.id][1] === closeCoordinate[1])
+        ) {
+          lastValue[device.id] = isContactOpen;
+          return;
+        }
       } else {
         if (
           isContactOpen &&
@@ -212,7 +223,64 @@ function drawSlidingPhysicalContact(
           contactsTranslation[device.id][0] +=
             contactsTranslation[device.id][0] - closeCoordinate[0] < 0 ? 1 : -1;
         }
+        if (
+          lastValue[device.id] === undefined ||
+          (lastValue[device.id] !== isContactOpen &&
+            contactsTranslation[device.id][0] === openCoordinate[0]) ||
+          (!isContactOpen &&
+            contactsTranslation[device.id][0] === closeCoordinate[0])
+        ) {
+          lastValue[device.id] = isContactOpen;
+          return;
+        }
       }
+    }
+
+    switch (device.direction) {
+      case ContactDirection.SlideDown:
+        // Erase Sliding Door
+        clearRectangle(
+          ctx,
+          device.textPosition[0] - TEXT_PADDING - 2,
+          device.textPosition[1] - TEXT_PADDING,
+          4,
+          CONTACT_SIZE * 2,
+          false
+        );
+        break;
+      case ContactDirection.SlideUp:
+        // Erase Sliding Door
+        clearRectangle(
+          ctx,
+          device.textPosition[0] - TEXT_PADDING,
+          device.textPosition[1] - TEXT_PADDING,
+          4,
+          CONTACT_SIZE * 2,
+          false
+        );
+        break;
+      case ContactDirection.SlideRight:
+        // Erase Sliding Door
+        clearRectangle(
+          ctx,
+          device.textPosition[0] - CONTACT_SIZE - TEXT_PADDING,
+          device.textPosition[1] - TEXT_PADDING - 2,
+          CONTACT_SIZE * 2,
+          4,
+          false
+        );
+        break;
+      case ContactDirection.SlideLeft:
+        // Erase Sliding Door
+        clearRectangle(
+          ctx,
+          device.textPosition[0] - TEXT_PADDING,
+          device.textPosition[1] - TEXT_PADDING - 2,
+          CONTACT_SIZE * 2,
+          4,
+          false
+        );
+        break;
     }
 
     switch (device.direction) {
@@ -220,6 +288,15 @@ function drawSlidingPhysicalContact(
       case ContactDirection.SlideUp:
       case ContactDirection.SlideRight:
       case ContactDirection.SlideLeft:
+        // Erase Text
+        clearRectangle(
+          ctx,
+          device.textPosition[0],
+          device.textPosition[1] - TEXT_PADDING + 4,
+          40,
+          TEXT_PADDING,
+          false
+        );
         ctx.beginPath();
         ctx.font = `${TEXT_SIZE}px Arial`;
         ctx.fillStyle = TEXT_COLOR;
