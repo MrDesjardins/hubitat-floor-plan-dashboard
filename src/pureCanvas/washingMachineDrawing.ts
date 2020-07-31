@@ -14,8 +14,12 @@ import { clearRectangle } from "./commonDrawing";
 
 const deviceAngle: DictionaryOf<number> = {};
 
-const lastValue: DictionaryOf<boolean | undefined> = {};
-const lastValue2: DictionaryOf<number | undefined> = {};
+export let washingMachinePowerLastValues: DictionaryOf<
+  boolean | undefined
+> = {};
+export let washingMachineEnergyLastValues: DictionaryOf<
+  number | undefined
+> = {};
 
 export function drawWashingMachine(
   ctx: CanvasRenderingContext2D,
@@ -39,16 +43,16 @@ export function drawWashingMachine(
 
       // Clear text
       if (
-        lastValue[device.id] === undefined &&
-        lastValue[device.id] !== isInPower
+        washingMachinePowerLastValues[device.id] === undefined &&
+        washingMachinePowerLastValues[device.id] !== isInPower
       ) {
         clearRectangle(ctx, x, y - 15, 20, 20, false);
-        lastValue[device.id] = isInPower;
+        washingMachinePowerLastValues[device.id] = isInPower;
       }
       // Clear washing machine
       if (
-        lastValue2[device.id] === undefined &&
-        lastValue2[device.id] !== powerNumber
+        washingMachineEnergyLastValues[device.id] === undefined &&
+        washingMachineEnergyLastValues[device.id] !== powerNumber
       ) {
         clearRectangle(
           ctx,
@@ -58,7 +62,7 @@ export function drawWashingMachine(
           device.width,
           true
         );
-        lastValue2[device.id] = powerNumber;
+        washingMachineEnergyLastValues[device.id] = powerNumber;
 
         const length =
           Math.pow(Math.pow(device.width, 2) + Math.pow(device.width, 2), 0.5) /

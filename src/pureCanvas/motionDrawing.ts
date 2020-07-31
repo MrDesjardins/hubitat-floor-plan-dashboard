@@ -14,14 +14,14 @@ const devicePathIndex: DictionaryOf<number> = {};
 const devicePathLocation: DictionaryOf<[number, number]> = {};
 const devicePathLocationPrevious: DictionaryOf<[number, number]> = {};
 
-const lastValue: DictionaryOf<boolean | undefined> = {};
+export let motionLastValues: DictionaryOf<boolean | undefined> = {};
 
 export function drawMotion(
   ctx: CanvasRenderingContext2D,
   device: MotionDevice,
   animationEnabled: boolean
 ): void {
-  const isInMotion = !getMotionOnOffAttribute(device);
+  const isInMotion = getMotionOnOffAttribute(device);
   delayedDeviceMultiAnimations(
     device.id,
     (update: boolean[]) => {
@@ -29,8 +29,8 @@ export function drawMotion(
       const y = device.textPosition[1];
 
       if (
-        lastValue[device.id] === undefined ||
-        lastValue[device.id] !== isInMotion
+        motionLastValues[device.id] === undefined ||
+        motionLastValues[device.id] !== isInMotion
       ) {
         clearRectangle(
           ctx,
@@ -63,8 +63,8 @@ export function drawMotion(
 
       // Clear text
       if (
-        lastValue[device.id] === undefined ||
-        lastValue[device.id] !== isInMotion
+        motionLastValues[device.id] === undefined ||
+        motionLastValues[device.id] !== isInMotion
       ) {
         clearRectangle(ctx, x, y - 15, 65, 20, false);
       }

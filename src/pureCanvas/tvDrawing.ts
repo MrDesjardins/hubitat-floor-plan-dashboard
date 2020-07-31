@@ -10,8 +10,8 @@ import { clearRectangle } from "./commonDrawing";
 const devicseRadius: DictionaryOf<number> = {};
 const devicseDirection: DictionaryOf<number> = {};
 
-const lastValue: DictionaryOf<boolean | undefined> = {};
-const lastValue2: DictionaryOf<number | undefined> = {};
+export let tvPowerLastValues: DictionaryOf<boolean | undefined> = {};
+export let tvPowerEnergyLastValues: DictionaryOf<number | undefined> = {};
 
 export function drawTV(
   ctx: CanvasRenderingContext2D,
@@ -26,8 +26,8 @@ export function drawTV(
       const y = device.textPosition[1];
 
       if (
-        lastValue[device.id] === undefined ||
-        lastValue[device.id] !== isTVOn
+        tvPowerLastValues[device.id] === undefined ||
+        tvPowerLastValues[device.id] !== isTVOn
       ) {
         clearRectangle(
           ctx,
@@ -48,8 +48,8 @@ export function drawTV(
       }
 
       if (
-        lastValue2[device.id] === undefined ||
-        lastValue2[device.id] !== devicseRadius[device.id]
+        tvPowerEnergyLastValues[device.id] === undefined ||
+        tvPowerEnergyLastValues[device.id] !== devicseRadius[device.id]
       ) {
         clearRectangle(
           ctx,

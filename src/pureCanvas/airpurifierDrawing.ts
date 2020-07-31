@@ -70,7 +70,7 @@ const machine = [
 const amplitude = 1.05;
 const frequency = 0.35;
 const movement: DictionaryOf<number> = {};
-const lastValue: DictionaryOf<boolean | undefined> = {};
+export let airPurifierLastValues: DictionaryOf<boolean | undefined> = {};
 const pathFunction = (x: number, offset: number) => {
   const result =
     // Function to determine curve
@@ -113,8 +113,8 @@ export function drawAirPurifier(
   const isInPower = getLightOnOffAttribute(device);
 
   if (
-    lastValue[device.id] === undefined ||
-    lastValue[device.id] !== isInPower
+    airPurifierLastValues[device.id] === undefined ||
+    airPurifierLastValues[device.id] !== isInPower
   ) {
     clearRectangle(
       ctx,

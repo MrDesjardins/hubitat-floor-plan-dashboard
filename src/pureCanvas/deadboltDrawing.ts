@@ -40,7 +40,7 @@ const unlockImagePath: Path2D[] = [
     "M35.028 51.319L28.454 60.689M43.028 51.319L36.454 60.689M51.028 51.319L44.454 60.689M59.028 51.319L52.454 60.689M67.028 51.319L60.454 60.689M75.028 51.319L68.454 60.689M83.028 51.319L76.454 60.689"
   ),
 ];
-const lastValue: DictionaryOf<boolean | undefined> = {};
+export let deadBoltLastValues: DictionaryOf<boolean | undefined> = {};
 
 export function drawDeadbolt(
   ctx: CanvasRenderingContext2D,
@@ -49,7 +49,7 @@ export function drawDeadbolt(
 ): void {
   const isLock = getDeadboltLockStatus(device);
 
-  if (lastValue[device.id] === undefined || lastValue[device.id] !== isLock) {
+  if (deadBoltLastValues[device.id] === undefined || deadBoltLastValues[device.id] !== isLock) {
     clearRectangle(
       ctx,
       device.textPosition[0],
@@ -90,6 +90,6 @@ export function drawDeadbolt(
       },
       false
     );
-    lastValue[device.id] = isLock;
+    deadBoltLastValues[device.id] = isLock;
   }
 }

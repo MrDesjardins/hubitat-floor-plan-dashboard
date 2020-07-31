@@ -12,8 +12,8 @@ import {
 } from "../constants";
 import { drawPath2D, clearRectangle } from "./commonDrawing";
 import { DictionaryOf } from "../commons/dictionaryOf";
-const lastValue: DictionaryOf<boolean | undefined> = {};
-const lastValue2: DictionaryOf<number | undefined> = {};
+export let dimmerPowerLastValues: DictionaryOf<boolean | undefined> = {};
+export let dimmerEnergyLastValues: DictionaryOf<number | undefined> = {};
 export function drawDimmerSwitch(
   ctx: CanvasRenderingContext2D,
   device: DimmingLightDevice,
@@ -27,10 +27,10 @@ export function drawDimmerSwitch(
   const imageY = device.textPosition[1] + 5;
 
   if (
-    lastValue[device.id] === undefined ||
-    lastValue[device.id] !== isOn ||
-    lastValue2[device.id] === undefined ||
-    lastValue2[device.id] !== level
+    dimmerPowerLastValues[device.id] === undefined ||
+    dimmerPowerLastValues[device.id] !== isOn ||
+    dimmerEnergyLastValues[device.id] === undefined ||
+    dimmerEnergyLastValues[device.id] !== level
   ) {
     clearRectangle(
       ctx,
@@ -67,7 +67,7 @@ export function drawDimmerSwitch(
       },
       false
     );
-    lastValue[device.id] = isOn;
-    lastValue2[device.id] = level;
+    dimmerPowerLastValues[device.id] = isOn;
+    dimmerEnergyLastValues[device.id] = level;
   }
 }

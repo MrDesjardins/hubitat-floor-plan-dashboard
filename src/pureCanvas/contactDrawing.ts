@@ -16,10 +16,10 @@ import { ContactDevice, ContactDirection } from "models/devices";
 import { delayedDeviceAnimation } from "commons/animation";
 import { clearRectangle } from "./commonDrawing";
 
-const contactsAngle: DictionaryOf<number> = {};
-const contactsTranslation: DictionaryOf<[number, number]> = {};
+export const contactsAngleLastValues: DictionaryOf<number> = {};
+export const contactsTranslationLastValues: DictionaryOf<[number, number]> = {};
 
-const lastValue: DictionaryOf<boolean | undefined> = {};
+export let contactDrawingLastValues: DictionaryOf<boolean | undefined> = {};
 
 export function drawContact(
   ctx: CanvasRenderingContext2D,
@@ -84,20 +84,20 @@ function drawRotativePhysicalContact(
     //   true
     // );
 
-    if (contactsAngle[device.id] === undefined) {
-      contactsAngle[device.id] = getOpenAngle(
+    if (contactsAngleLastValues[device.id] === undefined) {
+      contactsAngleLastValues[device.id] = getOpenAngle(
         device,
         animationEnabled ? !isContactOpen : isContactOpen
       ); // Reverse because of the animation to go to the desire position
     }
     if (update) {
-      if (isContactOpen && contactsAngle[device.id] !== openAngle) {
-        contactsAngle[device.id] +=
-          contactsAngle[device.id] - openAngle < 0 ? 1 : -1;
+      if (isContactOpen && contactsAngleLastValues[device.id] !== openAngle) {
+        contactsAngleLastValues[device.id] +=
+          contactsAngleLastValues[device.id] - openAngle < 0 ? 1 : -1;
       }
-      if (!isContactOpen && contactsAngle[device.id] !== closeAngle) {
-        contactsAngle[device.id] +=
-          contactsAngle[device.id] - openAngle < 0 ? -1 : 1;
+      if (!isContactOpen && contactsAngleLastValues[device.id] !== closeAngle) {
+        contactsAngleLastValues[device.id] +=
+          contactsAngleLastValues[device.id] - openAngle < 0 ? -1 : 1;
       }
     }
 
@@ -130,7 +130,7 @@ function drawRotativePhysicalContact(
           device.textPosition[0] - TEXT_PADDING,
           device.textPosition[1] - TEXT_PADDING,
           CONTACT_SIZE,
-          contactsAngle[device.id],
+          contactsAngleLastValues[device.id],
           device.direction
         );
         ctx.lineTo(coord[0], coord[1]);
@@ -162,8 +162,8 @@ function drawSlidingPhysicalContact(
     const openCoordinate = getOpenCoordinate(device, true);
     const closeCoordinate = getOpenCoordinate(device, false);
 
-    if (contactsTranslation[device.id] === undefined) {
-      contactsTranslation[device.id] = getOpenCoordinate(
+    if (contactsTranslationLastValues[device.id] === undefined) {
+      contactsTranslationLastValues[device.id] = getOpenCoordinate(
         device,
         !isContactOpen
       ); // Reverse because of the animation to go to the desire position
@@ -185,52 +185,52 @@ function drawSlidingPhysicalContact(
       ) {
         if (
           isContactOpen &&
-          contactsTranslation[device.id][1] !== openCoordinate[1]
+          contactsTranslationLastValues[device.id][1] !== openCoordinate[1]
         ) {
-          contactsTranslation[device.id][1] +=
-            contactsTranslation[device.id][1] - openCoordinate[1] < 0 ? 1 : -1;
+          contactsTranslationLastValues[device.id][1] +=
+            contactsTranslationLastValues[device.id][1] - openCoordinate[1] < 0 ? 1 : -1;
         }
         if (
           !isContactOpen &&
-          contactsTranslation[device.id][1] !== closeCoordinate[1]
+          contactsTranslationLastValues[device.id][1] !== closeCoordinate[1]
         ) {
-          contactsTranslation[device.id][1] +=
-            contactsTranslation[device.id][1] - closeCoordinate[1] > 0 ? -1 : 1;
+          contactsTranslationLastValues[device.id][1] +=
+            contactsTranslationLastValues[device.id][1] - closeCoordinate[1] > 0 ? -1 : 1;
         }
 
         if (
-          lastValue[device.id] === undefined ||
-          (lastValue[device.id] !== isContactOpen &&
-            contactsTranslation[device.id][1] === openCoordinate[0]) ||
+          contactDrawingLastValues[device.id] === undefined ||
+          (contactDrawingLastValues[device.id] !== isContactOpen &&
+            contactsTranslationLastValues[device.id][1] === openCoordinate[0]) ||
           (!isContactOpen &&
-            contactsTranslation[device.id][1] === closeCoordinate[1])
+            contactsTranslationLastValues[device.id][1] === closeCoordinate[1])
         ) {
-          lastValue[device.id] = isContactOpen;
+          contactDrawingLastValues[device.id] = isContactOpen;
           return;
         }
       } else {
         if (
           isContactOpen &&
-          contactsTranslation[device.id][0] !== openCoordinate[0]
+          contactsTranslationLastValues[device.id][0] !== openCoordinate[0]
         ) {
-          contactsTranslation[device.id][0] +=
-            contactsTranslation[device.id][0] - openCoordinate[0] > 0 ? 1 : -1;
+          contactsTranslationLastValues[device.id][0] +=
+            contactsTranslationLastValues[device.id][0] - openCoordinate[0] > 0 ? 1 : -1;
         }
         if (
           !isContactOpen &&
-          contactsTranslation[device.id][0] !== closeCoordinate[0]
+          contactsTranslationLastValues[device.id][0] !== closeCoordinate[0]
         ) {
-          contactsTranslation[device.id][0] +=
-            contactsTranslation[device.id][0] - closeCoordinate[0] < 0 ? 1 : -1;
+          contactsTranslationLastValues[device.id][0] +=
+            contactsTranslationLastValues[device.id][0] - closeCoordinate[0] < 0 ? 1 : -1;
         }
         if (
-          lastValue[device.id] === undefined ||
-          (lastValue[device.id] !== isContactOpen &&
-            contactsTranslation[device.id][0] === openCoordinate[0]) ||
+          contactDrawingLastValues[device.id] === undefined ||
+          (contactDrawingLastValues[device.id] !== isContactOpen &&
+            contactsTranslationLastValues[device.id][0] === openCoordinate[0]) ||
           (!isContactOpen &&
-            contactsTranslation[device.id][0] === closeCoordinate[0])
+            contactsTranslationLastValues[device.id][0] === closeCoordinate[0])
         ) {
-          lastValue[device.id] = isContactOpen;
+          contactDrawingLastValues[device.id] = isContactOpen;
           return;
         }
       }
@@ -308,11 +308,11 @@ function drawSlidingPhysicalContact(
         const x =
           device.textPosition[0] -
           TEXT_PADDING +
-          contactsTranslation[device.id][0];
+          contactsTranslationLastValues[device.id][0];
         const y =
           device.textPosition[1] -
           TEXT_PADDING +
-          contactsTranslation[device.id][1];
+          contactsTranslationLastValues[device.id][1];
         ctx.moveTo(x, y);
         ctx.lineTo(x + contactWidth, y + contactHeight);
         ctx.lineWidth = CONTACT_WIDTH;

@@ -13,9 +13,9 @@ export interface Star {
   fadingSpeed: number;
   size: number;
 }
-const stars: DictionaryOf<Star[]> = {};
+export let starsLastValues: DictionaryOf<Star[]> = {};
 
-const lastValue: DictionaryOf<boolean | undefined> = {};
+export let starsPowerLastValues: DictionaryOf<boolean | undefined> = {};
 
 export function drawProjectingLight(
   ctx: CanvasRenderingContext2D,
@@ -24,7 +24,10 @@ export function drawProjectingLight(
 ): void {
   const isOn = getLightOnOffAttribute(device);
 
-  if (lastValue[device.id] === undefined || lastValue[device.id] !== isOn) {
+  if (
+    starsPowerLastValues[device.id] === undefined ||
+    starsPowerLastValues[device.id] !== isOn
+  ) {
     clearRectangle(
       ctx,
       device.textPosition[0],
@@ -41,12 +44,12 @@ export function drawProjectingLight(
       device.textPosition[0],
       device.textPosition[1]
     );
-    lastValue[device.id] = isOn;
+    starsPowerLastValues[device.id] = isOn;
   }
 
   if (isOn) {
-    if (stars[device.id] === undefined) {
-      stars[device.id] = createNewStars(device);
+    if (starsLastValues[device.id] === undefined) {
+      starsLastValues[device.id] = createNewStars(device);
     }
 
     delayedDeviceAnimation(
@@ -64,19 +67,19 @@ export function drawProjectingLight(
             device.box[3] - device.box[1] + 20,
             false
           );
-          for (let i = 0; i < stars[device.id].length; i++) {
-            const s = stars[device.id][i];
+          for (let i = 0; i < starsLastValues[device.id].length; i++) {
+            const s = starsLastValues[device.id][i];
             if (Math.random() * 10 <= s.fadingSpeed) {
               s.opacity *= 0.95;
               if (s.opacity < 0.05) {
-                if (stars[device.id][i] !== undefined) {
+                if (starsLastValues[device.id][i] !== undefined) {
                 }
-                stars[device.id][i] = createNewStar(device);
+                starsLastValues[device.id][i] = createNewStar(device);
               }
             }
           }
 
-          stars[device.id].forEach((s) => {
+          starsLastValues[device.id].forEach((s) => {
             drawPath2D(
               ctx,
               [starsPath],

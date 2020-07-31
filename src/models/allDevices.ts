@@ -340,8 +340,8 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
       y2: NORTH_WALL + 305,
     },
   },
-  "57": {
-    id: "57",
+  "577": {
+    id: "577",
     kind: "DIMMER",
     note: "Master Closet Room Light",
     textPosition: [WEST_WALL + 430, NORTH_WALL + 300],

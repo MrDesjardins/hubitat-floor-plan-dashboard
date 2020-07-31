@@ -6,6 +6,16 @@ import { drawFlooPlan } from "./floorPlan";
 import { drawDevices } from "./devices";
 import { isDeviceInBox } from "../logics/deviceDataLogics";
 import { Mode } from "../models/mode";
+import { contactDrawingLastValues, contactsTranslationLastValues } from "./contactDrawing";
+import { deadBoltLastValues } from "./deadboltDrawing";
+import { tvPowerLastValues, tvPowerEnergyLastValues } from "./tvDrawing";
+import { lightSwitchLastValues } from "./lightSwitchDrawing";
+import { dimmerPowerLastValues, dimmerEnergyLastValues } from "./dimmerSwitchDrawing";
+import { motionLastValues } from "./motionDrawing";
+import { washingMachinePowerLastValues, washingMachineEnergyLastValues } from "./washingMachineDrawing";
+import { airPurifierLastValues } from "./airpurifierDrawing";
+import { starsLastValues, starsPowerLastValues } from "./projectionLightDrawing";
+import { leakSensorLastValues } from "./drawLeakSensor";
 export interface MainCanvasProps {
   width: number;
   height: number;
@@ -53,10 +63,20 @@ export const MainCanvas = (props: MainCanvasProps) => {
     ]
   );
 
+  useEffect(() => {
+    // Clean the buffer canvas completely
+    refContextDevicesBuffer.current!.clearRect(0, 0, props.width, props.height);
+
+    // Reset the cache to ensure we redraw
+    resetDrawingCaches();
+  }, [props.mode, props.height, props.width]);
   // ========================================== DEVICES ===========================================
   const requestRef = React.useRef<number>();
   const drawDevicesOnCanvas = useCallback(() => {
     if (refContextDevices !== undefined && refContextDevices.current) {
+      if (props.mode !== Mode.DEVICES) {
+        refContextDevicesBuffer.current!.clearRect(0, 0, props.width, props.height);
+      }
       drawDevices(
         refContextDevicesBuffer.current!,
         props.devices,
@@ -132,3 +152,29 @@ export const MainCanvas = (props: MainCanvasProps) => {
     </>
   );
 };
+
+
+function resetDrawingCaches(): void {
+  cleanMap(contactDrawingLastValues);
+  cleanMap(contactsTranslationLastValues);
+  cleanMap(deadBoltLastValues);
+  cleanMap(tvPowerLastValues);
+  cleanMap(tvPowerEnergyLastValues);
+  cleanMap(lightSwitchLastValues);
+  cleanMap(dimmerPowerLastValues);
+  cleanMap(dimmerEnergyLastValues);
+  cleanMap(motionLastValues);
+  cleanMap(washingMachinePowerLastValues);
+  cleanMap(washingMachineEnergyLastValues);
+  cleanMap(airPurifierLastValues);
+  cleanMap(starsLastValues);
+  cleanMap(starsPowerLastValues);
+  cleanMap(leakSensorLastValues);
+}
+
+
+function cleanMap(obj: any): void {
+  for (const prop of Object.getOwnPropertyNames(obj)) {
+    delete obj[prop];
+  }
+}

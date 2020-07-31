@@ -41,9 +41,8 @@ const droplets = [
   new Path2D(
     "m421.532,432.733c-4.143,0 -7.5,3.358 -7.5,7.5l0,66.267c0,4.142 3.357,7.5 7.5,7.5s7.5,-3.358 7.5,-7.5l0,-66.267c0,-4.142 -3.357,-7.5 -7.5,-7.5z"
   ),
-];
-
-const lastValue: DictionaryOf<LEAK_TYPE | undefined> = {};
+];  
+export let leakSensorLastValues: DictionaryOf<LEAK_TYPE | undefined> = {};
 export function drawLeakSensor(
   ctx: CanvasRenderingContext2D,
   device: LearkSensorDevice,
@@ -52,8 +51,8 @@ export function drawLeakSensor(
   const leakStatus = getLeakAttribute(device);
 
   if (
-    lastValue[device.id] === undefined ||
-    lastValue[device.id] !== leakStatus
+    leakSensorLastValues[device.id] === undefined ||
+    leakSensorLastValues[device.id] !== leakStatus
   ) {
     ctx.beginPath();
     ctx.font = `${TEXT_SIZE}px Arial`;
@@ -63,7 +62,7 @@ export function drawLeakSensor(
       device.textPosition[0],
       device.textPosition[1]
     );
-    lastValue[device.id] = leakStatus;
+    leakSensorLastValues[device.id] = leakStatus;
   }
   delayedDeviceAnimation(
     device.id,

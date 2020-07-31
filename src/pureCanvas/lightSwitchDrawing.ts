@@ -10,7 +10,7 @@ import {
 import { drawPath2D, clearRectangle } from "./commonDrawing";
 import { DictionaryOf } from "../commons/dictionaryOf";
 
-const lastValue: DictionaryOf<boolean | undefined> = {};
+export let lightSwitchLastValues: DictionaryOf<boolean | undefined> = {};
 export function drawLightSwitch(
   ctx: CanvasRenderingContext2D,
   device: LightSwitchDevice,
@@ -22,7 +22,7 @@ export function drawLightSwitch(
   const imageY = device.textPosition[1] + 5;
 
 
-  if (lastValue[device.id] === undefined || lastValue[device.id] !== isOn) {
+  if (lightSwitchLastValues[device.id] === undefined || lightSwitchLastValues[device.id] !== isOn) {
     clearRectangle(
       ctx,
       device.textPosition[0],
@@ -66,6 +66,6 @@ export function drawLightSwitch(
       },
       false
     );
-    lastValue[device.id] = isOn;
+    lightSwitchLastValues[device.id] = isOn;
   }
 }
