@@ -76,7 +76,7 @@ const audioBeep = new Audio("beep.mp3");
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);
   const [readyWs, setReadyWs] = useState(false);
-  const websocketRef = useRef(new WebSocket(webSocketUrl));
+  const websocketRef = useRef<WebSocket | null>(null);
   const [reconnectWebsocket, setReconnectWebsocket] = useState({});
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [configuringDevice, setConfiguringDevice] = useState<
@@ -102,7 +102,7 @@ function App() {
     }
   }, 1000);
   useEffect(() => {
-    if (WEBSOCKET_ENABLED) {
+    if (WEBSOCKET_ENABLED && readyWs && websocketRef.current === null) {
       websocketRef.current = new WebSocket(webSocketUrl);
       console.log("attempt connection to ", webSocketUrl);
       websocketRef.current.onopen = function (e: Event) {
@@ -168,6 +168,7 @@ function App() {
 
       websocketRef.current.onclose = (e: CloseEvent) => {
         console.log("onclose", e);
+        websocketRef.current = null;
         setTimeout(function () {
           setReconnectWebsocket({}); // New reference of objet will force this useEffect to restart
         }, 5000);
@@ -175,7 +176,13 @@ function App() {
 
       websocketRef.current.onerror = (event: Event) => {
         console.log("onError", event);
-        websocketRef.current.close();
+        if (websocketRef.current !== null) {
+          websocketRef.current.close();
+        }
+      };
+      return () => {
+        // console.log("Closing websocket because we are unmounting the App.tsx");
+        // websocketRef.current.close();
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
