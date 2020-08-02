@@ -62,12 +62,11 @@ export function drawMotion(
       }
 
       // Motion state is changing
+
       if (
-        motionLastValues[device.id] === undefined ||
+        devicePathLocationPrevious[device.id] !== undefined &&
         motionLastValues[device.id] !== isInMotion
       ) {
-        // Clear Text
-        clearRectangle(ctx, x, y - 15, 65, 20, false);
         // Clear past move
         clearRectangle(
           ctx,
@@ -81,6 +80,14 @@ export function drawMotion(
           deviceRadiusDimension[device.id] * 2 + 4,
           false
         );
+      }
+
+      if (
+        motionLastValues[device.id] === undefined ||
+        motionLastValues[device.id] !== isInMotion
+      ) {
+        // Clear Text
+        clearRectangle(ctx, x, y - 15, 65, 20, false);
       }
 
       ctx.beginPath();
