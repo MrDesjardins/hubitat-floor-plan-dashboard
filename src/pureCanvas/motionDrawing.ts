@@ -61,12 +61,26 @@ export function drawMotion(
         deviceRadiusDimension[device.id] += deviceRadiusDirection[device.id];
       }
 
-      // Clear text
+      // Motion state is changing
       if (
         motionLastValues[device.id] === undefined ||
         motionLastValues[device.id] !== isInMotion
       ) {
+        // Clear Text
         clearRectangle(ctx, x, y - 15, 65, 20, false);
+        // Clear past move
+        clearRectangle(
+          ctx,
+          devicePathLocationPrevious[device.id][0] -
+            deviceRadiusDimension[device.id] -
+            2,
+          devicePathLocationPrevious[device.id][1] -
+            deviceRadiusDimension[device.id] -
+            2,
+          deviceRadiusDimension[device.id] * 2 + 4,
+          deviceRadiusDimension[device.id] * 2 + 4,
+          false
+        );
       }
 
       ctx.beginPath();
