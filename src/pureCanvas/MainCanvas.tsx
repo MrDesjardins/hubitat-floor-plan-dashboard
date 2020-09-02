@@ -1,7 +1,5 @@
 import React, { useRef, useEffect, useCallback } from "react";
 import { MAIN_MENU_WIDTH, WEST_WALL, NORTH_WALL } from "../constants";
-import { DeviceDataKind } from "models/devices";
-import { DictionaryOf } from "commons/dictionaryOf";
 import { drawFlooPlan } from "./floorPlan";
 import { drawDevices } from "./devices";
 import { isDeviceInBox } from "../logics/deviceDataLogics";
@@ -16,6 +14,8 @@ import { washingMachinePowerLastValues, washingMachineEnergyLastValues } from ".
 import { airPurifierLastValues } from "./airpurifierDrawing";
 import { starsLastValues, starsPowerLastValues } from "./projectionLightDrawing";
 import { leakSensorLastValues } from "./drawLeakSensor";
+import { DictionaryOf } from "../commons/dictionaryOf";
+import { DeviceDataKind } from "../models/devices";
 export interface MainCanvasProps {
   width: number;
   height: number;
@@ -58,6 +58,7 @@ export const MainCanvas = (props: MainCanvasProps) => {
 
       drawFlooPlan(refContextFloorPlan.current);
     },
+    // eslint-disable-next-line 
     [
       /*Only when mounting*/
     ]
