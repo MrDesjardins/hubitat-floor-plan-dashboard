@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import {
   getDeadboltAttribute,
   setDeadboltAttribute,
-} from "logics/attributeLogics";
-import { DeadboltDevice } from "models/devices";
+} from "../logics/attributeLogics";
+import { DeadboltDevice } from "../models/devices";
 
 export interface DeadboltOptionsProps {
   isDialogOpen: boolean;

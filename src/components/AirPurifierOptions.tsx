@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import {
   getLightOnOffAttribute,
   setLightOnOffAttribute,
-} from "logics/attributeLogics";
-import { AirPurifierDevice } from "models/devices";
+} from "../logics/attributeLogics";
+import { AirPurifierDevice } from "../models/devices";
 
 export interface AirPurifierOptionsProps {
   isDialogOpen: boolean;

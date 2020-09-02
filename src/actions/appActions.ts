@@ -1,8 +1,8 @@
 import {
   createActionPayload,
   ActionsUnion,
-} from "infrastructure/reducerActions";
-import { DeviceDataKind } from "models/devices";
+} from "../infrastructure/reducerActions";
+import { DeviceDataKind } from "../models/devices";
 import { Weather } from "../models/weather";
 import { Mode } from "../models/mode";
 import { AlarmAction } from "../models/alarm";
@@ -37,7 +37,7 @@ export const AppActions = {
     AlarmAction
   >(ACTION_SET_ALARM_ACTION),
   notify: createActionPayload<typeof ACTION_NOTIFY, Feedback | undefined>(
-    ACTION_NOTIFY)
-
+    ACTION_NOTIFY
+  ),
 };
 export type AcceptedActions = ActionsUnion<typeof AppActions>;

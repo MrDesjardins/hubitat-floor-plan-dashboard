@@ -1,8 +1,8 @@
 import {
   getTemperatureAtribute,
   getThermostatMode,
-} from "logics/attributeLogics";
-import { ThermostatDevice } from "models/devices";
+} from "../logics/attributeLogics";
+import { ThermostatDevice } from "../models/devices";
 import {
   TEXT_SIZE,
   TEXT_COLOR,

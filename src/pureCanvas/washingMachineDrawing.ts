@@ -1,15 +1,15 @@
-import { delayedDeviceAnimation } from "commons/animation";
-import { DictionaryOf } from "commons/dictionaryOf";
-import { degreeToRadian } from "commons/mathematic";
-import { getWashingMachineText } from "commons/textbuilder";
+import { delayedDeviceAnimation } from "../commons/animation";
+import { DictionaryOf } from "../commons/dictionaryOf";
+import { degreeToRadian } from "../commons/mathematic";
+import { getWashingMachineText } from "../commons/textbuilder";
 import {
   COLOR_MACHINE1,
   TEXT_COLOR,
   TEXT_SIZE,
   WASHING_MACHINE_WIDTH,
 } from "../constants";
-import { getPowerAttribute } from "logics/attributeLogics";
-import { WashingMachineDevice } from "models/devices";
+import { getPowerAttribute } from "../logics/attributeLogics";
+import { WashingMachineDevice } from "../models/devices";
 import { clearRectangle } from "./commonDrawing";
 
 const deviceAngle: DictionaryOf<number> = {};

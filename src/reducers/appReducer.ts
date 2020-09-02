@@ -1,4 +1,4 @@
-import { ApplicationState } from "models/applicationState";
+import { ApplicationState } from "../models/applicationState";
 import {
   AcceptedActions,
   ACTION_SAVE_DEVICE,
@@ -7,8 +7,8 @@ import {
   ACTION_SET_OUTSIDE_WEATHER,
   ACTION_SET_ALARM_ACTION,
   ACTION_NOTIFY,
-} from "actions/appActions";
-import { getDeviceType } from "logics/attributeLogics";
+} from "../actions/appActions";
+import { getDeviceType } from "../logics/attributeLogics";
 import { Mode } from "../models/mode";
 import { AlarmAction } from "../models/alarm";
 

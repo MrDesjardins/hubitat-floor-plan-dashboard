@@ -1,8 +1,8 @@
-import { DimmingLightDevice } from "models/devices";
+import { DimmingLightDevice } from "../models/devices";
 import {
   getLightOnOffAttribute,
   getDimmerLightLevelAttribute,
-} from "logics/attributeLogics";
+} from "../logics/attributeLogics";
 import {
   TEXT_SIZE,
   TEXT_COLOR,

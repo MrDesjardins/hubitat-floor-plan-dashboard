@@ -1,4 +1,4 @@
-import { getAirPurifierText } from "commons/textbuilder";
+import { getAirPurifierText } from "../commons/textbuilder";
 import {
   COLOR_MACHINE1,
   COLOR_MACHINE2,
@@ -6,11 +6,11 @@ import {
   TEXT_SIZE,
   COLOR_MACHINE3,
 } from "../constants";
-import { getLightOnOffAttribute } from "logics/attributeLogics";
-import { AirPurifierDevice } from "models/devices";
+import { getLightOnOffAttribute } from "../logics/attributeLogics";
+import { AirPurifierDevice } from "../models/devices";
 import { drawPath2D, clearRectangle } from "./commonDrawing";
-import { delayedDeviceAnimation } from "commons/animation";
-import { DictionaryOf } from "commons/dictionaryOf";
+import { delayedDeviceAnimation } from "../commons/animation";
+import { DictionaryOf } from "../commons/dictionaryOf";
 
 interface SiveWaveProps {
   x: number;
