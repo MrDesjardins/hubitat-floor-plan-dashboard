@@ -1,9 +1,9 @@
-import { ProjectingLightDevice } from "models/devices";
-import { getLightOnOffAttribute } from "logics/attributeLogics";
-import { delayedDeviceAnimation } from "commons/animation";
+import { ProjectingLightDevice } from "../models/devices";
+import { getLightOnOffAttribute } from "../logics/attributeLogics";
+import { delayedDeviceAnimation } from "../commons/animation";
 import { TEXT_SIZE, TEXT_COLOR } from "../constants";
-import { getProjectionText } from "commons/textbuilder";
-import { DictionaryOf } from "commons/dictionaryOf";
+import { getProjectionText } from "../commons/textbuilder";
+import { DictionaryOf } from "../commons/dictionaryOf";
 import { drawPath2D, clearRectangle } from "./commonDrawing";
 
 export interface Star {

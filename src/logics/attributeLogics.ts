@@ -13,8 +13,8 @@ import {
   DeviceData,
   VirtualKeyPadDevice,
   LearkSensorDevice,
-} from "models/devices";
-import { allDevices } from "models/allDevices";
+} from "../models/devices";
+import { allDevices } from "../models/allDevices";
 import { LEAK_TYPE } from "../models/mode";
 
 export const getDimmerLightLevelAttribute = (

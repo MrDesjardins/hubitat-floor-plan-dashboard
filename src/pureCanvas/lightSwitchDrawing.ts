@@ -1,5 +1,5 @@
-import { LightSwitchDevice } from "models/devices";
-import { getLightOnOffAttribute } from "logics/attributeLogics";
+import { LightSwitchDevice } from "../models/devices";
+import { getLightOnOffAttribute } from "../logics/attributeLogics";
 import {
   TEXT_SIZE,
   TEXT_COLOR,

@@ -1,4 +1,4 @@
-import { LearkSensorDevice } from "models/devices";
+import { LearkSensorDevice } from "../models/devices";
 import {
   TEXT_COLOR,
   TEXT_SIZE,

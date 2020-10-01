@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import {
   getLightOnOffAttribute,
   setLightOnOffAttribute,
-} from "logics/attributeLogics";
-import { LightSwitchDevice } from "models/devices";
+} from "../logics/attributeLogics";
+import { LightSwitchDevice } from "../models/devices";
 
 export interface LightSwitchOptionsProps {
   isDialogOpen: boolean;

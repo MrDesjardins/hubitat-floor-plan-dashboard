@@ -1,4 +1,4 @@
-import { DeviceDataKind } from "models/devices";
+import { DeviceDataKind } from "../models/devices";
 import { drawContact } from "./contactDrawing";
 import { drawDeadbolt } from "./deadboltDrawing";
 import { drawTV } from "./tvDrawing";

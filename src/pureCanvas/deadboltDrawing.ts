@@ -1,12 +1,12 @@
-import { DeadboltDevice } from "models/devices";
-import { getDeadboltLockStatus } from "logics/attributeLogics";
+import { DeadboltDevice } from "../models/devices";
+import { getDeadboltLockStatus } from "../logics/attributeLogics";
 import {
   TEXT_SIZE,
   TEXT_COLOR,
   TEXT_PADDING,
   COLOR_MACHINE2,
 } from "../constants";
-import { getDeadlockText } from "commons/textbuilder";
+import { getDeadlockText } from "../commons/textbuilder";
 import { drawPath2D, clearRectangle } from "./commonDrawing";
 import { DictionaryOf } from "../commons/dictionaryOf";
 const lockImagePath: Path2D[] = [

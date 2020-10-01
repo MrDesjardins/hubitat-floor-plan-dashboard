@@ -6,20 +6,20 @@ import {
   ThemeProvider,
   Snackbar,
 } from "@material-ui/core";
-import { AppActions, InitData } from "actions/appActions";
-import { AirPurifierOptions } from "components/AirPurifierOptions";
-import { DimmerLightOptions } from "components/DimmerLightOptions";
-import { LightSwitchOptions } from "components/LightSwitchOptions";
-import { MainMenu } from "components/MainMenu";
+import { AppActions, InitData } from "./actions/appActions";
+import { AirPurifierOptions } from "./components/AirPurifierOptions";
+import { DimmerLightOptions } from "./components/DimmerLightOptions";
+import { LightSwitchOptions } from "./components/LightSwitchOptions";
+import { MainMenu } from "./components/MainMenu";
 import DataAccessGateway, { AjaxRequestExecute } from "dataaccessgateway";
-import { ActionsWithPayload } from "infrastructure/reducerActions";
+import { ActionsWithPayload } from "./infrastructure/reducerActions";
 import {
   getDimmerLightLevelAttribute,
   getLightOnOffAttribute,
   getDeadboltAttribute,
   getAlarmCodes,
-} from "logics/attributeLogics";
-import { allDevices } from "models/allDevices";
+} from "./logics/attributeLogics";
+import { allDevices } from "./models/allDevices";
 import {
   AirPurifierDevice,
   DeviceData,
@@ -29,10 +29,10 @@ import {
   LightSwitchDevice,
   DeadboltDevice,
   VirtualKeyPadDevice,
-} from "models/devices";
-import { MainCanvas } from "pureCanvas/MainCanvas";
+} from "./models/devices";
+import { MainCanvas } from "./pureCanvas/MainCanvas";
 import React, { useEffect, useReducer, useRef, useState } from "react";
-import { appReducer, initialState } from "reducers/appReducer";
+import { appReducer, initialState } from "./reducers/appReducer";
 import "typeface-roboto";
 import "./App.css";
 import { WeatherPanel } from "./components/WeatherPanel";

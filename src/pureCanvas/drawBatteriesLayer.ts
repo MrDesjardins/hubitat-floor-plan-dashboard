@@ -1,4 +1,4 @@
-import { DeviceDataKind } from "models/devices";
+import { DeviceDataKind } from "../models/devices";
 import {
   TEXT_SIZE,
   TEXT_COLOR,
