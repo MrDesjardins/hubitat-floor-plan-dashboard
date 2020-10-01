@@ -97,8 +97,8 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     label: "",
     name: "",
   },
-  "226": {
-    id: "226",
+  "609": {
+    id: "609",
     kind: "CONTACT",
     note: "Living Room Right Window",
     textPosition: [
