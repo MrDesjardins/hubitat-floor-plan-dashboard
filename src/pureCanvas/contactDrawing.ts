@@ -214,7 +214,7 @@ function drawSlidingPhysicalContact(
           contactsTranslationLastValues[device.id][0] !== openCoordinate[0]
         ) {
           contactsTranslationLastValues[device.id][0] +=
-            contactsTranslationLastValues[device.id][0] - openCoordinate[0] > 0 ? 1 : -1;
+            contactsTranslationLastValues[device.id][0] + openCoordinate[0] > 0 ? 1 : -1;
         }
         if (
           !isContactOpen &&

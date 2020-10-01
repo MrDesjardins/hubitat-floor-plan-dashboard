@@ -61,8 +61,7 @@ const WEBSOCKET_ENABLED = process.env.REACT_APP_WEBSOCKET_ENABLED === "true";
 
 console.log(`Server  ${SERVER_IP}:${SERVER_PORT}, `);
 console.log(
-  `WS ${
-  WEBSOCKET_ENABLED ? "Enabled" : "Disabled"
+  `WS ${WEBSOCKET_ENABLED ? "Enabled" : "Disabled"
   } ${SERVER_IP}:${WEBSOCKET_PORT}, `
 );
 
@@ -189,25 +188,24 @@ function App() {
   }, [reconnectWebsocket, readyWs]);
 
   useEffect(() => {
-    console.log("🌐 Fething all data");
-    dag
-      .fetchFastAndFresh<DeviceDataKind[]>({
-        request: {
-          method: "GET",
-          url: `http://${SERVER_IP}:${SERVER_PORT}/api/getall`,
-        },
-      })
-      .then((value) => {
-        console.log("🌐 Using Data From Cache");
-        saveState(value.result, dispatch);
-        if (value.webPromise !== undefined) {
-          value.webPromise.then((valueWeb) => {
-            console.log("🌐 Using Data From Hubitat Server");
-            saveState(valueWeb.result, dispatch);
-          });
-        }
-        setReadyWs(true);
+    async function fetchAll() {
+      console.log("🌐 Fething all data");
+      const value = await dag
+        .fetchFastAndFresh<DeviceDataKind[]>({
+          request: {
+            method: "GET",
+            url: `http://${SERVER_IP}:${SERVER_PORT}/api/getall`,
+          },
+        });
+      value.webPromise?.then((valueWeb) => {
+        console.log("🌐 Using Data From Hubitat Server");
+        saveState(valueWeb.result, dispatch);
       });
+      console.log("🌐 Using Data From Cache");
+      saveState(value.result, dispatch);
+      setReadyWs(true);
+    }
+    fetchAll();
   }, []);
 
   let optionComponent: JSX.Element | undefined = getOptionComponent();
@@ -505,8 +503,7 @@ function save(
     ) {
       console.log("Saving Dimmer Light Level");
       fetch(
-        `http://${SERVER_IP}:${SERVER_PORT}/api/save/${
-        existingDeviceData.id
+        `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id
         }/setLevel/${getDimmerLightLevelAttribute(newDeviceData)}`
       );
     }
@@ -516,8 +513,7 @@ function save(
     ) {
       console.log("Saving Dimmer Power");
       fetch(
-        `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-        getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+        `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${getLightOnOffAttribute(newDeviceData) ? "on" : "off"
         }`
       );
     }
@@ -531,8 +527,7 @@ function save(
     ) {
       console.log("Saving Switch Light Level");
       fetch(
-        `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-        getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+        `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${getLightOnOffAttribute(newDeviceData) ? "on" : "off"
         }`
       );
     }
@@ -546,8 +541,7 @@ function save(
     ) {
       console.log("Saving Dead bolt Level");
       fetch(
-        `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
-        getDeadboltAttribute(newDeviceData) ? "lock" : "unlock"
+        `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${getDeadboltAttribute(newDeviceData) ? "lock" : "unlock"
         }`
       );
     }

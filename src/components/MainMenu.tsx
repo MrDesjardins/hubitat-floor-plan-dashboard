@@ -23,7 +23,7 @@ import homeLightbulbOutline from '@iconify/icons-mdi/home-lightbulb-outline';
 import homeThermometerOutline from "@iconify/icons-mdi/home-thermometer-outline";
 import React, { useState } from "react";
 // import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
-import CancelIcon from "@material-ui/icons/Cancel";
+import { Cancel } from "@material-ui/icons";
 import { MAIN_MENU_WIDTH, ERROR_COLOR } from "../constants";
 import { Mode } from "../models/mode";
 import { AlarmAction } from "../models/alarm";
@@ -143,8 +143,8 @@ export const MainMenu = (props: MainMenuProps) => {
         {countDown > 0 ? <div className="count-down"><span className={classes.numberDown}>{`${countDown} sec`}</span>
           <Button
             size="large"
-            aria-label="Cancell"
-            startIcon={<CancelIcon />}
+            aria-label="Cancel"
+            startIcon={<Cancel />}
             onClick={(event) => {
               setCountdown(0);
               props.onAlarm(AlarmAction.Disarmed);
