@@ -1,6 +1,6 @@
 import {
   createActionPayload,
-  ActionsUnion,
+  ActionsUnion, createAction
 } from "../infrastructure/reducerActions";
 import { DeviceDataKind } from "../models/devices";
 import { Weather } from "../models/weather";
@@ -8,6 +8,7 @@ import { Mode } from "../models/mode";
 import { AlarmAction } from "../models/alarm";
 import { Feedback } from "../models/feedback";
 
+export const ACTION_INCREMENT_FULL_REDRAW = "ACTION_INCREMENT_FULL_REDRAW";
 export const ACTION_INIT_DEVICE = "ACTION_INIT_DEVICE";
 export const ACTION_SAVE_DEVICE = "ACTION_SAVE_DEVICE";
 export const ACTION_SET_TEMPERATURE_MODE = "ACTION_SET_TEMPERATURE_MODE";
@@ -19,6 +20,9 @@ export interface InitData {
   devices: DeviceDataKind[];
 }
 export const AppActions = {
+  incrementFullRedraw: createAction<typeof ACTION_INCREMENT_FULL_REDRAW>(
+    ACTION_INCREMENT_FULL_REDRAW
+  ),
   initDevice: createActionPayload<typeof ACTION_INIT_DEVICE, InitData>(
     ACTION_INIT_DEVICE
   ),

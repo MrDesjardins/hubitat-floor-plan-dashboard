@@ -12,7 +12,10 @@ import { DimmerLightOptions } from "./components/DimmerLightOptions";
 import { LightSwitchOptions } from "./components/LightSwitchOptions";
 import { MainMenu } from "./components/MainMenu";
 import DataAccessGateway, { AjaxRequestExecute } from "dataaccessgateway";
-import { ActionsWithPayload } from "./infrastructure/reducerActions";
+import {
+  ActionsWithoutPayload,
+  ActionsWithPayload,
+} from "./infrastructure/reducerActions";
 import {
   getDimmerLightLevelAttribute,
   getLightOnOffAttribute,
@@ -50,7 +53,7 @@ import { DeadboltOptions } from "./components/DeadboltOptions";
 import { Mode } from "./models/mode";
 import { AlarmAction } from "./models/alarm";
 import { KeyPad } from "./components/KeyPad";
-import { Alert, AlertTitle } from '@material-ui/lab';
+import { Alert, AlertTitle } from "@material-ui/lab";
 
 const ANIMATION_ENABLED: boolean = true;
 const SERVER_IP = process.env.REACT_APP_SERVER_IP;
@@ -106,12 +109,13 @@ function App() {
       console.log("attempt connection to ", webSocketUrl);
       websocketRef.current.onopen = function (e: Event) {
         console.log(`connection to  ${webSocketUrl} established`);
-        dispatch(AppActions.notify({
-          type: "Connection",
-          title: "Connection",
-          value: "Websocket up"
-        }));
-
+        dispatch(
+          AppActions.notify({
+            type: "Connection",
+            title: "Connection",
+            value: "Websocket up",
+          })
+        );
       };
 
       websocketRef.current.onmessage = (e: MessageEvent) => {
@@ -137,7 +141,12 @@ function App() {
             } else {
               if (objData.name === "hsmStatus" || objData.name === "hsmAlert") {
                 console.log(objData);
-                dispatch(AppActions.notify({ type: objData.name, value: objData.value }));
+                dispatch(
+                  AppActions.notify({
+                    type: objData.name,
+                    value: objData.value,
+                  })
+                );
 
                 if (objData.name === "hsmAlert") {
                   setAudio(objData.value === "intrusion-delay"); //""intrusion" is when reached
@@ -147,9 +156,10 @@ function App() {
                     dispatch(AppActions.setAlarmAction(AlarmAction.Home));
                   } else if (objData.value === "armingAway") {
                     dispatch(AppActions.setAlarmAction(AlarmAction.Away));
-                  }
-                  else if (objData.value === "armingNight") {
+                  } else if (objData.value === "armingNight") {
                     dispatch(AppActions.setAlarmAction(AlarmAction.Sleep));
+                  } else if (objData.value === "disarmed") {
+                    dispatch(AppActions.setAlarmAction(AlarmAction.Disarmed));
                   }
                 }
               } else {
@@ -190,20 +200,21 @@ function App() {
   useEffect(() => {
     async function fetchAll() {
       console.log("🌐 Fething all data");
-      const value = await dag
-        .fetchFastAndFresh<DeviceDataKind[]>({
-          request: {
-            method: "GET",
-            url: `http://${SERVER_IP}:${SERVER_PORT}/api/getall`,
-          },
-        });
-      value.webPromise?.then((valueWeb) => {
-        console.log("🌐 Using Data From Hubitat Server");
-        saveState(valueWeb.result, dispatch);
+      const value = await dag.fetchFastAndFresh<DeviceDataKind[]>({
+        request: {
+          method: "GET",
+          url: `http://${SERVER_IP}:${SERVER_PORT}/api/getall`,
+        },
       });
       console.log("🌐 Using Data From Cache");
-      saveState(value.result, dispatch);
+      saveFullListDevices(value.result, dispatch);
       setReadyWs(true);
+
+      const valueWeb = await value.webPromise
+      if (valueWeb !== undefined) {
+        console.log("🌐 Using Data From Hubitat Server");
+        saveFullListDevices(valueWeb.result, dispatch);
+      }
     }
     fetchAll();
   }, []);
@@ -215,27 +226,29 @@ function App() {
 
   useInterval(
     () => {
-      console.log("🌐 Fething all outside weather");
-      dag
-        .fetchFastAndFresh<Weather>({
-          request: {
-            method: "GET",
-            url: `http://${SERVER_IP}:${SERVER_PORT}/api/weather`,
-          },
-          memoryCache: { lifespanInSeconds: 60 * 5 },
-          persistentCache: { lifespanInSeconds: 60 * 5 },
-        })
-        .then((value) => {
-          console.log("🌐 Using Weather Data From Cache");
-          dispatch(AppActions.setOutsideWeather(value.result));
-          if (value.webPromise !== undefined) {
-            value.webPromise.then((valueWeb) => {
-              console.log("🌐 Using Weather Data From Open Weather Server");
-              dispatch(AppActions.setOutsideWeather(valueWeb.result));
-            });
-          }
-          setReadyWs(true);
-        });
+      async function fetchAll() {
+        console.log("🌐 Fething all outside weather");
+        const value = await dag
+          .fetchFastAndFresh<Weather>({
+            request: {
+              method: "GET",
+              url: `http://${SERVER_IP}:${SERVER_PORT}/api/weather`,
+            },
+            memoryCache: { lifespanInSeconds: 60 * 5 },
+            persistentCache: { lifespanInSeconds: 60 * 5 },
+          });
+
+        console.log("🌐 Using Weather Data From Cache");
+        dispatch(AppActions.setOutsideWeather(value.result));
+        if (value.webPromise !== undefined) {
+          const valueWeb = await value.webPromise;
+          console.log("🌐 Using Weather Data From Open Weather Server");
+          dispatch(AppActions.setOutsideWeather(valueWeb.result));
+        }
+        setReadyWs(true);
+
+      }
+      fetchAll();
     },
     FETCHING_WEATHER_TIME_MS,
     true
@@ -243,27 +256,28 @@ function App() {
 
   useInterval(
     () => {
-      console.log("🌐 Fething all devices");
-      dag
-        .fetchFresh<DeviceDataKind[]>({
-          request: {
-            method: "GET",
-            url: `http://${SERVER_IP}:${SERVER_PORT}/api/getall`,
-          },
-        })
-        .then((value) => {
-          console.log("🌐 Saving all devices data from web");
-          saveState(value.result, dispatch);
-        });
+      async function fetchAll() {
+        console.log("🌐 Fething all devices");
+        const value = await dag
+          .fetchFresh<DeviceDataKind[]>({
+            request: {
+              method: "GET",
+              url: `http://${SERVER_IP}:${SERVER_PORT}/api/getall`,
+            },
+          });
+
+        console.log("🌐 Saving all devices data from web");
+        saveFullListDevices(value.result, dispatch);
+
+      }
+      fetchAll();
     },
     FETCHING_ALL_DEVICES_TIME_MS,
     false
   );
 
-
-
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
@@ -278,10 +292,24 @@ function App() {
       }}
     >
       <ThemeProvider theme={DARK_THEME}>
-        <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={state.feedback !== undefined} autoHideDuration={4000} onClose={handleClose}>
-
-          <Alert variant="filled" onClose={handleClose} severity={state.feedback?.type === "intrusion-home" ? "error" : "info"} >
-            <AlertTitle>{state.feedback?.title === undefined ? "Alarm State Changed" : state.feedback.title}</AlertTitle>
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={state.feedback !== undefined}
+          autoHideDuration={4000}
+          onClose={handleClose}
+        >
+          <Alert
+            variant="filled"
+            onClose={handleClose}
+            severity={
+              state.feedback?.type === "intrusion-home" ? "error" : "info"
+            }
+          >
+            <AlertTitle>
+              {state.feedback?.title === undefined
+                ? "Alarm State Changed"
+                : state.feedback.title}
+            </AlertTitle>
             {state.feedback?.value}
           </Alert>
         </Snackbar>
@@ -345,6 +373,7 @@ function App() {
           height={APP_HEIGHT}
           devices={state.devices}
           mode={state.mode}
+          redrawCounter={state.redrawCounter}
           openConfiguration={(dev: DeviceDataKind, openDrawer: boolean) => {
             setConfiguringDevice(dev);
             setDrawerOpen(openDrawer);
@@ -383,7 +412,11 @@ function App() {
           </Grid>
         </Drawer>
         {drawerOpen ? undefined : (
-          <WeatherPanel data={state.weather} alarmState={state.alarmAction} animationEnabled={ANIMATION_ENABLED} />
+          <WeatherPanel
+            data={state.weather}
+            alarmState={state.alarmAction}
+            animationEnabled={ANIMATION_ENABLED}
+          />
         )}
       </ThemeProvider>
     </div>
@@ -469,12 +502,13 @@ function App() {
   }
 }
 
-function saveState(
+function saveFullListDevices(
   value: DeviceDataKind[],
   dispatch: React.Dispatch<
     | ActionsWithPayload<"ACTION_INIT_DEVICE", InitData>
     | ActionsWithPayload<"ACTION_SAVE_DEVICE", DeviceDataKind>
     | ActionsWithPayload<"ACTION_SET_TEMPERATURE_MODE", Mode>
+    | ActionsWithoutPayload<"ACTION_INCREMENT_FULL_REDRAW">
   >
 ) {
   const allDataWithConfigurationInAllDevices: DeviceDataKind[] = [];
@@ -485,11 +519,14 @@ function saveState(
       allDataWithConfigurationInAllDevices.push(mergedData);
     }
   });
+
   dispatch(
     AppActions.initDevice({
       devices: allDataWithConfigurationInAllDevices,
     })
   );
+  dispatch(AppActions.incrementFullRedraw());
+  console.log("🧹 Full Device Redraw");
 }
 
 function save(

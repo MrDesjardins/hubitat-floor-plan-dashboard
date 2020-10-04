@@ -1,9 +1,9 @@
 import { DeviceDataKind } from "./devices";
-import { DictionaryOf } from "commons/dictionaryOf";
 import { Weather } from "./weather";
 import { Mode } from "./mode";
 import { AlarmAction } from "./alarm";
 import { Feedback } from "./feedback";
+import { DictionaryOf } from "../commons/dictionaryOf";
 
 export interface ApplicationState {
   devices: DictionaryOf<DeviceDataKind>;
@@ -13,4 +13,5 @@ export interface ApplicationState {
   alarmAction: AlarmAction;
   previousAlarmAction: AlarmAction;
   feedback: Feedback | undefined;
+  redrawCounter: number;
 }

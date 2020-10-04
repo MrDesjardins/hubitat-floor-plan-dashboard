@@ -23,6 +23,7 @@ export interface MainCanvasProps {
   mode: Mode;
   openConfiguration: (dev: DeviceDataKind, openDrawer: boolean) => void;
   animationEnabled: boolean;
+  redrawCounter: number;
 }
 export const MainCanvas = (props: MainCanvasProps) => {
   const lastUpdated = useRef<number>(Date.now());
@@ -42,6 +43,7 @@ export const MainCanvas = (props: MainCanvasProps) => {
   const refContextDevicesBuffer = useRef<
     CanvasRenderingContext2D | undefined | null
   >();
+  const lastRedrawCount = useRef<number>(-1);
 
   useEffect(
     () => {
@@ -76,6 +78,7 @@ export const MainCanvas = (props: MainCanvasProps) => {
   const drawDevicesOnCanvas = useCallback(() => {
     if (refContextDevices !== undefined && refContextDevices.current) {
       if (props.mode !== Mode.DEVICES) {
+        lastRedrawCount.current = props.redrawCounter;
         refContextDevicesBuffer.current!.clearRect(0, 0, props.width, props.height);
       }
       drawDevices(
@@ -102,6 +105,7 @@ export const MainCanvas = (props: MainCanvasProps) => {
     props.height,
     props.width,
     props.animationEnabled,
+    props.redrawCounter
   ]);
 
   useEffect(() => {

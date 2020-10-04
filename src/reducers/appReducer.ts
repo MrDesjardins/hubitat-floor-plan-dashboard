@@ -6,7 +6,8 @@ import {
   ACTION_SET_TEMPERATURE_MODE,
   ACTION_SET_OUTSIDE_WEATHER,
   ACTION_SET_ALARM_ACTION,
-  ACTION_NOTIFY,
+  ACTION_NOTIFY, 
+  ACTION_INCREMENT_FULL_REDRAW
 } from "../actions/appActions";
 import { getDeviceType } from "../logics/attributeLogics";
 import { Mode } from "../models/mode";
@@ -19,14 +20,20 @@ export const initialState: ApplicationState = {
   weather: undefined,
   alarmAction: AlarmAction.Disarmed,
   previousAlarmAction: AlarmAction.Disarmed,
-  feedback: undefined
+  feedback: undefined,
+  redrawCounter: 0
 };
 export function appReducer(
   state: ApplicationState,
   action: AcceptedActions
 ): ApplicationState {
   switch (action.type) {
-    case ACTION_INIT_DEVICE: {
+    case ACTION_INCREMENT_FULL_REDRAW: {
+      const newState = { ...state };
+      state.redrawCounter += 1;
+      return newState;
+    }
+    case ACTION_INIT_DEVICE: { 
       const newState = { ...state };
       newState.devices = { ...newState.devices };
       action.payload.devices.forEach((dev) => {
