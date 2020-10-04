@@ -349,10 +349,10 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
     label: "",
     name: "",
     clickingBox: {
-      x1: WEST_WALL + 380,
-      y1: NORTH_WALL + 260,
-      x2: WEST_WALL + 425,
-      y2: NORTH_WALL + 305,
+      x1: WEST_WALL + 140,
+      y1: NORTH_WALL + 216,
+      x2: WEST_WALL + 197,
+      y2: NORTH_WALL + 229,
     },
   },
   "4": {
