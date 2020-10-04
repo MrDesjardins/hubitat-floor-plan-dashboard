@@ -50,11 +50,12 @@ export function drawDeadbolt(
   const isLock = getDeadboltLockStatus(device);
 
   if (deadBoltLastValues[device.id] === undefined || deadBoltLastValues[device.id] !== isLock) {
+    // Clear text
     clearRectangle(
       ctx,
       device.textPosition[0],
       device.textPosition[1] - 10,
-      35,
+      50,
       15,
       false
     );
@@ -68,11 +69,12 @@ export function drawDeadbolt(
       device.textPosition[1]
     );
 
+    // Clear icon
     clearRectangle(
       ctx,
-      device.textPosition[0],
+      device.textPosition[0] - 10,
       device.textPosition[1] + 5,
-      30,
+      40,
       30,
       false
     );
