@@ -129,7 +129,7 @@ export const MainCanvas = (props: MainCanvasProps) => {
         onClick={(evt) => {
           const x = evt.clientX - WEST_WALL - MAIN_MENU_WIDTH;
           const y = evt.clientY - NORTH_WALL;
-          console.log(`Devices: ${x}, ${y}`);
+          console.log(`Devices: ${x}, ${y} => alldevices.tsx {x1:WEST_WALL+${x - WEST_WALL}, y1:NORTH_WALL+${y - NORTH_WALL}]`);
           const allDevices = Object.values(props.devices);
           for (let i = 0; i < allDevices.length; i++) {
             if (isDeviceInBox(x, y, allDevices[i].clickingBox)) {
