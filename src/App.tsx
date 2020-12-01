@@ -74,7 +74,7 @@ const dag = DataAccessGateway("HubitatDashboard");
 dag.setConfiguration({
   defaultLifeSpanInSeconds: 30,
 });
-const audioBeep = new Audio("beep.mp3");
+// const audioBeep = new Audio("beep.mp3");
 function App() {
   const [state, dispatch] = useReducer(appReducer, initialState);
   const [readyWs, setReadyWs] = useState(false);
@@ -84,7 +84,7 @@ function App() {
   const [configuringDevice, setConfiguringDevice] = useState<
     DeviceData | undefined
   >(undefined);
-  const [audio, setAudio] = useState(false);
+  // const [audio, setAudio] = useState(false);
   const toggleDrawer = (open: boolean) => (
     event: React.KeyboardEvent | React.MouseEvent
   ) => {
@@ -98,11 +98,11 @@ function App() {
 
     setDrawerOpen(open);
   };
-  useInterval(() => {
-    if (audio) {
-      audioBeep.play();
-    }
-  }, 1000);
+  // useInterval(() => {
+  //   if (audio) {
+  //     audioBeep.play();
+  //   }
+  // }, 1000);
   useEffect(() => {
     if (WEBSOCKET_ENABLED && readyWs && websocketRef.current === null) {
       websocketRef.current = new WebSocket(webSocketUrl);
@@ -148,9 +148,9 @@ function App() {
                   })
                 );
 
-                if (objData.name === "hsmAlert") {
-                  setAudio(objData.value === "intrusion-delay"); //""intrusion" is when reached
-                }
+                // if (objData.name === "hsmAlert") {
+                //   setAudio(objData.value === "intrusion-delay"); //""intrusion" is when reached
+                // }
                 if (objData.name === "hsmStatus") {
                   if (objData.value === "armingHome") {
                     dispatch(AppActions.setAlarmAction(AlarmAction.Home));
