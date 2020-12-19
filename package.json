@@ -4,6 +4,7 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
+        "prod" : "npm run build && sudo serve -s build && npm run start:server",
         "debug": "npm run copy:env && ts-node-dev --project ./server/tsconfig.json --inspect --respawn ./server/server.ts ",
         "start": "npm run copy:env && concurrently \"npm run start:app\" \"npm run start:server\"",
         "start:server": "cd server && ts-node-dev ./server.ts",
