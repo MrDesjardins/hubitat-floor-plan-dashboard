@@ -581,8 +581,8 @@ export const allDevices: { [deviceId: string]: DeviceDataKind } = {
       y2: NORTH_WALL + 40,
     },
   },
-  "482": {
-    id: "482",
+  "706": {
+    id: "706",
     kind: "PROJECTING_LIGHT",
     note: "Alicia Star Machine",
     textPosition: [WEST_WALL + 10, NORTH_WALL + 100],
