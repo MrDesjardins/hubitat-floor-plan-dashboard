@@ -50,7 +50,6 @@ serverApp.get("/api/getall", async (req: any, res: any) => {
     `http://${HUBITAT_IP}/apps/api/${APP_ID}/devices/all?access_token=${API_TOKEN}`
   );
   const jsonData = await data.json();
-
   res.send(jsonData);
 });
 

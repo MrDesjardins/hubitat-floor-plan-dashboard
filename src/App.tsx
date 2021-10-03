@@ -64,7 +64,8 @@ const WEBSOCKET_ENABLED = process.env.REACT_APP_WEBSOCKET_ENABLED === "true";
 
 console.log(`Server  ${SERVER_IP}:${SERVER_PORT}, `);
 console.log(
-  `WS ${WEBSOCKET_ENABLED ? "Enabled" : "Disabled"
+  `WS ${
+    WEBSOCKET_ENABLED ? "Enabled" : "Disabled"
   } ${SERVER_IP}:${WEBSOCKET_PORT}, `
 );
 
@@ -210,7 +211,7 @@ function App() {
       saveFullListDevices(value.result, dispatch);
       setReadyWs(true);
 
-      const valueWeb = await value.webPromise
+      const valueWeb = await value.webPromise;
       if (valueWeb !== undefined) {
         console.log("🌐 Using Data From Hubitat Server");
         saveFullListDevices(valueWeb.result, dispatch);
@@ -228,15 +229,14 @@ function App() {
     () => {
       async function fetchAll() {
         console.log("🌐 Fething all outside weather");
-        const value = await dag
-          .fetchFastAndFresh<Weather>({
-            request: {
-              method: "GET",
-              url: `http://${SERVER_IP}:${SERVER_PORT}/api/weather`,
-            },
-            memoryCache: { lifespanInSeconds: 60 * 5 },
-            persistentCache: { lifespanInSeconds: 60 * 5 },
-          });
+        const value = await dag.fetchFastAndFresh<Weather>({
+          request: {
+            method: "GET",
+            url: `http://${SERVER_IP}:${SERVER_PORT}/api/weather`,
+          },
+          memoryCache: { lifespanInSeconds: 60 * 5 },
+          persistentCache: { lifespanInSeconds: 60 * 5 },
+        });
 
         console.log("🌐 Using Weather Data From Cache");
         dispatch(AppActions.setOutsideWeather(value.result));
@@ -246,7 +246,6 @@ function App() {
           dispatch(AppActions.setOutsideWeather(valueWeb.result));
         }
         setReadyWs(true);
-
       }
       fetchAll();
     },
@@ -258,17 +257,15 @@ function App() {
     () => {
       async function fetchAll() {
         console.log("🌐 Fething all devices");
-        const value = await dag
-          .fetchFresh<DeviceDataKind[]>({
-            request: {
-              method: "GET",
-              url: `http://${SERVER_IP}:${SERVER_PORT}/api/getall`,
-            },
-          });
+        const value = await dag.fetchFresh<DeviceDataKind[]>({
+          request: {
+            method: "GET",
+            url: `http://${SERVER_IP}:${SERVER_PORT}/api/getall`,
+          },
+        });
 
         console.log("🌐 Saving all devices data from web");
         saveFullListDevices(value.result, dispatch);
-
       }
       fetchAll();
     },
@@ -517,6 +514,8 @@ function saveFullListDevices(
     if (configData !== undefined) {
       const mergedData = { ...configData, ...p };
       allDataWithConfigurationInAllDevices.push(mergedData);
+    } else {
+      console.log("Undefined device with id: " + p.id);
     }
   });
 
@@ -540,7 +539,8 @@ function save(
     ) {
       console.log("Saving Dimmer Light Level");
       fetch(
-        `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id
+        `http://${SERVER_IP}:${SERVER_PORT}/api/save/${
+          existingDeviceData.id
         }/setLevel/${getDimmerLightLevelAttribute(newDeviceData)}`
       );
     }
@@ -550,7 +550,8 @@ function save(
     ) {
       console.log("Saving Dimmer Power");
       fetch(
-        `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+        `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
+          getLightOnOffAttribute(newDeviceData) ? "on" : "off"
         }`
       );
     }
@@ -564,7 +565,8 @@ function save(
     ) {
       console.log("Saving Switch Light Level");
       fetch(
-        `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${getLightOnOffAttribute(newDeviceData) ? "on" : "off"
+        `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
+          getLightOnOffAttribute(newDeviceData) ? "on" : "off"
         }`
       );
     }
@@ -578,7 +580,8 @@ function save(
     ) {
       console.log("Saving Dead bolt Level");
       fetch(
-        `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${getDeadboltAttribute(newDeviceData) ? "lock" : "unlock"
+        `http://${SERVER_IP}:${SERVER_PORT}/api/save/${existingDeviceData.id}/${
+          getDeadboltAttribute(newDeviceData) ? "lock" : "unlock"
         }`
       );
     }
